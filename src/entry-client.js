@@ -5,6 +5,7 @@
  * 2. Official Regional Subdivisions / Provinces (DRC 26 provinces + sub-regions)
  * 3. Outbreak Hotspots, Case Fatality markers, Epicenter Pulse beacons, and Medevac Corridors.
  * 4. Interactive Epidemiological Spread Curve Chart built with official @tanstack/charts.
+ * 5. Accessible HTML5 Modal Dialog Controller for Total Cases deep-dive.
  */
 
 import "leaflet/dist/leaflet.css";
@@ -93,11 +94,12 @@ function normalizeProvinceName(shapeName) {
 
 /**
  * Initializes the interactive epidemiological spread curve chart with TanStack Charts.
+ * @param {HTMLElement} container
  * @param {EpiCurvePoint[]} epiData
+ * @param {number} height
  * @returns {void}
  */
-function initEpiChart(epiData) {
-  const container = document.getElementById("epi-chart");
+function renderTanstackChart(container, epiData, height = 120) {
   if (!container || !epiData || epiData.length === 0) return;
 
   container.innerHTML = "";
@@ -119,7 +121,7 @@ function initEpiChart(epiData) {
         x: "week",
         y: "weeklyCases",
         fill: "#f76b15",
-        r: 3,
+        r: 3.5,
       }),
       lineY(epiData, {
         x: "week",
@@ -131,7 +133,7 @@ function initEpiChart(epiData) {
         x: "week",
         y: "weeklyDeaths",
         fill: "#e5484d",
-        r: 2.5,
+        r: 3,
       }),
       crosshair({
         stroke: "rgba(255, 255, 255, 0.25)",
@@ -150,13 +152,57 @@ function initEpiChart(epiData) {
 
   mountChart(container, {
     definition: chartDef,
-    height: 120,
+    height,
     ariaLabel: "Ebola Epidemic Spread Curve",
   });
 }
 
 /**
- * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, and TanStack charts.
+ * Sets up modal dialog controller for the Total Cases deep-dive.
+ * @param {EpiCurvePoint[]} epiCurve
+ * @returns {void}
+ */
+function initModalController(epiCurve) {
+  const dialog = /** @type {HTMLDialogElement | null} */ (document.getElementById("cases-dialog"));
+  const openBtn = document.getElementById("open-cases-modal");
+  const closeBtn = document.getElementById("close-cases-modal");
+  const doneBtn = document.getElementById("dialog-done-btn");
+  const modalChartContainer = document.getElementById("modal-epi-chart");
+
+  if (!dialog || !openBtn) return;
+
+  function openModal() {
+    dialog?.showModal();
+    document.body.style.overflow = "hidden";
+    if (modalChartContainer && epiCurve) {
+      renderTanstackChart(modalChartContainer, epiCurve, 240);
+    }
+  }
+
+  function closeModal() {
+    dialog?.close();
+    document.body.style.overflow = "";
+  }
+
+  openBtn.addEventListener("click", openModal);
+  closeBtn?.addEventListener("click", closeModal);
+  doneBtn?.addEventListener("click", closeModal);
+
+  // Close when clicking dialog backdrop
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) {
+      closeModal();
+    }
+  });
+
+  // Close on Escape
+  dialog.addEventListener("cancel", () => {
+    document.body.style.overflow = "";
+  });
+}
+
+/**
+ * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, TanStack charts, and modal controller.
  * @returns {void}
  */
 export function initClient() {
@@ -168,13 +214,17 @@ export function initClient() {
 
   const { locations, corridors, epiCurve } = data;
 
-  // 1. Mount interactive TanStack Chart
+  // 1. Mount sidebar TanStack Chart & Modal Controller
   if (epiCurve) {
-    try {
-      initEpiChart(epiCurve);
-    } catch (e) {
-      console.warn("Client TanStack Chart hydration:", e);
+    const sidebarChartEl = document.getElementById("epi-chart");
+    if (sidebarChartEl) {
+      try {
+        renderTanstackChart(sidebarChartEl, epiCurve, 110);
+      } catch (e) {
+        console.warn("Client TanStack Chart hydration:", e);
+      }
     }
+    initModalController(epiCurve);
   }
 
   // 2. Initialize Leaflet Map
