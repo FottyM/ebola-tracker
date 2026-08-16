@@ -1,10 +1,18 @@
 /**
  * @fileoverview Dynamic SSR Generator.
- * Renders universal country/regional listings, TanStack Charts epidemiological curves,
- * demographic sex/age breakdowns, accessible modal dialog for Total Cases analytics, and Schema.org metadata.
+ * Renders universal country/regional listings, epidemiological curves,
+ * full demographic breakdowns (Sex & Age Distribution Charts), and Total Cases modal dialog.
  */
 
-import { defineChart, lineY, dot, areaY, createChartScene, renderChartSvg } from "@tanstack/charts";
+import {
+  defineChart,
+  lineY,
+  dot,
+  areaY,
+  barY,
+  createChartScene,
+  renderChartSvg,
+} from "@tanstack/charts";
 import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
 
@@ -13,7 +21,7 @@ import { scaleLinear } from "@tanstack/charts/scales/linear";
  */
 
 /**
- * Generates server-side rendered SVG string using TanStack Charts.
+ * Generates server-side rendered SVG string for Epidemic Spread Curve.
  * @param {import('../server/etl.js').EpiCurvePoint[]} epiData
  * @param {number} [width]
  * @param {number} [height]
@@ -66,7 +74,41 @@ export function renderEpiChartSvg(epiData, width = 310, height = 120) {
 
   const scene = createChartScene(chart, { width, height });
   return renderChartSvg(scene, {
-    ariaLabel: "Ebola Epidemic Spread Curve",
+    ariaLabel: "Epidemic Spread Curve",
+  });
+}
+
+/**
+ * Generates server-side rendered SVG Bar Chart for Age Distribution.
+ * @param {import('../server/etl.js').Demographics['ageGroups']} ageGroups
+ * @param {number} [width]
+ * @param {number} [height]
+ * @returns {string}
+ */
+export function renderAgeChartSvg(ageGroups, width = 290, height = 130) {
+  if (!ageGroups || ageGroups.length === 0) return "";
+
+  const chart = defineChart({
+    marks: [
+      barY(ageGroups, {
+        x: (d) => d.group,
+        y: (d) => d.cases,
+        fill: "#f5a623",
+      }),
+    ],
+    x: {
+      scale: () => scaleBand().padding(0.3),
+    },
+    y: {
+      scale: scaleLinear,
+      nice: true,
+      grid: true,
+    },
+  });
+
+  const scene = createChartScene(chart, { width, height });
+  return renderChartSvg(scene, {
+    ariaLabel: "Age Distribution Bar Chart",
   });
 }
 
@@ -105,29 +147,15 @@ export function render(data) {
     .join("");
 
   const sidebarChartSvgHtml = renderEpiChartSvg(epiCurve, 310, 110);
-  const modalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 240);
-
-  const ageBreakdownHtml = demographics?.ageGroups
-    ? demographics.ageGroups
-        .map(
-          (ag) => `
-        <div class="demog-row">
-          <span class="demog-label">${ag.group}</span>
-          <div class="demog-bar-container">
-            <div class="demog-bar" style="width: ${ag.percentage}%;"></div>
-          </div>
-          <span class="demog-val">${ag.percentage}% <small>(${ag.cases})</small></span>
-        </div>
-      `,
-        )
-        .join("")
-    : "";
+  const modalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 220);
+  const ageChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 290, 120);
+  const modalAgeChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 620, 160);
 
   const appHtml = `
   <div id="map"></div>
 
   <!-- ── Dynamic Info Panel (SSR) ──────────────── -->
-  <aside class="info-panel" aria-label="Dynamic Outbreak Intelligence">
+  <aside class="info-panel" aria-label="Outbreak Intelligence">
     <header class="panel-header">
       <div class="icon" aria-hidden="true">🦠</div>
       <div>
@@ -165,11 +193,11 @@ export function render(data) {
       </article>
     </section>
 
-    <!-- ── TanStack Charts: Epidemiological Spread Curve ── -->
+    <!-- ── Epidemiological Spread Curve ── -->
     <section class="chart-section" aria-label="Epidemic Curve">
       <div class="chart-header">
         <h3>Epidemic Spread Curve (Epi Week)</h3>
-        <span class="chart-tag">Weekly Cases & CFR</span>
+        <span class="chart-tag">Weekly Cases & Fatalities</span>
       </div>
       <div class="chart-container" id="epi-chart">${sidebarChartSvgHtml}</div>
     </section>
@@ -180,7 +208,7 @@ export function render(data) {
         ? `
     <section class="demographics-section" aria-label="Demographic Distribution">
       <div class="chart-header">
-        <h3>Demographics (Sex & Age)</h3>
+        <h3>Demographics (Sex & Age Cohort)</h3>
         <span class="chart-tag" style="color: var(--cyan); border-color: rgba(64,196,170,0.3); background: rgba(64,196,170,0.1);">WHO & CDC</span>
       </div>
       
@@ -198,13 +226,13 @@ export function render(data) {
         </div>
       </div>
 
-      <!-- Age Distribution -->
-      <div class="age-distribution">
-        <div class="demog-header-row">
-          <span>Age Cohort</span>
-          <span>Caseload Share</span>
+      <!-- Age Distribution Chart -->
+      <div class="age-chart-wrapper">
+        <div class="chart-header" style="margin-bottom: 4px;">
+          <h4 style="font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">Cases by Age Group</h4>
+          <span style="font-size: 8.5px; color: var(--text-muted);">0–4 yrs: 58% CFR</span>
         </div>
-        ${ageBreakdownHtml}
+        <div class="age-chart-container" id="age-chart">${ageChartSvgHtml}</div>
       </div>
 
       <div class="hcw-banner">
@@ -223,7 +251,7 @@ export function render(data) {
     </section>
 
     <footer class="sources">
-      <strong>ETL Ingestion Telemetry</strong><br/>
+      <strong>Data Sources & Synchronization</strong><br/>
       • <a href="${sources.who.url}" target="_blank" rel="noopener noreferrer">${sources.who.name}</a> [${sources.who.status}]<br/>
       • <a href="${sources.hdx.url}" target="_blank" rel="noopener noreferrer">${sources.hdx.name}</a> [${sources.hdx.status}]<br/>
       • <a href="${sources.reliefweb.url}" target="_blank" rel="noopener noreferrer">${sources.reliefweb.name}</a> [${sources.reliefweb.status}]
@@ -235,8 +263,8 @@ export function render(data) {
     <div class="dialog-content">
       <header class="dialog-header">
         <div>
-          <span class="dialog-badge">Epidemiological Analytics</span>
-          <h2 id="cases-dialog-title">Total Cases & Transmission Dynamics</h2>
+          <span class="dialog-badge">Epidemiological Intelligence</span>
+          <h2 id="cases-dialog-title">Total Cases & Transmission Breakdown</h2>
         </div>
         <button class="dialog-close-btn" id="close-cases-modal" aria-label="Close dialog">✕</button>
       </header>
@@ -264,18 +292,30 @@ export function render(data) {
         </div>
       </div>
 
+      <!-- Epidemic Timeline -->
       <div class="dialog-chart-wrapper">
         <div class="chart-header">
-          <h3>Full Resolution Epidemic Curve (@tanstack/charts)</h3>
-          <span class="chart-tag">Weekly Cases vs Deaths</span>
+          <h3>Epidemic Timeline (Weekly Cases vs Fatalities)</h3>
+          <span class="chart-tag">Surveillance Weeks 20–32</span>
         </div>
         <div class="modal-chart-container" id="modal-epi-chart">
           ${modalChartSvgHtml}
         </div>
       </div>
 
+      <!-- Age Cohort Breakdown Chart -->
+      <div class="dialog-chart-wrapper">
+        <div class="chart-header">
+          <h3>Age Cohort Distribution & Caseload Share</h3>
+          <span class="chart-tag" style="color: var(--amber); border-color: rgba(245,166,35,0.3); background: rgba(245,166,35,0.1);">Demographics</span>
+        </div>
+        <div class="modal-chart-container" style="height: 160px;" id="modal-age-chart">
+          ${modalAgeChartSvgHtml}
+        </div>
+      </div>
+
       <div class="dialog-footer">
-        <span class="dialog-note">Data source: WHO DONs & Africa CDC Epidemiological Bulletin (Synchronized via ETL).</span>
+        <span class="dialog-note">Ingested from WHO DONs & Africa CDC Epidemiological Updates.</span>
         <button class="dialog-action-btn" id="dialog-done-btn">Dismiss</button>
       </div>
     </div>

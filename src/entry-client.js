@@ -4,14 +4,14 @@
  * 1. Global World Countries (all 258 sovereign nations with ISO/name matching)
  * 2. Official Regional Subdivisions / Provinces (DRC 26 provinces + sub-regions)
  * 3. Outbreak Hotspots, Case Fatality markers, Epicenter Pulse beacons, and Medevac Corridors.
- * 4. Interactive Epidemiological Spread Curve Chart built with official @tanstack/charts.
+ * 4. Interactive Epidemiological Spread Curve Chart & Age Distribution Charts.
  * 5. Accessible HTML5 Modal Dialog Controller for Total Cases deep-dive.
  */
 
 import "leaflet/dist/leaflet.css";
 import "./style.css";
 import L from "leaflet";
-import { mountChart, defineChart, areaY, lineY, dot, crosshair } from "@tanstack/charts";
+import { mountChart, defineChart, areaY, lineY, dot, barY, crosshair } from "@tanstack/charts";
 import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
 import worldCountriesGeo from "./data/world-countries.json";
@@ -21,6 +21,7 @@ import drcProvincesGeo from "./data/drc-provinces.json";
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
  * @typedef {import('../server/etl.js').GeoLocation} GeoLocation
  * @typedef {import('../server/etl.js').EpiCurvePoint} EpiCurvePoint
+ * @typedef {import('../server/etl.js').Demographics} Demographics
  */
 
 /**
@@ -93,7 +94,7 @@ function normalizeProvinceName(shapeName) {
 }
 
 /**
- * Initializes the interactive epidemiological spread curve chart with TanStack Charts.
+ * Initializes the interactive epidemiological spread curve chart.
  * @param {HTMLElement} container
  * @param {EpiCurvePoint[]} epiData
  * @param {number} height
@@ -153,21 +154,60 @@ function renderTanstackChart(container, epiData, height = 120) {
   mountChart(container, {
     definition: chartDef,
     height,
-    ariaLabel: "Ebola Epidemic Spread Curve",
+    ariaLabel: "Epidemic Spread Curve",
+  });
+}
+
+/**
+ * Initializes the interactive Age Distribution bar chart.
+ * @param {HTMLElement} container
+ * @param {Demographics['ageGroups']} ageGroups
+ * @param {number} height
+ * @returns {void}
+ */
+function renderAgeChart(container, ageGroups, height = 120) {
+  if (!container || !ageGroups || ageGroups.length === 0) return;
+
+  container.innerHTML = "";
+
+  const chartDef = defineChart({
+    marks: [
+      barY(ageGroups, {
+        x: "group",
+        y: "cases",
+        fill: "#f5a623",
+      }),
+    ],
+    x: {
+      scale: () => scaleBand().padding(0.3),
+    },
+    y: {
+      scale: scaleLinear,
+      nice: true,
+      grid: true,
+    },
+  });
+
+  mountChart(container, {
+    definition: chartDef,
+    height,
+    ariaLabel: "Age Distribution Bar Chart",
   });
 }
 
 /**
  * Sets up modal dialog controller for the Total Cases deep-dive.
  * @param {EpiCurvePoint[]} epiCurve
+ * @param {Demographics['ageGroups']} [ageGroups]
  * @returns {void}
  */
-function initModalController(epiCurve) {
+function initModalController(epiCurve, ageGroups) {
   const dialog = /** @type {HTMLDialogElement | null} */ (document.getElementById("cases-dialog"));
   const openBtn = document.getElementById("open-cases-modal");
   const closeBtn = document.getElementById("close-cases-modal");
   const doneBtn = document.getElementById("dialog-done-btn");
   const modalChartContainer = document.getElementById("modal-epi-chart");
+  const modalAgeContainer = document.getElementById("modal-age-chart");
 
   if (!dialog || !openBtn) return;
 
@@ -175,7 +215,10 @@ function initModalController(epiCurve) {
     dialog?.showModal();
     document.body.style.overflow = "hidden";
     if (modalChartContainer && epiCurve) {
-      renderTanstackChart(modalChartContainer, epiCurve, 240);
+      renderTanstackChart(modalChartContainer, epiCurve, 220);
+    }
+    if (modalAgeContainer && ageGroups) {
+      renderAgeChart(modalAgeContainer, ageGroups, 160);
     }
   }
 
@@ -202,7 +245,7 @@ function initModalController(epiCurve) {
 }
 
 /**
- * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, TanStack charts, and modal controller.
+ * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, charts, and modal controller.
  * @returns {void}
  */
 export function initClient() {
@@ -212,19 +255,27 @@ export function initClient() {
 
   if (!data) return;
 
-  const { locations, corridors, epiCurve } = data;
+  const { locations, corridors, epiCurve, demographics } = data;
 
-  // 1. Mount sidebar TanStack Chart & Modal Controller
+  // 1. Mount sidebar charts & Modal Controller
   if (epiCurve) {
     const sidebarChartEl = document.getElementById("epi-chart");
     if (sidebarChartEl) {
       try {
         renderTanstackChart(sidebarChartEl, epiCurve, 110);
       } catch (e) {
-        console.warn("Client TanStack Chart hydration:", e);
+        console.warn("Client Spread Chart hydration:", e);
       }
     }
-    initModalController(epiCurve);
+    const sidebarAgeEl = document.getElementById("age-chart");
+    if (sidebarAgeEl && demographics?.ageGroups) {
+      try {
+        renderAgeChart(sidebarAgeEl, demographics.ageGroups, 120);
+      } catch (e) {
+        console.warn("Client Age Chart hydration:", e);
+      }
+    }
+    initModalController(epiCurve, demographics?.ageGroups);
   }
 
   // 2. Initialize Leaflet Map
