@@ -1,7 +1,7 @@
 /**
  * @fileoverview Dynamic SSR Generator.
- * Renders universal country/regional listings, epidemiological curves,
- * full demographic breakdowns (Sex & Age Distribution Charts), and Total Cases modal dialog.
+ * Renders universal country/regional listings, interactive chart sections,
+ * two dedicated modal dialogs (Epidemic Curve & Total Cases Deep-Dive), and Schema.org metadata.
  */
 
 import {
@@ -147,9 +147,9 @@ export function render(data) {
     .join("");
 
   const sidebarChartSvgHtml = renderEpiChartSvg(epiCurve, 310, 110);
-  const modalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 220);
+  const timelineModalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 240);
   const ageChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 290, 120);
-  const modalAgeChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 620, 160);
+  const casesModalAgeChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 620, 180);
 
   const appHtml = `
   <div id="map"></div>
@@ -169,9 +169,9 @@ export function render(data) {
     <div class="pheic-badge" role="status">Active Surveillance — ${summary.affectedCountriesCount} Countries Affected</div>
 
     <section class="stats-grid" aria-label="Headline Metrics">
-      <!-- Clickable Total Cases Card triggering Analytics Modal -->
+      <!-- Clickable Total Cases Card triggering Cases & Demographics Modal -->
       <button class="stat-card cases interactive" id="open-cases-modal" aria-haspopup="dialog" aria-controls="cases-dialog">
-        <div class="label">Total Cases <span class="click-hint">↗ Details</span></div>
+        <div class="label">Total Cases <span class="click-hint">↗ Breakdown</span></div>
         <div class="value">${summary.totalCases.toLocaleString()}</div>
         <div class="sub">across ${locations.length} reporting zones</div>
       </button>
@@ -193,10 +193,10 @@ export function render(data) {
       </article>
     </section>
 
-    <!-- ── Epidemiological Spread Curve ── -->
-    <section class="chart-section" aria-label="Epidemic Curve">
+    <!-- ── Interactive Small Epidemic Spread Curve (Click to Enlarge) ── -->
+    <section class="chart-section interactive-chart-card" id="open-timeline-modal" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="timeline-dialog" aria-label="Open Epidemic Timeline Modal">
       <div class="chart-header">
-        <h3>Epidemic Spread Curve (Epi Week)</h3>
+        <h3>Epidemic Spread Curve (Epi Week) <span class="click-hint">↗ Enlarge</span></h3>
         <span class="chart-tag">Weekly Cases & Fatalities</span>
       </div>
       <div class="chart-container" id="epi-chart">${sidebarChartSvgHtml}</div>
@@ -258,13 +258,64 @@ export function render(data) {
     </footer>
   </aside>
 
-  <!-- ── Total Cases Analytics Modal Dialog (Native HTML5 <dialog>) ── -->
+  <!-- ── MODAL 1: Epidemic Timeline Modal (Triggered by clicking small chart) ── -->
+  <dialog id="timeline-dialog" class="analytics-dialog" aria-labelledby="timeline-dialog-title">
+    <div class="dialog-content">
+      <header class="dialog-header">
+        <div>
+          <span class="dialog-badge">Epidemiological Timeline</span>
+          <h2 id="timeline-dialog-title">Epidemic Timeline (Weekly Cases vs Fatalities)</h2>
+        </div>
+        <button class="dialog-close-btn" id="close-timeline-modal" aria-label="Close dialog">✕</button>
+      </header>
+
+      <div class="dialog-stats-summary">
+        <div class="dialog-kpi">
+          <span class="kpi-label">Peak Weekly Influx</span>
+          <span class="kpi-number orange">579 Cases</span>
+          <span class="kpi-sub">Surveillance Week 31</span>
+        </div>
+        <div class="dialog-kpi">
+          <span class="kpi-label">Latest Week Influx</span>
+          <span class="kpi-number cases">480 Cases</span>
+          <span class="kpi-sub">Surveillance Week 32</span>
+        </div>
+        <div class="dialog-kpi">
+          <span class="kpi-label">Peak Fatalities</span>
+          <span class="kpi-number" style="color: #e5484d;">271 Deaths</span>
+          <span class="kpi-sub">Surveillance Week 31</span>
+        </div>
+        <div class="dialog-kpi">
+          <span class="kpi-label">Active Trajectory</span>
+          <span class="kpi-number" style="color: #f5a623;">Plateauing</span>
+          <span class="kpi-sub">-17.1% vs previous week</span>
+        </div>
+      </div>
+
+      <div class="dialog-chart-wrapper">
+        <div class="chart-header">
+          <h3>Full Epidemic Curve Timeline</h3>
+          <span class="chart-tag">Epi Weeks 20–32</span>
+        </div>
+        <div class="modal-chart-container" style="height: 240px;" id="modal-timeline-chart">
+          ${timelineModalChartSvgHtml}
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <span class="dialog-note">Data source: WHO Disease Outbreak News & Africa CDC Epidemiological Updates.</span>
+        <button class="dialog-action-btn" id="timeline-done-btn">Dismiss</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ── MODAL 2: Total Cases & Demographics Modal (Triggered by Total Cases card) ── -->
   <dialog id="cases-dialog" class="analytics-dialog" aria-labelledby="cases-dialog-title">
     <div class="dialog-content">
       <header class="dialog-header">
         <div>
-          <span class="dialog-badge">Epidemiological Intelligence</span>
-          <h2 id="cases-dialog-title">Total Cases & Transmission Breakdown</h2>
+          <span class="dialog-badge">Caseload & Demographics Intelligence</span>
+          <h2 id="cases-dialog-title">Total Cases & Demographic Distribution</h2>
         </div>
         <button class="dialog-close-btn" id="close-cases-modal" aria-label="Close dialog">✕</button>
       </header>
@@ -276,14 +327,14 @@ export function render(data) {
           <span class="kpi-sub">Across 3 Nations</span>
         </div>
         <div class="dialog-kpi">
-          <span class="kpi-label">Weekly Peak Caseload</span>
-          <span class="kpi-number orange">579</span>
-          <span class="kpi-sub">Week 31 (Aug 3)</span>
+          <span class="kpi-label">Sex Distribution</span>
+          <span class="kpi-number" style="color: #ff75c3;">56.4% ♀</span>
+          <span class="kpi-sub">43.6% ♂</span>
         </div>
         <div class="dialog-kpi">
           <span class="kpi-label">Primary Epicenter</span>
-          <span class="kpi-number" style="color: #ff75c3;">Ituri (83.5%)</span>
-          <span class="kpi-sub">3,912 Confirmed</span>
+          <span class="kpi-number" style="color: #f76b15;">Ituri (83.5%)</span>
+          <span class="kpi-sub">3,912 Cases</span>
         </div>
         <div class="dialog-kpi">
           <span class="kpi-label">Cross-Border Status</span>
@@ -292,31 +343,20 @@ export function render(data) {
         </div>
       </div>
 
-      <!-- Epidemic Timeline -->
-      <div class="dialog-chart-wrapper">
-        <div class="chart-header">
-          <h3>Epidemic Timeline (Weekly Cases vs Fatalities)</h3>
-          <span class="chart-tag">Surveillance Weeks 20–32</span>
-        </div>
-        <div class="modal-chart-container" id="modal-epi-chart">
-          ${modalChartSvgHtml}
-        </div>
-      </div>
-
-      <!-- Age Cohort Breakdown Chart -->
+      <!-- Age Cohort Breakdown Chart in Total Cases Modal -->
       <div class="dialog-chart-wrapper">
         <div class="chart-header">
           <h3>Age Cohort Distribution & Caseload Share</h3>
           <span class="chart-tag" style="color: var(--amber); border-color: rgba(245,166,35,0.3); background: rgba(245,166,35,0.1);">Demographics</span>
         </div>
-        <div class="modal-chart-container" style="height: 160px;" id="modal-age-chart">
-          ${modalAgeChartSvgHtml}
+        <div class="modal-chart-container" style="height: 180px;" id="modal-cases-age-chart">
+          ${casesModalAgeChartSvgHtml}
         </div>
       </div>
 
       <div class="dialog-footer">
-        <span class="dialog-note">Ingested from WHO DONs & Africa CDC Epidemiological Updates.</span>
-        <button class="dialog-action-btn" id="dialog-done-btn">Dismiss</button>
+        <span class="dialog-note">Disaggregated age & sex distribution verified via WHO Field Reports.</span>
+        <button class="dialog-action-btn" id="cases-done-btn">Dismiss</button>
       </div>
     </div>
   </dialog>

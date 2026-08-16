@@ -420,6 +420,20 @@ body {
   margin-bottom: 16px;
 }
 
+.chart-section.interactive-chart-card {
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.chart-section.interactive-chart-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--orange);
+  background: #1e2330;
+}
+
 .chart-header {
   display: flex;
   justify-content: space-between;

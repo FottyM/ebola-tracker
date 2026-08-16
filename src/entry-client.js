@@ -5,7 +5,9 @@
  * 2. Official Regional Subdivisions / Provinces (DRC 26 provinces + sub-regions)
  * 3. Outbreak Hotspots, Case Fatality markers, Epicenter Pulse beacons, and Medevac Corridors.
  * 4. Interactive Epidemiological Spread Curve Chart & Age Distribution Charts.
- * 5. Accessible HTML5 Modal Dialog Controller for Total Cases deep-dive.
+ * 5. Two Modal Controllers:
+ *    - Timeline Modal (opens when clicking the small epidemic curve chart)
+ *    - Total Cases & Demographics Modal (opens when clicking Total Cases)
  */
 
 import "leaflet/dist/leaflet.css";
@@ -196,56 +198,87 @@ function renderAgeChart(container, ageGroups, height = 120) {
 }
 
 /**
- * Sets up modal dialog controller for the Total Cases deep-dive.
+ * Sets up both modal dialog controllers:
+ * 1. Timeline Modal (when clicking small epidemic curve)
+ * 2. Total Cases & Demographics Modal (when clicking Total Cases card)
  * @param {EpiCurvePoint[]} epiCurve
  * @param {Demographics['ageGroups']} [ageGroups]
  * @returns {void}
  */
-function initModalController(epiCurve, ageGroups) {
-  const dialog = /** @type {HTMLDialogElement | null} */ (document.getElementById("cases-dialog"));
-  const openBtn = document.getElementById("open-cases-modal");
-  const closeBtn = document.getElementById("close-cases-modal");
-  const doneBtn = document.getElementById("dialog-done-btn");
-  const modalChartContainer = document.getElementById("modal-epi-chart");
-  const modalAgeContainer = document.getElementById("modal-age-chart");
+function initModalControllers(epiCurve, ageGroups) {
+  // ── 1. Timeline Modal Controller (Clicking small chart) ──
+  const timelineDialog = /** @type {HTMLDialogElement | null} */ (
+    document.getElementById("timeline-dialog")
+  );
+  const openTimelineBtn = document.getElementById("open-timeline-modal");
+  const closeTimelineBtn = document.getElementById("close-timeline-modal");
+  const doneTimelineBtn = document.getElementById("timeline-done-btn");
+  const timelineModalContainer = document.getElementById("modal-timeline-chart");
 
-  if (!dialog || !openBtn) return;
-
-  function openModal() {
-    dialog?.showModal();
+  function openTimelineModal() {
+    timelineDialog?.showModal();
     document.body.style.overflow = "hidden";
-    if (modalChartContainer && epiCurve) {
-      renderTanstackChart(modalChartContainer, epiCurve, 220);
-    }
-    if (modalAgeContainer && ageGroups) {
-      renderAgeChart(modalAgeContainer, ageGroups, 160);
+    if (timelineModalContainer && epiCurve) {
+      renderTanstackChart(timelineModalContainer, epiCurve, 240);
     }
   }
 
-  function closeModal() {
-    dialog?.close();
+  function closeTimelineModal() {
+    timelineDialog?.close();
     document.body.style.overflow = "";
   }
 
-  openBtn.addEventListener("click", openModal);
-  closeBtn?.addEventListener("click", closeModal);
-  doneBtn?.addEventListener("click", closeModal);
-
-  // Close when clicking dialog backdrop
-  dialog.addEventListener("click", (e) => {
-    if (e.target === dialog) {
-      closeModal();
+  openTimelineBtn?.addEventListener("click", openTimelineModal);
+  openTimelineBtn?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openTimelineModal();
     }
   });
+  closeTimelineBtn?.addEventListener("click", closeTimelineModal);
+  doneTimelineBtn?.addEventListener("click", closeTimelineModal);
+  timelineDialog?.addEventListener("click", (e) => {
+    if (e.target === timelineDialog) closeTimelineModal();
+  });
+  timelineDialog?.addEventListener("cancel", () => {
+    document.body.style.overflow = "";
+  });
 
-  // Close on Escape
-  dialog.addEventListener("cancel", () => {
+  // ── 2. Cases & Demographics Modal Controller (Clicking Total Cases) ──
+  const casesDialog = /** @type {HTMLDialogElement | null} */ (
+    document.getElementById("cases-dialog")
+  );
+  const openCasesBtn = document.getElementById("open-cases-modal");
+  const closeCasesBtn = document.getElementById("close-cases-modal");
+  const doneCasesBtn = document.getElementById("cases-done-btn");
+  const modalAgeContainer = document.getElementById("modal-cases-age-chart");
+
+  function openCasesModal() {
+    casesDialog?.showModal();
+    document.body.style.overflow = "hidden";
+    if (modalAgeContainer && ageGroups) {
+      renderAgeChart(modalAgeContainer, ageGroups, 180);
+    }
+  }
+
+  function closeCasesModal() {
+    casesDialog?.close();
+    document.body.style.overflow = "";
+  }
+
+  openCasesBtn?.addEventListener("click", openCasesModal);
+  closeCasesBtn?.addEventListener("click", closeCasesModal);
+  doneCasesBtn?.addEventListener("click", closeCasesModal);
+  casesDialog?.addEventListener("click", (e) => {
+    if (e.target === casesDialog) closeCasesModal();
+  });
+  casesDialog?.addEventListener("cancel", () => {
     document.body.style.overflow = "";
   });
 }
 
 /**
- * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, charts, and modal controller.
+ * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, charts, and modal controllers.
  * @returns {void}
  */
 export function initClient() {
@@ -257,7 +290,7 @@ export function initClient() {
 
   const { locations, corridors, epiCurve, demographics } = data;
 
-  // 1. Mount sidebar charts & Modal Controller
+  // 1. Mount sidebar charts & Modal Controllers
   if (epiCurve) {
     const sidebarChartEl = document.getElementById("epi-chart");
     if (sidebarChartEl) {
@@ -275,7 +308,7 @@ export function initClient() {
         console.warn("Client Age Chart hydration:", e);
       }
     }
-    initModalController(epiCurve, demographics?.ageGroups);
+    initModalControllers(epiCurve, demographics?.ageGroups);
   }
 
   // 2. Initialize Leaflet Map
