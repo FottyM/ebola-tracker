@@ -1,19 +1,79 @@
 /**
  * @fileoverview Dynamic SSR Generator.
- * Renders universal country/regional listings, epidemiological curve chart container,
+ * Renders universal country/regional listings, TanStack Charts epidemiological curve SVG,
  * and Schema.org metadata for all affected locations.
  */
+
+import { defineChart, lineY, dot, areaY, createChartScene, renderChartSvg } from "@tanstack/charts";
+import { scaleBand } from "@tanstack/charts/scales/band";
+import { scaleLinear } from "@tanstack/charts/scales/linear";
 
 /**
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
  */
 
 /**
+ * Generates server-side rendered SVG string using TanStack Charts.
+ * @param {import('../server/etl.js').EpiCurvePoint[]} epiData
+ * @returns {string}
+ */
+export function renderEpiChartSvg(epiData) {
+  if (!epiData || epiData.length === 0) return "";
+
+  const chart = defineChart({
+    marks: [
+      areaY(epiData, {
+        x: (d) => d.week,
+        y: (d) => d.weeklyCases,
+        fill: "rgba(247, 107, 21, 0.15)",
+      }),
+      lineY(epiData, {
+        x: (d) => d.week,
+        y: (d) => d.weeklyCases,
+        stroke: "#f76b15",
+        strokeWidth: 2,
+      }),
+      dot(epiData, {
+        x: (d) => d.week,
+        y: (d) => d.weeklyCases,
+        fill: "#f76b15",
+        r: 3,
+      }),
+      lineY(epiData, {
+        x: (d) => d.week,
+        y: (d) => d.weeklyDeaths,
+        stroke: "#e5484d",
+        strokeWidth: 1.8,
+      }),
+      dot(epiData, {
+        x: (d) => d.week,
+        y: (d) => d.weeklyDeaths,
+        fill: "#e5484d",
+        r: 2.5,
+      }),
+    ],
+    x: {
+      scale: () => scaleBand().padding(0.2),
+    },
+    y: {
+      scale: scaleLinear,
+      nice: true,
+      grid: true,
+    },
+  });
+
+  const scene = createChartScene(chart, { width: 310, height: 120 });
+  return renderChartSvg(scene, {
+    ariaLabel: "Ebola Epidemic Spread Curve",
+  });
+}
+
+/**
  * @param {DynamicOutbreakState} data
  * @returns {{ appHtml: string, jsonLd: string, initialState: string }}
  */
 export function render(data) {
-  const { summary, locations, sources } = data;
+  const { summary, locations, sources, epiCurve } = data;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -41,6 +101,8 @@ export function render(data) {
   `,
     )
     .join("");
+
+  const chartSvgHtml = renderEpiChartSvg(epiCurve);
 
   const appHtml = `
   <div id="map"></div>
@@ -82,15 +144,13 @@ export function render(data) {
       </article>
     </section>
 
-    <!-- ── Epidemiological Spread Curve Chart ── -->
+    <!-- ── TanStack Charts: Epidemiological Spread Curve ── -->
     <section class="chart-section" aria-label="Epidemic Curve">
       <div class="chart-header">
         <h3>Epidemic Spread Curve (Epi Week)</h3>
         <span class="chart-tag">Weekly Cases & CFR</span>
       </div>
-      <div class="chart-container">
-        <canvas id="epi-chart"></canvas>
-      </div>
+      <div class="chart-container" id="epi-chart">${chartSvgHtml}</div>
     </section>
 
     <section class="province-section">

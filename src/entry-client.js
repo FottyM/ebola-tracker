@@ -4,39 +4,22 @@
  * 1. Global World Countries (all 258 sovereign nations with ISO/name matching)
  * 2. Official Regional Subdivisions / Provinces (DRC 26 provinces + sub-regions)
  * 3. Outbreak Hotspots, Case Fatality markers, Epicenter Pulse beacons, and Medevac Corridors.
- * 4. Interactive Epidemiological Spread Curve Chart (Chart.js / TanStack format).
+ * 4. Interactive Epidemiological Spread Curve Chart built with official @tanstack/charts.
  */
 
 import "leaflet/dist/leaflet.css";
 import "./style.css";
 import L from "leaflet";
-import {
-  Chart,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  CategoryScale,
-  Filler,
-  Tooltip,
-} from "chart.js";
+import { mountChart, defineChart, areaY, lineY, dot, crosshair } from "@tanstack/charts";
+import { scaleBand } from "@tanstack/charts/scales/band";
+import { scaleLinear } from "@tanstack/charts/scales/linear";
 import worldCountriesGeo from "./data/world-countries.json";
 import drcProvincesGeo from "./data/drc-provinces.json";
-
-// Register Chart.js tree-shakeable components
-Chart.register(
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  CategoryScale,
-  Filler,
-  Tooltip,
-);
 
 /**
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
  * @typedef {import('../server/etl.js').GeoLocation} GeoLocation
+ * @typedef {import('../server/etl.js').EpiCurvePoint} EpiCurvePoint
  */
 
 /**
@@ -109,99 +92,71 @@ function normalizeProvinceName(shapeName) {
 }
 
 /**
- * Initializes the epidemiological spread curve chart in the sidebar panel.
- * @param {import('../server/etl.js').EpiCurvePoint[]} epiData
+ * Initializes the interactive epidemiological spread curve chart with TanStack Charts.
+ * @param {EpiCurvePoint[]} epiData
  * @returns {void}
  */
 function initEpiChart(epiData) {
-  const canvas = /** @type {HTMLCanvasElement | null} */ (document.getElementById("epi-chart"));
-  if (!canvas || !epiData || epiData.length === 0) return;
+  const container = document.getElementById("epi-chart");
+  if (!container || !epiData || epiData.length === 0) return;
 
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  container.innerHTML = "";
 
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: epiData.map((d) => d.week),
-      datasets: [
-        {
-          label: "Weekly Cases",
-          data: epiData.map((d) => d.weeklyCases),
-          borderColor: "#f76b15",
-          backgroundColor: "rgba(247, 107, 21, 0.15)",
-          borderWidth: 2,
-          pointBackgroundColor: "#f76b15",
-          pointRadius: 3,
-          pointHoverRadius: 5,
-          tension: 0.35,
-          fill: true,
-        },
-        {
-          label: "Weekly Fatalities",
-          data: epiData.map((d) => d.weeklyDeaths),
-          borderColor: "#e5484d",
-          backgroundColor: "rgba(229, 72, 77, 0.10)",
-          borderWidth: 1.8,
-          pointBackgroundColor: "#e5484d",
-          pointRadius: 2.5,
-          pointHoverRadius: 4.5,
-          tension: 0.35,
-          fill: false,
-        },
-      ],
+  const chartDef = defineChart({
+    marks: [
+      areaY(epiData, {
+        x: "week",
+        y: "weeklyCases",
+        fill: "rgba(247, 107, 21, 0.15)",
+      }),
+      lineY(epiData, {
+        x: "week",
+        y: "weeklyCases",
+        stroke: "#f76b15",
+        strokeWidth: 2,
+      }),
+      dot(epiData, {
+        x: "week",
+        y: "weeklyCases",
+        fill: "#f76b15",
+        r: 3,
+      }),
+      lineY(epiData, {
+        x: "week",
+        y: "weeklyDeaths",
+        stroke: "#e5484d",
+        strokeWidth: 1.8,
+      }),
+      dot(epiData, {
+        x: "week",
+        y: "weeklyDeaths",
+        fill: "#e5484d",
+        r: 2.5,
+      }),
+      crosshair({
+        stroke: "rgba(255, 255, 255, 0.25)",
+        strokeDasharray: "3 3",
+      }),
+    ],
+    x: {
+      scale: () => scaleBand().padding(0.2),
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: {
-        mode: "index",
-        intersect: false,
-      },
-      plugins: {
-        tooltip: {
-          backgroundColor: "#191d27",
-          titleColor: "#e4e8f1",
-          bodyColor: "#8891a5",
-          borderColor: "#252a36",
-          borderWidth: 1,
-          padding: 8,
-          boxPadding: 4,
-          usePointStyle: true,
-          callbacks: {
-            label: (context) => {
-              const val = Number(context.parsed?.y ?? 0);
-              return ` ${context.dataset.label || "Value"}: ${val.toLocaleString()}`;
-            },
-          },
-        },
-      },
-      scales: {
-        x: {
-          grid: { color: "rgba(37, 42, 54, 0.4)" },
-          ticks: {
-            color: "#8891a5",
-            font: { size: 9, family: "'Inter', sans-serif" },
-            maxRotation: 0,
-            autoSkip: true,
-            maxTicksLimit: 4,
-          },
-        },
-        y: {
-          grid: { color: "rgba(37, 42, 54, 0.4)" },
-          ticks: {
-            color: "#8891a5",
-            font: { size: 9, family: "'JetBrains Mono', monospace" },
-            maxTicksLimit: 4,
-          },
-        },
-      },
+    y: {
+      scale: scaleLinear,
+      nice: true,
+      grid: true,
     },
+  });
+
+  mountChart(container, {
+    definition: chartDef,
+    height: 120,
+    ariaLabel: "Ebola Epidemic Spread Curve",
   });
 }
 
 /**
- * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, and charts.
+ * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, and TanStack charts.
  * @returns {void}
  */
 export function initClient() {
@@ -213,9 +168,13 @@ export function initClient() {
 
   const { locations, corridors, epiCurve } = data;
 
-  // 1. Initialize Epidemic Spread Curve Chart
+  // 1. Mount interactive TanStack Chart
   if (epiCurve) {
-    initEpiChart(epiCurve);
+    try {
+      initEpiChart(epiCurve);
+    } catch (e) {
+      console.warn("Client TanStack Chart hydration:", e);
+    }
   }
 
   // 2. Initialize Leaflet Map

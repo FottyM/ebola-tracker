@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.1.1",
-    "chart.js": "^4.5.1",
+    "@tanstack/charts": "^0.14.0",
     "hono": "^4.13.2",
     "leaflet": "^1.9.4"
   },
@@ -19,5 +19,12 @@
     "@types/leaflet": "^1.9.22",
     "vite": "catalog:",
     "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.22.0",
+      "onFail": "download"
+    }
   }
 }
