@@ -258,6 +258,124 @@ body {
   height: 120px;
 }
 
+/* ── Demographics Section ────────────────────────────── */
+.demographics-section {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px 10px;
+  margin-bottom: 16px;
+}
+
+.sex-ratio-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sex-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.sex-card.female .sex-title {
+  color: #ff75c3;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.sex-card.male .sex-title {
+  color: #38bdf8;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.sex-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.sex-sub {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.age-distribution {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.demog-header-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.demog-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+}
+
+.demog-label {
+  width: 54px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.demog-bar-container {
+  flex: 1;
+  height: 6px;
+  background: var(--surface);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.demog-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f5a623, #e5484d);
+  border-radius: 3px;
+}
+
+.demog-val {
+  width: 70px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-primary);
+}
+
+.demog-val small {
+  color: var(--text-muted);
+  font-size: 8px;
+}
+
+.hcw-banner {
+  font-size: 9.5px;
+  color: var(--cyan);
+  background: rgba(64, 196, 170, 0.08);
+  border: 1px dashed rgba(64, 196, 170, 0.25);
+  border-radius: 6px;
+  padding: 6px 8px;
+  line-height: 1.35;
+}
+
 /* Province list */
 .province-section h3 {
   font-size: 10px;

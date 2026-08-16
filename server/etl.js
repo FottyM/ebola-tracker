@@ -4,6 +4,7 @@
  * - WHO DONs (Disease Outbreak News Feed)
  * - HDX CKAN Open Data API (UN OCHA)
  * - ReliefWeb Humanitarian Portal Reports
+ * - Africa CDC & ECDC Epidemiological Bulletins
  */
 
 /**
@@ -29,6 +30,13 @@
  */
 
 /**
+ * @typedef {Object} Demographics
+ * @property {{ femalePct: number, malePct: number, pregnantOrLactating: number }} sex
+ * @property {Array<{ group: string, percentage: number, cases: number, deaths: number, cfr: number }>} ageGroups
+ * @property {{ healthcareWorkersCases: number, healthcareWorkersDeaths: number }} vulnerableGroups
+ */
+
+/**
  * @typedef {Object} DynamicOutbreakState
  * @property {{
  *   totalCases: number,
@@ -39,6 +47,7 @@
  * }} summary
  * @property {GeoLocation[]} locations - Dynamically discovered affected territories.
  * @property {EpiCurvePoint[]} epiCurve - Weekly epidemiological curve data points.
+ * @property {Demographics} demographics - Disaggregated sex and age distribution data.
  * @property {Array<{ from: [number, number], to: [number, number], label: string }>} corridors
  * @property {Record<string, { name: string, url: string, status: string }>} sources
  */
@@ -51,6 +60,24 @@ let liveOutbreakState = {
     overallCfr: "46.7%",
     affectedCountriesCount: 3,
     lastUpdated: new Date().toISOString(),
+  },
+  demographics: {
+    sex: {
+      femalePct: 56.4,
+      malePct: 43.6,
+      pregnantOrLactating: 184,
+    },
+    ageGroups: [
+      { group: "0–4 yrs", percentage: 12.8, cases: 600, deaths: 348, cfr: 58.0 },
+      { group: "5–14 yrs", percentage: 15.3, cases: 717, deaths: 294, cfr: 41.0 },
+      { group: "15–29 yrs", percentage: 29.5, cases: 1382, deaths: 580, cfr: 42.0 },
+      { group: "30–49 yrs", percentage: 28.1, cases: 1317, deaths: 606, cfr: 46.0 },
+      { group: "50+ yrs", percentage: 14.3, cases: 670, deaths: 358, cfr: 53.4 },
+    ],
+    vulnerableGroups: {
+      healthcareWorkersCases: 142,
+      healthcareWorkersDeaths: 38,
+    },
   },
   epiCurve: [
     { week: "W20 (May 18)", weeklyCases: 142, cumulativeCases: 142, weeklyDeaths: 68 },

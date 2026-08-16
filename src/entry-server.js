@@ -1,7 +1,7 @@
 /**
  * @fileoverview Dynamic SSR Generator.
- * Renders universal country/regional listings, TanStack Charts epidemiological curve SVG,
- * and Schema.org metadata for all affected locations.
+ * Renders universal country/regional listings, TanStack Charts epidemiological curves,
+ * demographic sex/age breakdowns, and Schema.org metadata.
  */
 
 import { defineChart, lineY, dot, areaY, createChartScene, renderChartSvg } from "@tanstack/charts";
@@ -73,7 +73,7 @@ export function renderEpiChartSvg(epiData) {
  * @returns {{ appHtml: string, jsonLd: string, initialState: string }}
  */
 export function render(data) {
-  const { summary, locations, sources, epiCurve } = data;
+  const { summary, locations, sources, epiCurve, demographics } = data;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -103,6 +103,22 @@ export function render(data) {
     .join("");
 
   const chartSvgHtml = renderEpiChartSvg(epiCurve);
+
+  const ageBreakdownHtml = demographics?.ageGroups
+    ? demographics.ageGroups
+        .map(
+          (ag) => `
+        <div class="demog-row">
+          <span class="demog-label">${ag.group}</span>
+          <div class="demog-bar-container">
+            <div class="demog-bar" style="width: ${ag.percentage}%;"></div>
+          </div>
+          <span class="demog-val">${ag.percentage}% <small>(${ag.cases})</small></span>
+        </div>
+      `,
+        )
+        .join("")
+    : "";
 
   const appHtml = `
   <div id="map"></div>
@@ -152,6 +168,47 @@ export function render(data) {
       </div>
       <div class="chart-container" id="epi-chart">${chartSvgHtml}</div>
     </section>
+
+    <!-- ── Demographics Breakdown (Sex & Age) ── -->
+    ${
+      demographics
+        ? `
+    <section class="demographics-section" aria-label="Demographic Distribution">
+      <div class="chart-header">
+        <h3>Demographics (Sex & Age)</h3>
+        <span class="chart-tag" style="color: var(--cyan); border-color: rgba(64,196,170,0.3); background: rgba(64,196,170,0.1);">WHO & CDC</span>
+      </div>
+      
+      <!-- Sex Ratio Cards -->
+      <div class="sex-ratio-container">
+        <div class="sex-card female">
+          <div class="sex-title">♀ Female Cases</div>
+          <div class="sex-val">${demographics.sex.femalePct}%</div>
+          <div class="sex-sub">${demographics.sex.pregnantOrLactating} pregnant/lactating</div>
+        </div>
+        <div class="sex-card male">
+          <div class="sex-title">♂ Male Cases</div>
+          <div class="sex-val">${demographics.sex.malePct}%</div>
+          <div class="sex-sub">Community exposure</div>
+        </div>
+      </div>
+
+      <!-- Age Distribution -->
+      <div class="age-distribution">
+        <div class="demog-header-row">
+          <span>Age Cohort</span>
+          <span>Caseload Share</span>
+        </div>
+        ${ageBreakdownHtml}
+      </div>
+
+      <div class="hcw-banner">
+        <strong>Healthcare Workers:</strong> ${demographics.vulnerableGroups.healthcareWorkersCases} infected (${demographics.vulnerableGroups.healthcareWorkersDeaths} deaths)
+      </div>
+    </section>
+    `
+        : ""
+    }
 
     <section class="province-section">
       <h3>Active Affected Locations & Countries</h3>
