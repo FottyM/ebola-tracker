@@ -1,0 +1,19 @@
+6,843 Ebola cases across Central Africa and not one live, public map tracking it.
+
+WHO publishes PDFs. Africa CDC puts out press releases. No one had a proper real-time spatial tracker.
+
+So I built one.
+
+Live map: https://fottym.github.io/ebola-tracker/
+Source: https://github.com/FottyM/ebola-tracker
+
+How it works:
+• Runs on GitHub Pages at zero cost
+• Scheduled GitHub Actions cron ingests data every 6 hours
+• Pure OpenStreetMap with GPU-accelerated dark inversion (no API keys, no watermarks)
+• Pre-rendered static HTML with SVG charts for low-bandwidth field connections
+• Cookieless analytics via Umami
+
+GPL v2 licensed. Pull requests welcome.
+
+#OpenSource #PublicHealth #GIS #WebDev #Ebola

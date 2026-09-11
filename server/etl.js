@@ -71,16 +71,30 @@ export async function runETL() {
     return liveOutbreakState;
   }
 
+  console.log("📡 [ETL] Querying live humanitarian and epidemiological endpoints...");
+
   try {
     const hdxRes = await fetch(
       "https://data.humdata.org/api/3/action/package_search?q=ebola+DRC&rows=3",
-      { signal: AbortSignal.timeout(4000) },
+      { signal: AbortSignal.timeout(5000) },
     )
       .then((r) => (r.ok ? r.json() : null))
       .catch(() => null);
 
     if (hdxRes?.success) {
       liveOutbreakState.sources.hdx.status = "Live (200 OK)";
+      console.log("✅ [ETL] HDX Open Data Feed connected successfully.");
+    }
+
+    // Recalculate totals dynamically from regional surveillance points
+    const drcLocations = liveOutbreakState.locations.filter((l) => l.countryCode === "COD");
+    const drcCases = drcLocations.reduce((sum, l) => sum + l.cases, 0);
+    const drcDeaths = drcLocations.reduce((sum, l) => sum + l.deaths, 0);
+
+    if (drcCases > 0) {
+      liveOutbreakState.summary.totalCases = drcCases;
+      liveOutbreakState.summary.totalDeaths = drcDeaths;
+      liveOutbreakState.summary.overallCfr = `${((drcDeaths / drcCases) * 100).toFixed(1)}%`;
     }
 
     liveOutbreakState.summary.lastUpdated = new Date().toISOString();
