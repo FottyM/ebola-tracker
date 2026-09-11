@@ -558,6 +558,20 @@ export function initClient() {
       }
     });
   });
+
+  // Mobile Bottom-Sheet Toggle
+  const panelToggle = document.getElementById("panel-toggle");
+  const infoPanel = document.querySelector(".info-panel");
+  if (panelToggle && infoPanel) {
+    const handleToggle = () => infoPanel.classList.toggle("collapsed");
+    panelToggle.addEventListener("click", handleToggle);
+    panelToggle.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggle();
+      }
+    });
+  }
 }
 
 if (document.readyState === "loading") {

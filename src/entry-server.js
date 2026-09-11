@@ -154,8 +154,10 @@ export function render(data) {
   const appHtml = `
   <div id="map"></div>
 
-  <!-- ── Dynamic Info Panel (SSR) ──────────────── -->
   <aside class="info-panel" aria-label="Outbreak Intelligence">
+    <div class="panel-grab-bar" id="panel-toggle" role="button" aria-label="Toggle panel" tabindex="0">
+      <div class="panel-grab-handle"></div>
+    </div>
     <header class="panel-header">
       <div class="icon" aria-hidden="true">🦠</div>
       <div>

@@ -879,21 +879,85 @@ body {
   font-style: italic;
 }
 
+.panel-grab-bar {
+  display: none;
+}
+
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 760px) {
+  .panel-grab-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 10px;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .panel-grab-handle {
+    width: 40px;
+    height: 4.5px;
+    background: var(--border);
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+
+  .panel-grab-bar:hover .panel-grab-handle {
+    background: var(--orange);
+  }
+
   .info-panel {
-    width: calc(100vw - 32px);
-    max-height: 45vh;
+    width: calc(100vw - 20px);
+    max-height: 52vh;
     top: auto;
-    bottom: 16px;
-    left: 16px;
+    bottom: 10px;
+    left: 10px;
     border-radius: 16px;
+    padding: 12px 14px 12px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  .info-panel.collapsed {
+    transform: translateY(calc(100% - 46px));
+  }
+
   .legend {
-    bottom: auto;
-    top: 16px;
-    right: 16px;
+    display: none;
   }
+
+  /* Modals on Mobile */
+  .analytics-dialog {
+    width: 96vw !important;
+    max-height: 90vh !important;
+    border-radius: 12px !important;
+  }
+
+  .dialog-content {
+    padding: 16px !important;
+    gap: 12px !important;
+  }
+
+  .dialog-header h2 {
+    font-size: 15px !important;
+  }
+
+  .dialog-stats-summary {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .dialog-kpi {
+    padding: 8px 10px !important;
+  }
+
+  .dialog-kpi .kpi-number {
+    font-size: 16px !important;
+  }
+
+  .modal-chart-container {
+    height: 190px !important;
+  }
+
   .timeline-bar {
     display: none;
   }
