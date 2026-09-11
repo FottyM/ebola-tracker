@@ -251,6 +251,7 @@ function initModalControllers(epiCurve, ageGroups) {
     document.getElementById("cases-dialog")
   );
   const openCasesBtn = document.getElementById("open-cases-modal");
+  const openDemoBtn = document.getElementById("open-demographics-modal");
   const closeCasesBtn = document.getElementById("close-cases-modal");
   const doneCasesBtn = document.getElementById("cases-done-btn");
   const modalAgeContainer = document.getElementById("modal-cases-age-chart");
@@ -269,6 +270,13 @@ function initModalControllers(epiCurve, ageGroups) {
   }
 
   openCasesBtn?.addEventListener("click", openCasesModal);
+  openDemoBtn?.addEventListener("click", openCasesModal);
+  openDemoBtn?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openCasesModal();
+    }
+  });
   closeCasesBtn?.addEventListener("click", closeCasesModal);
   doneCasesBtn?.addEventListener("click", closeCasesModal);
   casesDialog?.addEventListener("click", (e) => {

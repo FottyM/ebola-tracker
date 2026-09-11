@@ -318,9 +318,9 @@ export function render(data) {
     ${
       demographics
         ? `
-    <section class="demographics-section" aria-label="Demographic Distribution">
+    <section class="demographics-section interactive-chart-card" id="open-demographics-modal" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="cases-dialog" aria-label="Open Demographics Modal" data-umami-event="open-demographics-modal">
       <div class="chart-header">
-        <h3>Demographics (Sex & Age Cohort)</h3>
+        <h3>Demographics (Sex & Age Cohort) <span class="click-hint">↗ Enlarge</span></h3>
         <span class="chart-tag" style="color: var(--cyan); border-color: rgba(64,196,170,0.3); background: rgba(64,196,170,0.1);">WHO & CDC</span>
       </div>
       
