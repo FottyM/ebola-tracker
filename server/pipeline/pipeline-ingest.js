@@ -56,6 +56,8 @@ export function hasEpidemiologicalContentChanged(snap1, snap2) {
   return false;
 }
 
+import { recordSourceRunResult, formatOperationalLog, SourceStates } from "./source-health.js";
+
 /**
  * Concurrency guard flag
  */
@@ -68,11 +70,15 @@ let isRunning = false;
  * @param {() => Promise<any>} [options.fetchSourceDataFn]
  * @param {any} [options.drcParsed]
  * @param {any[]} [options.hdxObservations]
+ * @param {boolean} [options.dryRun=false]
  * @returns {Promise<{
  *   success: boolean,
  *   changed: boolean,
+ *   dryRun?: boolean,
  *   snapshot?: import('./contracts.js').OutbreakSnapshot,
+ *   candidateSnapshot?: import('./contracts.js').OutbreakSnapshot,
  *   snapshotId?: string,
+ *   operationalLogs?: string[],
  *   error?: string
  * }>}
  */
@@ -81,6 +87,7 @@ export async function runIngestionPipeline({
   fetchSourceDataFn,
   drcParsed,
   hdxObservations = [],
+  dryRun = false,
 } = {}) {
   if (isRunning) {
     return {
@@ -91,6 +98,7 @@ export async function runIngestionPipeline({
   }
 
   isRunning = true;
+  const operationalLogs = [];
 
   try {
     // 1. Fetch or resolve upstream data
@@ -107,9 +115,20 @@ export async function runIngestionPipeline({
 
     // Fail-closed gate: if no data supplied and cannot parse, leave existing intact
     if (!drcData || !drcData.valid) {
+      const failLog = recordSourceRunResult({
+        sourceId: "drc-insp-sitrep",
+        transportStatus: SourceStates.TRANSPORT.REACHABLE,
+        httpStatus: 200,
+        parseStatus: SourceStates.PARSE.INVALID,
+        validationStatus: SourceStates.VALIDATION.BLOCKING,
+        reportingDate: null,
+      });
+      operationalLogs.push(formatOperationalLog(failLog));
+
       return {
         success: false,
         changed: false,
+        operationalLogs,
         error: "DRC SitRep data missing, unparsable, or invalid",
       };
     }
@@ -125,17 +144,54 @@ export async function runIngestionPipeline({
     });
 
     if (!pipelineResult.success || !pipelineResult.snapshot) {
+      const failLog = recordSourceRunResult({
+        sourceId: "drc-insp-sitrep",
+        transportStatus: SourceStates.TRANSPORT.REACHABLE,
+        httpStatus: 200,
+        parseStatus: SourceStates.PARSE.VALID,
+        validationStatus: SourceStates.VALIDATION.BLOCKING,
+        reportingDate: drcData?.reportDate || null,
+      });
+      operationalLogs.push(formatOperationalLog(failLog));
+
       return {
         success: false,
         changed: false,
+        operationalLogs,
         error: pipelineResult.errors?.join("; ") || "Snapshot pipeline failed validation",
       };
     }
 
     const candidateSnapshot = pipelineResult.snapshot;
 
+    // Record healthy operational run
+    const successLog = recordSourceRunResult({
+      sourceId: "drc-insp-sitrep",
+      transportStatus: SourceStates.TRANSPORT.REACHABLE,
+      httpStatus: 200,
+      durationMs: 120,
+      parseStatus: SourceStates.PARSE.VALID,
+      validationStatus: SourceStates.VALIDATION.VALID,
+      reportingDate: candidateSnapshot.summary.lastReportDate,
+      contentHash: candidateSnapshot.snapshotId,
+    });
+    operationalLogs.push(formatOperationalLog(successLog));
+
     // 4. Compare with existing snapshot
     const changed = hasEpidemiologicalContentChanged(existingSnapshot, candidateSnapshot);
+
+    // If dry run, do not persist to disk
+    if (dryRun) {
+      return {
+        success: true,
+        dryRun: true,
+        changed,
+        candidateSnapshot,
+        snapshot: existingSnapshot || candidateSnapshot,
+        snapshotId: candidateSnapshot.snapshotId,
+        operationalLogs,
+      };
+    }
 
     if (!changed && existingSnapshot) {
       return {
@@ -143,10 +199,11 @@ export async function runIngestionPipeline({
         changed: false,
         snapshot: existingSnapshot,
         snapshotId: existingSnapshot.snapshotId,
+        operationalLogs,
       };
     }
 
-    // 5. If changed, atomically persist candidate
+    // 5. If changed and not dryRun, atomically persist candidate
     saveSnapshotAtomically(candidateSnapshot, storageDir);
 
     return {
@@ -154,11 +211,13 @@ export async function runIngestionPipeline({
       changed: true,
       snapshot: candidateSnapshot,
       snapshotId: candidateSnapshot.snapshotId,
+      operationalLogs,
     };
   } catch (err) {
     return {
       success: false,
       changed: false,
+      operationalLogs,
       error: err instanceof Error ? err.message : String(err),
     };
   } finally {

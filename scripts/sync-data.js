@@ -10,7 +10,10 @@ const targetFile = path.resolve(__dirname, "../src/data/outbreak-data.js");
 const storageDir = path.resolve(__dirname, "../public/data");
 
 async function sync() {
-  console.log("🔄 [Data Ingestion] Running unified ingestion transaction...");
+  const isDryRun = process.argv.includes("--dry-run");
+  console.log(
+    `🔄 [Data Ingestion] Running unified ingestion transaction${isDryRun ? " (DRY-RUN MODE)" : ""}...`,
+  );
 
   // Load latest authoritative SitRep fixture or remote report
   const fixturePath = path.resolve(__dirname, "../test/fixtures/sitrep/sitrep-118-2026-09-09.txt");
@@ -24,10 +27,26 @@ async function sync() {
     storageDir,
     drcParsed,
     hdxObservations: [],
+    dryRun: isDryRun,
   });
+
+  if (result.operationalLogs && result.operationalLogs.length > 0) {
+    for (const log of result.operationalLogs) {
+      console.log(log);
+    }
+  }
 
   if (!result.success) {
     throw new Error(result.error || "Ingestion pipeline failed");
+  }
+
+  if (isDryRun) {
+    const snap = result.candidateSnapshot;
+    console.log(
+      `📋 [Dry Run Candidate] Cases: ${snap?.summary?.totalCases?.toLocaleString()} | Deaths: ${snap?.summary?.totalDeaths?.toLocaleString()} | Date: ${snap?.summary?.lastReportDate} | Changed: ${result.changed}`,
+    );
+    console.log("✅ [Data Ingestion] Dry run completed successfully with zero mutations.");
+    return;
   }
 
   const legacyData = getPrerenderData(storageDir);

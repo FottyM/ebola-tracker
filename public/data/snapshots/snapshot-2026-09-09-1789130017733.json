@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-09-09-1789130054694",
+  "snapshotId": "snapshot-2026-09-09-1789130017733",
   "status": "current",
   "scheduledCadenceMinutes": 30,
-  "generatedAt": "2026-09-11T12:34:14.694Z",
+  "generatedAt": "2026-09-11T12:33:37.733Z",
   "summary": {
     "totalCases": 6942,
     "totalDeaths": 3349,
@@ -37,7 +37,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-09-09",
         "publishedAt": "2026-09-09T12:00:00.000Z",
-        "fetchedAt": "2026-09-11T12:34:14.694Z"
+        "fetchedAt": "2026-09-11T12:33:37.733Z"
       },
       "classification": "affected"
     },
@@ -67,7 +67,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-09-09",
         "publishedAt": "2026-09-09T12:00:00.000Z",
-        "fetchedAt": "2026-09-11T12:34:14.694Z"
+        "fetchedAt": "2026-09-11T12:33:37.733Z"
       },
       "classification": "affected"
     },
@@ -97,7 +97,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-09-09",
         "publishedAt": "2026-09-09T12:00:00.000Z",
-        "fetchedAt": "2026-09-11T12:34:14.694Z"
+        "fetchedAt": "2026-09-11T12:33:37.733Z"
       },
       "classification": "affected"
     },
@@ -127,7 +127,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-09-09",
         "publishedAt": "2026-09-09T12:00:00.000Z",
-        "fetchedAt": "2026-09-11T12:34:14.694Z"
+        "fetchedAt": "2026-09-11T12:33:37.733Z"
       },
       "classification": "affected"
     },
@@ -157,7 +157,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-09-09",
         "publishedAt": "2026-09-09T12:00:00.000Z",
-        "fetchedAt": "2026-09-11T12:34:14.694Z"
+        "fetchedAt": "2026-09-11T12:33:37.733Z"
       },
       "classification": "affected"
     },
@@ -187,7 +187,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-09-09",
         "publishedAt": "2026-09-09T12:00:00.000Z",
-        "fetchedAt": "2026-09-11T12:34:14.694Z"
+        "fetchedAt": "2026-09-11T12:33:37.733Z"
       },
       "classification": "affected"
     },
@@ -217,7 +217,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-09-09",
         "publishedAt": "2026-09-09T12:00:00.000Z",
-        "fetchedAt": "2026-09-11T12:34:14.694Z"
+        "fetchedAt": "2026-09-11T12:33:37.733Z"
       },
       "classification": "affected"
     }
@@ -226,12 +226,12 @@
     {
       "sourceId": "hdx-consolidated",
       "status": "Live (200 OK)",
-      "lastSuccessAt": "2026-09-11T12:34:14.694Z"
+      "lastSuccessAt": "2026-09-11T12:33:37.733Z"
     },
     {
       "sourceId": "who-acute-event",
       "status": "Live (200 OK)",
-      "lastSuccessAt": "2026-09-11T12:34:14.694Z"
+      "lastSuccessAt": "2026-09-11T12:33:37.733Z"
     }
   ]
 }

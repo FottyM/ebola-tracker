@@ -13,6 +13,6 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(appHtml).toContain('id="map"');
     expect(appHtml).toContain("Ebola Outbreak Tracker");
     expect(jsonLd).toContain("SpecialAnnouncement");
-    expect(initialState).toContain("6843");
+    expect(initialState).toContain(String(defaultOutbreakData.summary.totalCases));
   });
 });

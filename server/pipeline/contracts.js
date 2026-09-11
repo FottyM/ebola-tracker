@@ -155,6 +155,13 @@ export function validateOutbreakSnapshot(snapshot) {
   }
   if (!snapshot.summary || typeof snapshot.summary !== "object") {
     errors.push("Missing snapshot summary.");
+  } else {
+    if (typeof snapshot.summary.totalCases !== "number" || snapshot.summary.totalCases < 0) {
+      errors.push("summary.totalCases must be a non-negative number.");
+    }
+    if (typeof snapshot.summary.totalDeaths !== "number" || snapshot.summary.totalDeaths < 0) {
+      errors.push("summary.totalDeaths must be a non-negative number.");
+    }
   }
   if (!Array.isArray(snapshot.observations)) {
     errors.push("observations must be an array.");
@@ -321,6 +328,7 @@ export function mapSnapshotToLegacyState(snapshot) {
       overallCfr: snapshot.summary.overallCfr,
       affectedCountriesCount: snapshot.summary.affectedCountriesCount,
       lastUpdated: snapshot.generatedAt,
+      lastReportDate: snapshot.summary.lastReportDate,
     },
     locations,
     epiCurve: snapshot.epiCurve || defaultOutbreakData.epiCurve,
