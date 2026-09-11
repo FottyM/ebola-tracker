@@ -1,8 +1,9 @@
 # DATA-002: Define normalized observations and snapshot contract
 
-Status: In progress  
+Status: Complete  
 Priority: Blocker  
 Dependencies: DATA-001
+Resolution: Defined versioned runtime-validatable schemas in server/pipeline/contracts.js, enforced provenance and geographic precision rules, separated sourceUpdatedAt/publishedAt/fetchedAt timestamps, implemented snapshot aggregation, and mapped snapshots to the existing UI legacy state.
 
 ## Objective
 

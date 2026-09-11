@@ -9,7 +9,7 @@ These tickets implement the [Live Epidemiological Data Pipeline Plan](./live-dat
 | Ticket                                                 | Title                                                  | Status   |
 | ------------------------------------------------------ | ------------------------------------------------------ | -------- |
 | [DATA-001](./tickets/DATA-001-source-feasibility.md)   | Verify authoritative sources and geographic coverage   | Complete |
-| [DATA-002](./tickets/DATA-002-data-contract.md)        | Define normalized observations and snapshot contract   | Open     |
+| [DATA-002](./tickets/DATA-002-data-contract.md)        | Define normalized observations and snapshot contract   | Complete |
 | [DATA-003](./tickets/DATA-003-reconciliation.md)       | Implement source precedence and reconciliation rules   | Open     |
 | [DATA-004](./tickets/DATA-004-first-source-adapter.md) | Build the first authoritative source adapter           | Blocked  |
 | [DATA-005](./tickets/DATA-005-geographic-adapters.md)  | Add country and subnational adapters and geography     | Blocked  |
