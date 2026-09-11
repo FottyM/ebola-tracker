@@ -39,14 +39,14 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 12.3.4
+          version: 10
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run ETL data ingestion (Method 1)
-        run: npx vite-plus node scripts/sync-data.js
+        run: node scripts/sync-data.js
 
       - name: Commit updated data snapshot (if changed on scheduled run)
         if: github.event_name == 'schedule'
@@ -57,7 +57,7 @@ jobs:
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): automated outbreak sync [skip ci]" && git push origin master)
 
       - name: Build static site
-        run: npx vite-plus build --outDir dist
+        run: ./node_modules/.bin/vp build --outDir dist
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

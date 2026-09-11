@@ -5,7 +5,7 @@ export const defaultOutbreakData = {
     totalDeaths: 2186,
     overallCfr: "46.7%",
     affectedCountriesCount: 3,
-    lastUpdated: "2026-09-11T08:18:25.070Z",
+    lastUpdated: "2026-09-11T08:20:00.852Z",
   },
   demographics: {
     sex: {
