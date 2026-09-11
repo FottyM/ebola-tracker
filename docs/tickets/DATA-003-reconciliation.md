@@ -1,8 +1,9 @@
 # DATA-003: Implement source precedence and reconciliation rules
 
-Status: Open  
+Status: Complete  
 Priority: Blocker  
 Dependencies: DATA-001, DATA-002
+Resolution: Implemented deterministic reconciliation engine in server/pipeline/reconciliation.js, parent-child validation, unallocated observation generation, freshness state determination, and cross-country evacuation guardrails.
 
 ## Objective
 
