@@ -49,11 +49,10 @@ async function sync() {
     return;
   }
 
-  const legacyData = getPrerenderData(storageDir);
-  const fileContent = `/** @type {import('../../server/etl.js').DynamicOutbreakState} */\nexport const defaultOutbreakData = ${JSON.stringify(legacyData, null, 2)};\n\nexport default defaultOutbreakData;\n`;
-  fs.writeFileSync(targetFile, fileContent, "utf-8");
-
   if (result.changed) {
+    const legacyData = getPrerenderData(storageDir);
+    const fileContent = `/** @type {import('../../server/etl.js').DynamicOutbreakState} */\nexport const defaultOutbreakData = ${JSON.stringify(legacyData, null, 2)};\n\nexport default defaultOutbreakData;\n`;
+    fs.writeFileSync(targetFile, fileContent, "utf-8");
     console.log(
       `✅ [Data Ingestion] Published new snapshot (${result.snapshotId}): ${legacyData.summary.totalCases.toLocaleString()} cases, ${legacyData.summary.totalDeaths.toLocaleString()} deaths.`,
     );
