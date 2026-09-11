@@ -1,6 +1,6 @@
 # DATA-015: Separate source health from epidemiological freshness
 
-Status: Open  
+Status: Complete  
 Priority: Medium  
 Dependencies: DATA-003, DATA-004, DATA-009
 

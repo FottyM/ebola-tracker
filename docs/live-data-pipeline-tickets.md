@@ -285,4 +285,4 @@ DATA-002 -> DATA-003 -> DATA-004 -> DATA-005 -> DATA-006
 
 ## Next ticket
 
-Start with `DATA-001`. Its source matrix is the decision gate for the rest of the work; no ETL rewrite should begin until that ticket identifies exact usable resources and documents the geographic detail they truly provide.
+Proceed with `DATA-010: Add integrity, regression, and operational coverage`. DATA-015 is completed.
