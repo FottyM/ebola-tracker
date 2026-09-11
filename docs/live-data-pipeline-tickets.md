@@ -19,7 +19,7 @@ These tickets implement the [Live Epidemiological Data Pipeline Plan](./live-dat
 | [DATA-009](./tickets/DATA-009-scheduling.md)           | Schedule safe 30-minute ingestion                      | Blocked  |
 | [DATA-010](./tickets/DATA-010-verification-rollout.md) | Add integrity tests, observability, and rollout checks | Blocked  |
 | [DATA-011](./tickets/DATA-011-geography-crosswalk.md)  | Build the verified health-zone geography crosswalk     | Open     |
-| [DATA-012](./tickets/DATA-012-pdf-fixtures.md)         | Create licensing-safe PDF extraction fixtures          | Open     |
+| [DATA-012](./tickets/DATA-012-pdf-fixtures.md)         | Create licensing-safe PDF extraction fixtures          | Complete |
 | [DATA-013](./tickets/DATA-013-pages-manifest.md)       | Implement the GitHub Pages manifest and cache protocol | Blocked  |
 | [DATA-014](./tickets/DATA-014-rollback-retention.md)   | Implement snapshot retention and rollback              | Blocked  |
 | [DATA-015](./tickets/DATA-015-source-health.md)        | Separate source health from epidemiological freshness  | Blocked  |

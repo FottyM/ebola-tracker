@@ -1,0 +1,188 @@
+/**
+ * @fileoverview DRC Ministry Situation Report Text Parser.
+ * Guarded extraction engine for Ministry SitRep text/tables.
+ * Handles French number formatting (spaces, decimal commas),
+ * control characters, split names, and unallocated values.
+ */
+
+const FRENCH_MONTHS = {
+  janvier: "01",
+  février: "02",
+  fevrier: "02",
+  mars: "03",
+  avril: "04",
+  mai: "05",
+  juin: "06",
+  juillet: "07",
+  août: "08",
+  aout: "08",
+  septembre: "09",
+  octobre: "10",
+  novembre: "11",
+  décembre: "12",
+  decembre: "12",
+};
+
+/**
+ * Cleans numbers with French spacing and decimal commas.
+ * e.g. "6 942" -> 6942, "48,2%" -> "48.2%"
+ * @param {string} raw
+ * @returns {number}
+ */
+function cleanInt(raw) {
+  if (!raw) return 0;
+  const digitsOnly = raw.replace(/[^\d]/g, "");
+  return digitsOnly ? parseInt(digitsOnly, 10) : 0;
+}
+
+/**
+ * Parses Ministry SitRep text defensively.
+ * @param {string} rawText
+ * @returns {{
+ *   valid: boolean,
+ *   reportNumber: number,
+ *   reportingDate: string,
+ *   publicationDate?: string,
+ *   national: {
+ *     confirmedCases: number,
+ *     confirmedDeaths: number,
+ *     newConfirmedCases: number,
+ *     recovered: number,
+ *     cfr: string
+ *   },
+ *   provinces: Array<{ name: string, newCases: number, cases: number, deaths: number, cfr: string }>,
+ *   hasUnallocatedValues: boolean,
+ *   errors: string[]
+ * }}
+ */
+export function parseMinistrySitrepText(rawText) {
+  const errors = [];
+
+  if (!rawText || typeof rawText !== "string") {
+    return {
+      valid: false,
+      reportNumber: 0,
+      reportingDate: "",
+      national: {
+        confirmedCases: 0,
+        confirmedDeaths: 0,
+        newConfirmedCases: 0,
+        recovered: 0,
+        cfr: "",
+      },
+      provinces: [],
+      hasUnallocatedValues: false,
+      errors: ["Input must be a non-empty string."],
+    };
+  }
+
+  // Clean common OCR and extraction control artifacts (e.g. \u0007 bell character)
+  // eslint-disable-next-line no-control-regex
+  const clean = rawText.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "");
+
+  // Guardrail: Verify official header markers
+  if (!clean.includes("SITUATION EPIDEMIOLOGIQUE") || !clean.includes("Situation Report N°")) {
+    return {
+      valid: false,
+      reportNumber: 0,
+      reportingDate: "",
+      national: {
+        confirmedCases: 0,
+        confirmedDeaths: 0,
+        newConfirmedCases: 0,
+        recovered: 0,
+        cfr: "",
+      },
+      provinces: [],
+      hasUnallocatedValues: false,
+      errors: ["Format drift: Missing official DRC Ministry SitRep header markers."],
+    };
+  }
+
+  // Extract Report Number
+  const numMatch = clean.match(/Situation Report N°\s*(\d+)/i);
+  const reportNumber = numMatch ? parseInt(numMatch[1], 10) : 0;
+  if (!reportNumber) errors.push("Missing report number.");
+
+  // Extract Notification Date (e.g. "Date de notification: 09 Septembre 2026")
+  const dateMatch = clean.match(
+    /Date de notification:\s*(\d{1,2})\s+([a-zA-Z\u00C0-\u017F]+)\s+(\d{4})/i,
+  );
+  let reportingDate = "";
+  if (dateMatch) {
+    const day = dateMatch[1].padStart(2, "0");
+    const monthStr = dateMatch[2].toLowerCase();
+    const year = dateMatch[3];
+    const month = FRENCH_MONTHS[monthStr];
+    if (month) {
+      reportingDate = `${year}-${month}-${day}`;
+    } else {
+      errors.push(`Unrecognized French month name '${dateMatch[2]}'.`);
+    }
+  } else {
+    errors.push("Missing or unparsable reporting date.");
+  }
+
+  // Extract National Summary Metrics
+  const casesMatch = clean.match(/Cumul des cas confirmés\s*:\s*([0-9\s]+)/i);
+  const newCasesMatch = clean.match(/Nouveaux cas confirmés\s*:\s*([0-9\s]+)/i);
+  const deathsMatch = clean.match(/Cumul des décès confirmés\s*:\s*([0-9\s]+)/i);
+  const recoveredMatch = clean.match(/Cumul des guéris\s*:\s*([0-9\s]+)/i);
+  const cfrMatch = clean.match(/Létalité globale\s*:\s*([0-9.,]+)%/i);
+
+  const national = {
+    confirmedCases: cleanInt(casesMatch?.[1] || "0"),
+    newConfirmedCases: cleanInt(newCasesMatch?.[1] || "0"),
+    confirmedDeaths: cleanInt(deathsMatch?.[1] || "0"),
+    recovered: cleanInt(recoveredMatch?.[1] || "0"),
+    cfr: cfrMatch ? `${cfrMatch[1].replace(",", ".")}%` : "",
+  };
+
+  if (!national.confirmedCases) errors.push("Missing confirmed cases in national summary.");
+  if (!national.confirmedDeaths) errors.push("Missing confirmed deaths in national summary.");
+
+  // Extract Provincial Table
+  const provinces = [];
+  const knownProvinces = [
+    "Ituri",
+    "Nord-Kivu",
+    "Haut-Uélé",
+    "Haut-Uele",
+    "Tshopo",
+    "Bas-Uélé",
+    "Bas-Uele",
+    "Sud-Kivu",
+    "Sud-Kivu",
+  ];
+  const lines = clean.split("\n");
+
+  for (const line of lines) {
+    if (line.includes("|")) {
+      const parts = line.split("|").map((p) => p.trim());
+      const pName = parts[0];
+
+      if (knownProvinces.some((kp) => kp.toLowerCase() === pName.toLowerCase())) {
+        provinces.push({
+          name: pName.replace("Uélé", "Uele"),
+          newCases: cleanInt(parts[1] || "0"),
+          cases: cleanInt(parts[2] || "0"),
+          deaths: cleanInt(parts[3] || "0"),
+          cfr: (parts[4] || "").replace(",", "."),
+        });
+      }
+    }
+  }
+
+  const hasUnallocatedValues =
+    clean.includes("A ventiler") || clean.includes("en cours d'attribution");
+
+  return {
+    valid: errors.length === 0,
+    reportNumber,
+    reportingDate,
+    national,
+    provinces,
+    hasUnallocatedValues,
+    errors,
+  };
+}

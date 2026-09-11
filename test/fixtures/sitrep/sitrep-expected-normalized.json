@@ -1,0 +1,9 @@
+{
+  "_policy": "Synthetic factual benchmark data for DRC SitReps 115-118. No PDF binaries.",
+  "reports": [
+    { "reportNumber": 115, "date": "2026-09-06", "cases": 6686, "deaths": 3226 },
+    { "reportNumber": 116, "date": "2026-09-07", "cases": 6757, "deaths": 3267 },
+    { "reportNumber": 117, "date": "2026-09-08", "cases": 6843, "deaths": 3310 },
+    { "reportNumber": 118, "date": "2026-09-09", "cases": 6942, "deaths": 3349 }
+  ]
+}

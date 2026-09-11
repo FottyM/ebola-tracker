@@ -1,0 +1,4 @@
+DOCUMENT CORROMPU / FORMAT UNKNOWN
+This document is missing the official DRC Ministry headers.
+Table structure cannot be recognized.
+Column layout completely corrupted.

@@ -1,0 +1,27 @@
+RÉPUBLIQUE DÉMOCRATIQUE DU CONGO
+MINISTÈRE DE LA SANTÉ PUBLIQUE, HYGIÈNE ET PRÉVOYANCE SOCIALE
+SECRETARIAT GENERAL
+DIRECTION DE SURVEILLANCE EPIDEMIOLOGIQUE (INSP)
+
+SITUATION EPIDEMIOLOGIQUE DE LA MALADIE A VIRUS EBOLA (BDBV)
+Situation Report N° 117
+Date de notification: 08 Septembre 2026
+Date de publication: 09 Septembre 2026
+
+I. RESUME DE LA SITUATION EPIDEMIOLOGIQUE
+- Cumul des cas confirmés : 6 843
+- Nouveaux cas confirmés : 86
+- Cumul des décès confirmés : 3 310
+- Cumul des guéris : 1 611
+- Létalité globale : 48,4%
+- Provinces affectées : 6
+- Zones de santé affectées : 61
+
+II. TABLEAU RECAPITULATIF PAR PROVINCE
+PROVINCE | NOUVEAUX CAS | CUMUL CAS CONFIRMES | CUMUL DECES | LETALITE (%)
+Ituri | 65 | 5 461 | 2 481 | 45,4%
+Nord-Kivu | 18 | 1 093 | 709 | 64,9%
+Haut-Uélé | 3 | 258 | 107 | 41,5%
+Tshopo | 0 | 24 | 9 | 37,5%
+Bas-Uélé | 0 | 4 | 3 | 75,0%
+Sud-Kivu | 0 | 3 | 1 | 33,3%

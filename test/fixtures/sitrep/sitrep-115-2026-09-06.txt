@@ -1,0 +1,23 @@
+RÉPUBLIQUE DÉMOCRATIQUE DU CONGO
+MINISTÈRE DE LA SANTÉ PUBLIQUE, HYGIÈNE ET PRÉVOYANCE SOCIALE
+Situation Report N° 115
+Date de notification: 06 Septembre 2026
+Date de publication: 07 Septembre 2026
+
+I. RESUME DE LA SITUATION EPIDEMIOLOGIQUE
+- Cumul des cas confirmés : 6 686
+- Nouveaux cas confirmés : 82
+- Cumul des décès confirmés : 3 226
+- Cumul des guéris : 1 550
+- Létalité globale : 48,3%
+- Provinces affectées : 6
+- Zones de santé affectées : 61
+
+II. TABLEAU RECAPITULATIF PAR PROVINCE
+PROVINCE | NOUVEAUX CAS | CUMUL CAS CONFIRMES | CUMUL DECES | LETALITE (%)
+Ituri | 68 | 5 341 | 2 420 | 45,3%
+Nord-Kivu | 12 | 1 061 | 689 | 64,9%
+Haut-Uélé | 2 | 253 | 104 | 41,1%
+Tshopo | 0 | 24 | 9 | 37,5%
+Bas-Uélé | 0 | 4 | 3 | 75,0%
+Sud-Kivu | 0 | 3 | 1 | 33,3%

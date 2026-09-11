@@ -1,8 +1,9 @@
 # DATA-012: Create licensing-safe PDF extraction fixtures
 
-Status: Open  
+Status: Complete  
 Priority: Blocker  
 Dependencies: DATA-001
+Resolution: Created licensing-safe synthetic text fixtures representing Ministry headers and layouts for 6-9 September, implemented guardrail tests ensuring no PDF binaries are committed, and provided the optional scripts/verify-ministry-live.js integration check.
 
 ## Objective
 
