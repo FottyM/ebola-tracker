@@ -121,14 +121,124 @@ export function render(data) {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SpecialAnnouncement",
-    name: "Global Ebola Outbreak Epidemiological Tracker",
-    text: `Current outbreak tracking across ${summary.affectedCountriesCount} countries: ${summary.totalCases.toLocaleString()} confirmed cases and ${summary.totalDeaths.toLocaleString()} fatalities.`,
-    diseaseSpreadStatistics: {
-      "@type": "Observation",
-      measuredProperty: "Cumulative Confirmed Cases",
-      measuredValue: summary.totalCases,
-    },
+    "@graph": [
+      {
+        "@type": "SpecialAnnouncement",
+        "@id": "https://fottym.github.io/ebola-tracker/#announcement",
+        name: "2026 Bundibugyo Ebola Outbreak — DRC & Central Africa Live Surveillance",
+        text: `Active epidemiological surveillance for the 2026 Bundibugyo ebolavirus outbreak across the Democratic Republic of the Congo and Uganda border districts. Current cumulative confirmed cases: ${summary.totalCases.toLocaleString()}, cumulative fatalities: ${summary.totalDeaths.toLocaleString()} (${summary.overallCfr} case fatality rate) across ${summary.affectedCountriesCount} countries.`,
+        url: "https://fottym.github.io/ebola-tracker/",
+        dateModified: summary.lastUpdated || new Date().toISOString(),
+        category: "https://www.wikidata.org/wiki/Q5199",
+        spatialCoverage: [
+          {
+            "@type": "Country",
+            name: "Democratic Republic of the Congo",
+            identifier: "COD",
+          },
+          {
+            "@type": "Country",
+            name: "Uganda",
+            identifier: "UGA",
+          },
+        ],
+        diseaseSpreadStatistics: [
+          {
+            "@type": "Observation",
+            name: "Cumulative Confirmed Cases",
+            measuredProperty: "Cumulative Confirmed Cases",
+            measuredValue: summary.totalCases,
+          },
+          {
+            "@type": "Observation",
+            name: "Cumulative Deaths",
+            measuredProperty: "Cumulative Deaths",
+            measuredValue: summary.totalDeaths,
+          },
+          {
+            "@type": "Observation",
+            name: "Case Fatality Rate",
+            measuredProperty: "Case Fatality Rate",
+            measuredValue: summary.overallCfr,
+          },
+        ],
+        provider: [
+          {
+            "@type": "Organization",
+            name: "World Health Organization",
+            url: "https://www.who.int",
+          },
+          {
+            "@type": "Organization",
+            name: "Africa Centres for Disease Control and Prevention",
+            url: "https://africacdc.org",
+          },
+          {
+            "@type": "Organization",
+            name: "UN OCHA Humanitarian Data Exchange",
+            url: "https://data.humdata.org",
+          },
+        ],
+      },
+      {
+        "@type": "Dataset",
+        "@id": "https://fottym.github.io/ebola-tracker/#dataset",
+        name: "2026 Bundibugyo Ebola Outbreak Epidemiological Surveillance Dataset",
+        description:
+          "Standardized surveillance dataset tracking the 2026 Bundibugyo ebolavirus outbreak across DRC provinces (Ituri, Haut-Uele, Bas-Uele, Tshopo, Nord-Kivu, Sud-Kivu) and Uganda border corridors. Contains cumulative caseloads, weekly epi curves, and demographic distribution.",
+        url: "https://fottym.github.io/ebola-tracker/",
+        license: "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
+        isAccessibleForFree: true,
+        creator: {
+          "@type": "Person",
+          name: "Fortunat Mutunda",
+          url: "https://github.com/FottyM",
+        },
+        temporalCoverage: "2026-05/..",
+        spatialCoverage: {
+          "@type": "Place",
+          name: "Democratic Republic of the Congo",
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: -4.0383,
+            longitude: 21.7587,
+          },
+        },
+        variableMeasured: [
+          "Cumulative Confirmed Cases",
+          "Cumulative Deaths",
+          "Case Fatality Rate",
+          "Weekly Incidence Epi Curve",
+          "Age Cohort Distribution",
+        ],
+      },
+      {
+        "@type": "MedicalCondition",
+        name: "Bundibugyo ebolavirus disease",
+        alternateName: [
+          "Bundibugyo virus disease",
+          "Ebola virus disease",
+          "BDBV",
+          "Ebola hemorrhagic fever",
+        ],
+        code: {
+          "@type": "MedicalCode",
+          code: "1D60",
+          codingSystem: "ICD-11",
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://fottym.github.io/ebola-tracker/#website",
+        name: "2026 Bundibugyo Ebola Outbreak Live Tracker",
+        url: "https://fottym.github.io/ebola-tracker/",
+        author: {
+          "@type": "Person",
+          name: "Fortunat Mutunda",
+          url: "https://github.com/FottyM",
+        },
+      },
+    ],
   };
 
   const locationItemsHtml = locations
@@ -251,6 +361,14 @@ export function render(data) {
         ${locationItemsHtml}
       </ul>
     </section>
+
+    <details class="seo-brief-accordion">
+      <summary>Epidemiological Context & Surveillance Brief</summary>
+      <div class="seo-brief-content">
+        <p>This operational dashboard provides real-time geographic and clinical surveillance on the <strong>2026 Bundibugyo ebolavirus (BDBV)</strong> outbreak centered in northeastern <strong>Democratic Republic of the Congo (DRC)</strong>, with active cross-border surveillance across the Albertine Rift corridor and western <strong>Uganda</strong>.</p>
+        <p>Telemetry integrates verified epidemiological reports from the <strong>World Health Organization (WHO)</strong>, <strong>Africa CDC</strong>, and the <strong>Humanitarian Data Exchange (UN OCHA)</strong>.</p>
+      </div>
+    </details>
 
     <footer class="sources">
       <strong>Data Sources & Synchronization</strong><br/>

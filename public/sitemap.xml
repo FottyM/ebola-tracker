@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://fottym.github.io/ebola-tracker/</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://fottym.github.io/ebola-tracker/og-image.png</image:loc>
+      <image:title>2026 Bundibugyo Ebola Outbreak Live Epidemiological Map</image:title>
+      <image:caption>Operational situation map and outbreak surveillance telemetry for DRC and Central Africa</image:caption>
+    </image:image>
+  </url>
+</urlset>

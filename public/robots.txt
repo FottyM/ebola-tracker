@@ -1,0 +1,6 @@
+# robots.txt for https://fottym.github.io/ebola-tracker/
+User-agent: *
+Allow: /
+
+# Canonical XML Sitemap
+Sitemap: https://fottym.github.io/ebola-tracker/sitemap.xml
