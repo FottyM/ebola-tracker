@@ -5,6 +5,7 @@
 [![Toolchain](https://img.shields.io/badge/Toolchain-Vite%2B-f76b15?style=flat-square)](https://viteplus.dev/)
 [![Map](https://img.shields.io/badge/Map-OpenStreetMap-30a46c?style=flat-square&logo=openstreetmap)](https://www.openstreetmap.org/)
 [![Charts](https://img.shields.io/badge/Charts-@tanstack/charts-e5484d?style=flat-square)](https://tanstack.com/)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg?style=flat-square)](LICENSE)
 
 An operational-grade, real-time epidemiological surveillance map and situation dashboard tracking the **2026 Bundibugyo ebolavirus outbreak** across the Democratic Republic of the Congo (DRC), Uganda border districts, and international medical evacuation routes.
 
@@ -146,4 +147,4 @@ ebola/
 
 ## 📄 License
 
-MIT © [FottyM](https://github.com/FottyM)
+This project is licensed under the **GNU General Public License v2.0 (GPL-2.0)** - see the [LICENSE](LICENSE) file for details.
