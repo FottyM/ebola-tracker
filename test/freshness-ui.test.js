@@ -1,11 +1,24 @@
 import { describe, it, expect } from "vite-plus/test";
-import { createFreshnessViewModel } from "../src/pipeline/freshness-view-model.js";
+import {
+  createFreshnessViewModel,
+  formatEuropeanDateTime,
+  formatEuropeanDate,
+} from "../src/pipeline/freshness-view-model.js";
 import { render } from "../src/entry-server.js";
 import { applyUpdatedSnapshot } from "../src/pipeline/client-state-updater.js";
 
 describe("DATA-008: Present Truthful Freshness and Provenance", () => {
+  describe("European Date & Time Formatting", () => {
+    it("formats ISO dates into European notation with 24-hour time", () => {
+      expect(formatEuropeanDateTime("2026-09-09")).toBe("09/09/2026 12:00");
+      expect(formatEuropeanDateTime("2026-09-09T14:30:00.000Z")).toBe("09/09/2026 14:30");
+      expect(formatEuropeanDateTime("2026-09-09", "18:45")).toBe("09/09/2026 18:45");
+      expect(formatEuropeanDate("2026-09-09")).toBe("09/09/2026");
+    });
+  });
+
   describe("Freshness View Model", () => {
-    it("derives reporting date and status accurately from validated snapshot", () => {
+    it("derives reporting date and status accurately from validated snapshot in European notation with time", () => {
       const snapshot = {
         snapshotId: "snapshot-2026-09-09-001",
         status: "current",
@@ -20,11 +33,12 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
         freshness: {
           freshness: "current",
           sourceUpdatedAt: "2026-09-09",
+          publishedAt: "2026-09-09T12:00:00.000Z",
         },
         observations: [
           {
             geographicPrecision: "country",
-            timestamps: { sourceUpdatedAt: "2026-09-09" },
+            timestamps: { sourceUpdatedAt: "2026-09-09", publishedAt: "2026-09-09T12:00:00.000Z" },
           },
           {
             geographicPrecision: "health-zone",
@@ -34,14 +48,14 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       };
 
       const vm = createFreshnessViewModel(snapshot);
-      expect(vm.reportingDate).toBe("2026-09-09");
+      expect(vm.reportingDate).toBe("09/09/2026 12:00");
       expect(vm.status).toBe("current");
       expect(vm.statusText).toBe("Current");
       expect(vm.statusBadgeClass).toBe("freshness-current");
       expect(vm.hasMixedDates).toBe(false);
     });
 
-    it("identifies mixed reporting dates between national and health-zone data", () => {
+    it("identifies mixed reporting dates between national and health-zone data in European format", () => {
       const mixedSnapshot = {
         snapshotId: "snapshot-mixed-001",
         status: "partial",
@@ -51,7 +65,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
         observations: [
           {
             geographicPrecision: "country",
-            timestamps: { sourceUpdatedAt: "2026-09-09" },
+            timestamps: { sourceUpdatedAt: "2026-09-09", publishedAt: "2026-09-09T12:00:00.000Z" },
           },
           {
             geographicPrecision: "health-zone",
@@ -65,8 +79,8 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       expect(vm.statusText).toBe("Partial Update");
       expect(vm.statusBadgeClass).toBe("freshness-partial");
       expect(vm.hasMixedDates).toBe(true);
-      expect(vm.sectionDates.national).toBe("2026-09-09");
-      expect(vm.sectionDates.healthZones).toBe("2026-09-08");
+      expect(vm.sectionDates.national).toBe("09/09/2026");
+      expect(vm.sectionDates.healthZones).toBe("08/09/2026");
     });
 
     it("represents stale and failed states truthfully", () => {
@@ -132,7 +146,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       const { appHtml } = render(testData);
 
       expect(appHtml).toContain("freshness-bar");
-      expect(appHtml).toContain("2026-09-09");
+      expect(appHtml).toContain("09/09/2026 12:00");
       expect(appHtml).toContain("Current");
       expect(appHtml).toContain("freshness-current");
     });
@@ -141,7 +155,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
   describe("Client-Side Dynamic Freshness Update", () => {
     it("updates freshness bar elements without full reload when new snapshot is applied", () => {
       const mockElements = {
-        dateEl: { textContent: "2026-09-08" },
+        dateEl: { textContent: "08/09/2026 12:00" },
         statusPill: { textContent: "Current", className: "freshness-status-pill" },
         indicator: { className: "freshness-indicator freshness-current" },
       };
@@ -168,7 +182,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
         observations: [
           {
             geographicPrecision: "country",
-            timestamps: { sourceUpdatedAt: "2026-09-10" },
+            timestamps: { sourceUpdatedAt: "2026-09-10", publishedAt: "2026-09-10T12:00:00.000Z" },
           },
           {
             geographicPrecision: "health-zone",
@@ -179,7 +193,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
 
       applyUpdatedSnapshot(updatedSnapshot, mockDoc);
 
-      expect(mockElements.dateEl.textContent).toBe("2026-09-10");
+      expect(mockElements.dateEl.textContent).toBe("10/09/2026 12:00");
       expect(mockElements.statusPill.textContent).toBe("Partial Update");
       expect(mockElements.indicator.className).toContain("freshness-partial");
     });

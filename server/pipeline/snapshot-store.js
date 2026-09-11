@@ -94,11 +94,12 @@ export function loadLatestSnapshot(storageDir) {
  * Orchestrates the pipeline ingestion run and publishes an atomic snapshot.
  * Fails closed on any blocking conflict, leaving last-known-good snapshot intact.
  * @param {{
- *   storageDir: string,
+ *   storageDir?: string,
  *   drcParsed?: any,
  *   hdxObservations?: any[],
  *   scheduledCadenceMinutes?: number,
- *   fetchedAt?: string
+ *   fetchedAt?: string,
+ *   save?: boolean
  * }} params
  * @returns {{
  *   success: boolean,
