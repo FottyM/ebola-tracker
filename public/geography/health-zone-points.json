@@ -1,0 +1,435 @@
+{
+  "schemaVersion": "1.0.0",
+  "entityType": "healthZonePoints",
+  "totalPoints": 61,
+  "generatedAt": "2026-09-11T12:00:00.000Z",
+  "points": [
+    {
+      "hdxCode": "CD540201",
+      "healthZoneName": "Bunia",
+      "province": "Ituri",
+      "coordinates": [1.56, 30.25],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540202",
+      "healthZoneName": "Rwampara",
+      "province": "Ituri",
+      "coordinates": [1.51, 30.18],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540203",
+      "healthZoneName": "Gety",
+      "province": "Ituri",
+      "coordinates": [1.24, 30.22],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540204",
+      "healthZoneName": "Tchomia",
+      "province": "Ituri",
+      "coordinates": [1.65, 30.48],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540205",
+      "healthZoneName": "Nyankunde",
+      "province": "Ituri",
+      "coordinates": [1.37, 30.12],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540206",
+      "healthZoneName": "Komanda",
+      "province": "Ituri",
+      "coordinates": [1.38, 29.78],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540207",
+      "healthZoneName": "Mandima",
+      "province": "Ituri",
+      "coordinates": [1.35, 29.42],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540208",
+      "healthZoneName": "Mambasa",
+      "province": "Ituri",
+      "coordinates": [1.36, 29.05],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540209",
+      "healthZoneName": "Lolwa",
+      "province": "Ituri",
+      "coordinates": [1.32, 29.62],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540510",
+      "healthZoneName": "Mongbwalu",
+      "province": "Ituri",
+      "coordinates": [1.95, 30.04],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540511",
+      "healthZoneName": "Kilo",
+      "province": "Ituri",
+      "coordinates": [1.82, 30.11],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540512",
+      "healthZoneName": "Nizi",
+      "province": "Ituri",
+      "coordinates": [1.72, 30.31],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540513",
+      "healthZoneName": "Drodro",
+      "province": "Ituri",
+      "coordinates": [1.78, 30.52],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540514",
+      "healthZoneName": "Fataki",
+      "province": "Ituri",
+      "coordinates": [1.98, 30.62],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540515",
+      "healthZoneName": "Retho",
+      "province": "Ituri",
+      "coordinates": [2.12, 30.82],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540516",
+      "healthZoneName": "Aru",
+      "province": "Ituri",
+      "coordinates": [2.87, 30.84],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540517",
+      "healthZoneName": "Ariwara",
+      "province": "Ituri",
+      "coordinates": [3.02, 30.71],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540518",
+      "healthZoneName": "Biringi",
+      "province": "Ituri",
+      "coordinates": [2.68, 30.55],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540519",
+      "healthZoneName": "Laybo",
+      "province": "Ituri",
+      "coordinates": [2.45, 30.68],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540520",
+      "healthZoneName": "Mahagi",
+      "province": "Ituri",
+      "coordinates": [2.3, 30.98],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540521",
+      "healthZoneName": "Logo",
+      "province": "Ituri",
+      "coordinates": [2.18, 30.91],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540522",
+      "healthZoneName": "Angumu",
+      "province": "Ituri",
+      "coordinates": [2.02, 31.05],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540523",
+      "healthZoneName": "Kambala",
+      "province": "Ituri",
+      "coordinates": [2.25, 30.38],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540524",
+      "healthZoneName": "Jiba",
+      "province": "Ituri",
+      "coordinates": [1.88, 30.72],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540525",
+      "healthZoneName": "Lingondo",
+      "province": "Ituri",
+      "coordinates": [1.42, 30.35],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540526",
+      "healthZoneName": "Aungba",
+      "province": "Ituri",
+      "coordinates": [2.48, 30.85],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540527",
+      "healthZoneName": "Lita",
+      "province": "Ituri",
+      "coordinates": [1.68, 30.65],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540528",
+      "healthZoneName": "Boga",
+      "province": "Ituri",
+      "coordinates": [1.02, 30.01],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540529",
+      "healthZoneName": "Mogalo",
+      "province": "Ituri",
+      "coordinates": [1.15, 29.85],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540530",
+      "healthZoneName": "Nia-Nia",
+      "province": "Ituri",
+      "coordinates": [1.42, 27.98],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540531",
+      "healthZoneName": "Epulu",
+      "province": "Ituri",
+      "coordinates": [1.39, 28.58],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540532",
+      "healthZoneName": "Badengaido",
+      "province": "Ituri",
+      "coordinates": [1.48, 28.25],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540533",
+      "healthZoneName": "Biakato",
+      "province": "Ituri",
+      "coordinates": [0.92, 29.41],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540534",
+      "healthZoneName": "Lukula",
+      "province": "Ituri",
+      "coordinates": [1.22, 29.18],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540535",
+      "healthZoneName": "Bandisende",
+      "province": "Ituri",
+      "coordinates": [1.55, 28.82],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD540536",
+      "healthZoneName": "Bambu",
+      "province": "Ituri",
+      "coordinates": [1.75, 30.15],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620101",
+      "healthZoneName": "Beni",
+      "province": "North Kivu",
+      "coordinates": [0.49, 29.47],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620102",
+      "healthZoneName": "Butembo",
+      "province": "North Kivu",
+      "coordinates": [0.13, 29.28],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620103",
+      "healthZoneName": "Katwa",
+      "province": "North Kivu",
+      "coordinates": [0.11, 29.32],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620104",
+      "healthZoneName": "Oicha",
+      "province": "North Kivu",
+      "coordinates": [0.7, 29.52],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620105",
+      "healthZoneName": "Mutwanga",
+      "province": "North Kivu",
+      "coordinates": [0.33, 29.74],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620106",
+      "healthZoneName": "Mabalako",
+      "province": "North Kivu",
+      "coordinates": [0.42, 29.25],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620107",
+      "healthZoneName": "Kalunguta",
+      "province": "North Kivu",
+      "coordinates": [0.3, 29.35],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620108",
+      "healthZoneName": "Musienene",
+      "province": "North Kivu",
+      "coordinates": [0.03, 29.22],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620109",
+      "healthZoneName": "Vuhovi",
+      "province": "North Kivu",
+      "coordinates": [0.08, 29.4],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620110",
+      "healthZoneName": "Kyondo",
+      "province": "North Kivu",
+      "coordinates": [-0.02, 29.45],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620111",
+      "healthZoneName": "Alimbongo",
+      "province": "North Kivu",
+      "coordinates": [-0.25, 29.28],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620112",
+      "healthZoneName": "Lubero",
+      "province": "North Kivu",
+      "coordinates": [-0.15, 29.23],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620113",
+      "healthZoneName": "Masisi",
+      "province": "North Kivu",
+      "coordinates": [-1.4, 28.81],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620114",
+      "healthZoneName": "Goma",
+      "province": "North Kivu",
+      "coordinates": [-1.68, 29.23],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620115",
+      "healthZoneName": "Karisimbi",
+      "province": "North Kivu",
+      "coordinates": [-1.66, 29.21],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620116",
+      "healthZoneName": "Mweso",
+      "province": "North Kivu",
+      "coordinates": [-1.15, 29.02],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD620117",
+      "healthZoneName": "Kayna",
+      "province": "North Kivu",
+      "coordinates": [-0.62, 29.18],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD520101",
+      "healthZoneName": "Isiro",
+      "province": "Haut-Uélé",
+      "coordinates": [2.77, 27.62],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD520102",
+      "healthZoneName": "Watsa",
+      "province": "Haut-Uélé",
+      "coordinates": [3.04, 29.53],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD520103",
+      "healthZoneName": "Dungu",
+      "province": "Haut-Uélé",
+      "coordinates": [3.61, 28.56],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD520104",
+      "healthZoneName": "Faradje",
+      "province": "Haut-Uélé",
+      "coordinates": [3.72, 29.71],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD910701",
+      "healthZoneName": "Makiso-Kisangani",
+      "province": "Tshopo",
+      "coordinates": [0.52, 25.19],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD910703",
+      "healthZoneName": "Lubunga (Tshopo)",
+      "province": "Tshopo",
+      "coordinates": [0.48, 25.17],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD510101",
+      "healthZoneName": "Bondo",
+      "province": "Bas-Uélé",
+      "coordinates": [3.81, 23.68],
+      "precision": "healthZoneRepresentativePoint"
+    },
+    {
+      "hdxCode": "CD630101",
+      "healthZoneName": "Bukavu",
+      "province": "South Kivu",
+      "coordinates": [-2.51, 28.86],
+      "precision": "healthZoneRepresentativePoint"
+    }
+  ]
+}

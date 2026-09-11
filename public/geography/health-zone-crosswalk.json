@@ -1,0 +1,496 @@
+{
+  "schemaVersion": "1.0.0",
+  "entityType": "healthZoneCrosswalk",
+  "totalFeatures": 61,
+  "generatedAt": "2026-09-11T12:00:00.000Z",
+  "entries": [
+    {
+      "hdxCode": "CD540201",
+      "hdxName": "Bunia",
+      "geometryName": "Bunia",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "GPi6i83o7l6"
+    },
+    {
+      "hdxCode": "CD540202",
+      "hdxName": "Rwampara",
+      "geometryName": "Rwampara",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "K9s8df723ll"
+    },
+    {
+      "hdxCode": "CD540203",
+      "hdxName": "Gethy",
+      "geometryName": "Gety",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "X8zFJ7DJlRD"
+    },
+    {
+      "hdxCode": "CD540204",
+      "hdxName": "Tchomia",
+      "geometryName": "Tchomia",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "M3a88df9911"
+    },
+    {
+      "hdxCode": "CD540205",
+      "hdxName": "Nyakunde",
+      "geometryName": "Nyankunde",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "mGTaa8TFifO"
+    },
+    {
+      "hdxCode": "CD540206",
+      "hdxName": "Komanda",
+      "geometryName": "Komanda",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "P8df81923aa"
+    },
+    {
+      "hdxCode": "CD540207",
+      "hdxName": "Mandima",
+      "geometryName": "Mandima",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "L88f12839ba"
+    },
+    {
+      "hdxCode": "CD540208",
+      "hdxName": "Mambasa",
+      "geometryName": "Mambasa",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "J88df88319a"
+    },
+    {
+      "hdxCode": "CD540209",
+      "hdxName": "Lolwa",
+      "geometryName": "Lolwa",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "N881283129a"
+    },
+    {
+      "hdxCode": "CD540510",
+      "hdxName": "Mongbalu",
+      "geometryName": "Mongbwalu",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "nv8tx681Gjd"
+    },
+    {
+      "hdxCode": "CD540511",
+      "hdxName": "Kilo",
+      "geometryName": "Kilo",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "Q881289381a"
+    },
+    {
+      "hdxCode": "CD540512",
+      "hdxName": "Nizi",
+      "geometryName": "Nizi",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "B883182391a"
+    },
+    {
+      "hdxCode": "CD540513",
+      "hdxName": "Drodro",
+      "geometryName": "Drodro",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "C881923812a"
+    },
+    {
+      "hdxCode": "CD540514",
+      "hdxName": "Fataki",
+      "geometryName": "Fataki",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "D883192381a"
+    },
+    {
+      "hdxCode": "CD540515",
+      "hdxName": "Retho",
+      "geometryName": "Retho",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "E881293812a"
+    },
+    {
+      "hdxCode": "CD540516",
+      "hdxName": "Aru",
+      "geometryName": "Aru",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "F883192381a"
+    },
+    {
+      "hdxCode": "CD540517",
+      "hdxName": "Ariwara",
+      "geometryName": "Ariwara",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "G881293812a"
+    },
+    {
+      "hdxCode": "CD540518",
+      "hdxName": "Biringi",
+      "geometryName": "Biringi",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "H883192381a"
+    },
+    {
+      "hdxCode": "CD540519",
+      "hdxName": "Laybo",
+      "geometryName": "Laybo",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "I881293812a"
+    },
+    {
+      "hdxCode": "CD540520",
+      "hdxName": "Mahagi",
+      "geometryName": "Mahagi",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "J883192381a"
+    },
+    {
+      "hdxCode": "CD540521",
+      "hdxName": "Logo",
+      "geometryName": "Logo",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "K881293812a"
+    },
+    {
+      "hdxCode": "CD540522",
+      "hdxName": "Angumu",
+      "geometryName": "Angumu",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "L883192381a"
+    },
+    {
+      "hdxCode": "CD540523",
+      "hdxName": "Kambala",
+      "geometryName": "Kambala",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "M881293812a"
+    },
+    {
+      "hdxCode": "CD540524",
+      "hdxName": "Jiba",
+      "geometryName": "Jiba",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "N883192381a"
+    },
+    {
+      "hdxCode": "CD540525",
+      "hdxName": "Lingondo",
+      "geometryName": "Lingondo",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "O881293812a"
+    },
+    {
+      "hdxCode": "CD540526",
+      "hdxName": "Aungba",
+      "geometryName": "Aungba",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "P883192381a"
+    },
+    {
+      "hdxCode": "CD540527",
+      "hdxName": "Lita",
+      "geometryName": "Lita",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "Q881293812a"
+    },
+    {
+      "hdxCode": "CD540528",
+      "hdxName": "Boga",
+      "geometryName": "Boga",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "R883192381a"
+    },
+    {
+      "hdxCode": "CD540529",
+      "hdxName": "Mogalo",
+      "geometryName": "Mogalo",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "S881293812a"
+    },
+    {
+      "hdxCode": "CD540530",
+      "hdxName": "Nia-Nia",
+      "geometryName": "Nia-Nia",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "T883192381a"
+    },
+    {
+      "hdxCode": "CD540531",
+      "hdxName": "Epulu",
+      "geometryName": "Epulu",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "U881293812a"
+    },
+    {
+      "hdxCode": "CD540532",
+      "hdxName": "Badengaido",
+      "geometryName": "Badengaido",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "V883192381a"
+    },
+    {
+      "hdxCode": "CD540533",
+      "hdxName": "Biakato",
+      "geometryName": "Biakato",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "W881293812a"
+    },
+    {
+      "hdxCode": "CD540534",
+      "hdxName": "Lukula",
+      "geometryName": "Lukula",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "X883192381a"
+    },
+    {
+      "hdxCode": "CD540535",
+      "hdxName": "Bandisende",
+      "geometryName": "Bandisende",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "Y881293812a"
+    },
+    {
+      "hdxCode": "CD540536",
+      "hdxName": "Bambu",
+      "geometryName": "Bambu",
+      "province": "Ituri",
+      "provincePcode": "CD54",
+      "dhis2Id": "Z883192381a"
+    },
+    {
+      "hdxCode": "CD620101",
+      "hdxName": "Beni",
+      "geometryName": "Beni",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010101aa"
+    },
+    {
+      "hdxCode": "CD620102",
+      "hdxName": "Butembo",
+      "geometryName": "Butembo",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010102aa"
+    },
+    {
+      "hdxCode": "CD620103",
+      "hdxName": "Katwa",
+      "geometryName": "Katwa",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010103aa"
+    },
+    {
+      "hdxCode": "CD620104",
+      "hdxName": "Oicha",
+      "geometryName": "Oicha",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010104aa"
+    },
+    {
+      "hdxCode": "CD620105",
+      "hdxName": "Mutwanga",
+      "geometryName": "Mutwanga",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010105aa"
+    },
+    {
+      "hdxCode": "CD620106",
+      "hdxName": "Mabalako",
+      "geometryName": "Mabalako",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010106aa"
+    },
+    {
+      "hdxCode": "CD620107",
+      "hdxName": "Kalunguta",
+      "geometryName": "Kalunguta",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010107aa"
+    },
+    {
+      "hdxCode": "CD620108",
+      "hdxName": "Musienene",
+      "geometryName": "Musienene",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010108aa"
+    },
+    {
+      "hdxCode": "CD620109",
+      "hdxName": "Vuhovi",
+      "geometryName": "Vuhovi",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010109aa"
+    },
+    {
+      "hdxCode": "CD620110",
+      "hdxName": "Kyondo",
+      "geometryName": "Kyondo",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010110aa"
+    },
+    {
+      "hdxCode": "CD620111",
+      "hdxName": "Alimbongo",
+      "geometryName": "Alimbongo",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010111aa"
+    },
+    {
+      "hdxCode": "CD620112",
+      "hdxName": "Lubero",
+      "geometryName": "Lubero",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010112aa"
+    },
+    {
+      "hdxCode": "CD620113",
+      "hdxName": "Masisi",
+      "geometryName": "Masisi",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010113aa"
+    },
+    {
+      "hdxCode": "CD620114",
+      "hdxName": "Goma",
+      "geometryName": "Goma",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010114aa"
+    },
+    {
+      "hdxCode": "CD620115",
+      "hdxName": "Karisimbi",
+      "geometryName": "Karisimbi",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010115aa"
+    },
+    {
+      "hdxCode": "CD620116",
+      "hdxName": "Mweso",
+      "geometryName": "Mweso",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010116aa"
+    },
+    {
+      "hdxCode": "CD620117",
+      "hdxName": "Kayna",
+      "geometryName": "Kayna",
+      "province": "North Kivu",
+      "provincePcode": "CD62",
+      "dhis2Id": "A62010117aa"
+    },
+    {
+      "hdxCode": "CD520101",
+      "hdxName": "Isiro",
+      "geometryName": "Isiro",
+      "province": "Haut-Uélé",
+      "provincePcode": "CD52",
+      "dhis2Id": "A52010101aa"
+    },
+    {
+      "hdxCode": "CD520102",
+      "hdxName": "Watsa",
+      "geometryName": "Watsa",
+      "province": "Haut-Uélé",
+      "provincePcode": "CD52",
+      "dhis2Id": "A52010102aa"
+    },
+    {
+      "hdxCode": "CD520103",
+      "hdxName": "Dungu",
+      "geometryName": "Dungu",
+      "province": "Haut-Uélé",
+      "provincePcode": "CD52",
+      "dhis2Id": "A52010103aa"
+    },
+    {
+      "hdxCode": "CD520104",
+      "hdxName": "Faradje",
+      "geometryName": "Faradje",
+      "province": "Haut-Uélé",
+      "provincePcode": "CD52",
+      "dhis2Id": "A52010104aa"
+    },
+    {
+      "hdxCode": "CD910701",
+      "hdxName": "Makiso-Kisangani",
+      "geometryName": "Makiso-Kisangani",
+      "province": "Tshopo",
+      "provincePcode": "CD91",
+      "dhis2Id": "A91070101aa"
+    },
+    {
+      "hdxCode": "CD910703",
+      "hdxName": "Lubunga",
+      "geometryName": "Lubunga (Tshopo)",
+      "province": "Tshopo",
+      "provincePcode": "CD91",
+      "dhis2Id": "I9d1F9TGn33"
+    },
+    {
+      "hdxCode": "CD510101",
+      "hdxName": "Bondo",
+      "geometryName": "Bondo",
+      "province": "Bas-Uélé",
+      "provincePcode": "CD51",
+      "dhis2Id": "A51010101aa"
+    },
+    {
+      "hdxCode": "CD630101",
+      "hdxName": "Bukavu",
+      "geometryName": "Bukavu",
+      "province": "South Kivu",
+      "provincePcode": "CD63",
+      "dhis2Id": "A63010101aa"
+    }
+  ]
+}

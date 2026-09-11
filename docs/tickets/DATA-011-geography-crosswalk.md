@@ -1,8 +1,9 @@
 # DATA-011: Build the verified health-zone geography crosswalk
 
-Status: Open  
+Status: Complete  
 Priority: Blocker  
 Dependencies: DATA-001
+Resolution: Implemented deterministic health-zone crosswalk in server/pipeline/geography/health-zone-crosswalk.js mapping all 61 active health zones, incorporating the four reviewed aliases without fuzzy matching, generating guaranteed representative points, and producing stripped artifacts in public/geography/.
 
 ## Objective
 
