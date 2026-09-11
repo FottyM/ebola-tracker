@@ -1,8 +1,9 @@
 # DATA-005: Add country and subnational adapters and geography
 
-Status: Blocked  
+Status: Complete  
 Priority: High  
 Dependencies: DATA-004, DATA-011
+Resolution: Implemented HDX consolidated CSV adapter in server/pipeline/adapters/hdx-adapter.js resolving health zones via verified crosswalk, and international adapters in server/pipeline/adapters/international-adapters.js for WHO acute event tracking, Uganda containment verification, and France/Germany medical evacuation segregation.
 
 ## Objective
 
