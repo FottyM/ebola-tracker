@@ -1,0 +1,32 @@
+{
+  "_licenseNote": "Structured acute event reconciliation figures from WHO Alert & Response",
+  "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+  "checkedDate": "2026-09-11",
+  "countries": [
+    {
+      "iso3": "COD",
+      "countryName": "Democratic Republic of the Congo",
+      "outbreakStatus": "Active Epicenter",
+      "virus": "Bundibugyo ebolavirus",
+      "whoPmcClassification": "PHEIC"
+    },
+    {
+      "iso3": "UGA",
+      "countryName": "Uganda",
+      "outbreakStatus": "Declared Over (42-day surveillance completed)",
+      "declarationDate": "2026-08-25"
+    },
+    {
+      "iso3": "FRA",
+      "countryName": "France",
+      "outbreakStatus": "Medical Evacuation Contained (Zero secondary spread)",
+      "evacuationOrigin": "COD"
+    },
+    {
+      "iso3": "DEU",
+      "countryName": "Germany",
+      "outbreakStatus": "Medical Evacuation Contained (Treated in Berlin, recovered)",
+      "evacuationOrigin": "COD"
+    }
+  ]
+}

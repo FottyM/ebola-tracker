@@ -15,28 +15,28 @@ export const defaultOutbreakData = {
     },
     ageGroups: [
       {
-        group: "0–4 yrs",
+        group: "0-4 yrs",
         percentage: 12.5,
         cases: 855,
         deaths: 496,
         cfr: 58,
       },
       {
-        group: "5–14 yrs",
+        group: "5-14 yrs",
         percentage: 15,
         cases: 1026,
         deaths: 421,
         cfr: 41,
       },
       {
-        group: "15–29 yrs",
+        group: "15-29 yrs",
         percentage: 29.8,
         cases: 2039,
         deaths: 856,
         cfr: 42,
       },
       {
-        group: "30–49 yrs",
+        group: "30-49 yrs",
         percentage: 28.2,
         cases: 1930,
         deaths: 888,

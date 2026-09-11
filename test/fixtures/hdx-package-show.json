@@ -1,0 +1,20 @@
+{
+  "help": "https://data.humdata.org/api/3/action/help_show?name=package_show",
+  "success": true,
+  "result": {
+    "id": "e902b209-b7bc-42f9-893a-294276d7cc62",
+    "name": "republique-democratique-du-congo-cas-et-deces-d-ebola",
+    "title": "République Démocratique du Congo : Cas et décès d'Ebola (BDBV 2026)",
+    "maintainer": "OCHA DRC",
+    "dataset_source": "Ministère de la Santé Publique / INSP / OMS",
+    "resources": [
+      {
+        "id": "d90385d3-5339-4a3f-ac63-2699361edbe0",
+        "name": "drc_ebola_cases_consolidated.csv",
+        "format": "CSV",
+        "url": "https://data.humdata.org/dataset/e902b209-b7bc-42f9-893a-294276d7cc62/resource/d90385d3-5339-4a3f-ac63-2699361edbe0/download/drc_ebola_cases_consolidated.csv",
+        "last_modified": "2026-09-11T06:30:00.000Z"
+      }
+    ]
+  }
+}

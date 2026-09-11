@@ -1,0 +1,23 @@
+{
+  "_licenseNote": "Factual non-copyrightable epidemiological figures extracted from DRC INSP SitRep 118. Raw PDF is not redistributed.",
+  "source": "https://administration.sante.gouv.cd/wp-content/uploads/2026/09/SitRep_MVEBDB_118_09_09_2026.pdf",
+  "reportNumber": 118,
+  "reportingDate": "2026-09-09",
+  "publicationDate": "2026-09-10",
+  "nationalSummary": {
+    "confirmedCases": 6942,
+    "confirmedDeaths": 3349,
+    "recovered": 1647,
+    "affectedProvincesCount": 6,
+    "affectedHealthZonesCount": 61,
+    "affectedHealthAreasCount": 349
+  },
+  "provinces": [
+    { "name": "Ituri", "cases": 5542, "deaths": 2512 },
+    { "name": "Nord-Kivu", "cases": 1109, "deaths": 718 },
+    { "name": "Haut-Uélé", "cases": 260, "deaths": 107 },
+    { "name": "Tshopo", "cases": 24, "deaths": 9 },
+    { "name": "Bas-Uélé", "cases": 4, "deaths": 3 },
+    { "name": "Sud-Kivu", "cases": 3, "deaths": 1 }
+  ]
+}
