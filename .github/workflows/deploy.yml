@@ -57,6 +57,9 @@ jobs:
           git add public/data src/data/outbreak-data.js
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): automated validated outbreak sync [skip ci]" && git push origin master)
 
+      - name: Verify data integrity and run tests
+        run: ./node_modules/.bin/vp test --run
+
       - name: Build static site
         run: ./node_modules/.bin/vp run build:pages
 

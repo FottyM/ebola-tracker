@@ -1,6 +1,6 @@
 # DATA-014: Implement snapshot retention and rollback
 
-Status: Open  
+Status: Complete  
 Priority: High  
 Dependencies: DATA-006, DATA-009, DATA-013
 

@@ -21,8 +21,8 @@ These tickets implement the [Live Epidemiological Data Pipeline Plan](./live-dat
 | [DATA-011](./tickets/DATA-011-geography-crosswalk.md)  | Build the verified health-zone geography crosswalk     | Complete |
 | [DATA-012](./tickets/DATA-012-pdf-fixtures.md)         | Create licensing-safe PDF extraction fixtures          | Complete |
 | [DATA-013](./tickets/DATA-013-pages-manifest.md)       | Implement the GitHub Pages manifest and cache protocol | Complete |
-| [DATA-014](./tickets/DATA-014-rollback-retention.md)   | Implement snapshot retention and rollback              | Open     |
-| [DATA-015](./tickets/DATA-015-source-health.md)        | Separate source health from epidemiological freshness  | Blocked  |
+| [DATA-014](./tickets/DATA-014-rollback-retention.md)   | Implement snapshot retention and rollback              | Complete |
+| [DATA-015](./tickets/DATA-015-source-health.md)        | Separate source health from epidemiological freshness  | Open     |
 
 ## Global guardrails
 
