@@ -265,7 +265,7 @@ export function render(data) {
   <div id="map"></div>
 
   <aside class="info-panel" aria-label="Outbreak Intelligence">
-    <div class="panel-grab-bar" id="panel-toggle" role="button" aria-label="Toggle panel" tabindex="0">
+    <div class="panel-grab-bar" id="panel-toggle" role="button" aria-label="Toggle panel" tabindex="0" data-umami-event="toggle-mobile-panel">
       <div class="panel-grab-handle"></div>
     </div>
     <header class="panel-header">
@@ -282,7 +282,7 @@ export function render(data) {
 
     <section class="stats-grid" aria-label="Headline Metrics">
       <!-- Clickable Total Cases Card triggering Cases & Demographics Modal -->
-      <button class="stat-card cases interactive" id="open-cases-modal" aria-haspopup="dialog" aria-controls="cases-dialog">
+      <button class="stat-card cases interactive" id="open-cases-modal" aria-haspopup="dialog" aria-controls="cases-dialog" data-umami-event="open-cases-modal">
         <div class="label">Total Cases <span class="click-hint">↗ Breakdown</span></div>
         <div class="value">${summary.totalCases.toLocaleString()}</div>
         <div class="sub">across ${locations.length} reporting zones</div>
@@ -306,7 +306,7 @@ export function render(data) {
     </section>
 
     <!-- ── Interactive Small Epidemic Spread Curve (Click to Enlarge) ── -->
-    <section class="chart-section interactive-chart-card" id="open-timeline-modal" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="timeline-dialog" aria-label="Open Epidemic Timeline Modal">
+    <section class="chart-section interactive-chart-card" id="open-timeline-modal" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="timeline-dialog" aria-label="Open Epidemic Timeline Modal" data-umami-event="open-timeline-modal">
       <div class="chart-header">
         <h3>Epidemic Spread Curve (Epi Week) <span class="click-hint">↗ Enlarge</span></h3>
         <span class="chart-tag">Weekly Cases & Fatalities</span>
