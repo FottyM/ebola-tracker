@@ -13,14 +13,14 @@ These tickets implement the [Live Epidemiological Data Pipeline Plan](./live-dat
 | [DATA-003](./tickets/DATA-003-reconciliation.md)       | Implement source precedence and reconciliation rules   | Complete |
 | [DATA-004](./tickets/DATA-004-first-source-adapter.md) | Build the first authoritative source adapter           | Complete |
 | [DATA-005](./tickets/DATA-005-geographic-adapters.md)  | Add country and subnational adapters and geography     | Complete |
-| [DATA-006](./tickets/DATA-006-snapshot-state.md)       | Replace mutable hardcoded outbreak state               | Open     |
+| [DATA-006](./tickets/DATA-006-snapshot-state.md)       | Replace mutable hardcoded outbreak state               | Complete |
 | [DATA-007](./tickets/DATA-007-delivery-wiring.md)      | Unify API, static build, and client data wiring        | Blocked  |
 | [DATA-008](./tickets/DATA-008-freshness-ui.md)         | Present truthful freshness and provenance              | Blocked  |
 | [DATA-009](./tickets/DATA-009-scheduling.md)           | Schedule safe 30-minute ingestion                      | Blocked  |
 | [DATA-010](./tickets/DATA-010-verification-rollout.md) | Add integrity tests, observability, and rollout checks | Blocked  |
 | [DATA-011](./tickets/DATA-011-geography-crosswalk.md)  | Build the verified health-zone geography crosswalk     | Complete |
 | [DATA-012](./tickets/DATA-012-pdf-fixtures.md)         | Create licensing-safe PDF extraction fixtures          | Complete |
-| [DATA-013](./tickets/DATA-013-pages-manifest.md)       | Implement the GitHub Pages manifest and cache protocol | Blocked  |
+| [DATA-013](./tickets/DATA-013-pages-manifest.md)       | Implement the GitHub Pages manifest and cache protocol | Open     |
 | [DATA-014](./tickets/DATA-014-rollback-retention.md)   | Implement snapshot retention and rollback              | Blocked  |
 | [DATA-015](./tickets/DATA-015-source-health.md)        | Separate source health from epidemiological freshness  | Blocked  |
 

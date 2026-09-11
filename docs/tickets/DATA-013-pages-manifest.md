@@ -1,6 +1,6 @@
 # DATA-013: Implement the GitHub Pages manifest and cache protocol
 
-Status: Blocked  
+Status: Open  
 Priority: High  
 Dependencies: DATA-002, DATA-006
 

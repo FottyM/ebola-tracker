@@ -52,10 +52,29 @@
  * @property {Record<string, { name: string, url: string, status: string }>} sources
  */
 
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import defaultOutbreakData from "../src/data/outbreak-data.js";
+import { loadLatestSnapshot } from "./pipeline/snapshot-store.js";
+import { mapSnapshotToLegacyState } from "./pipeline/contracts.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const SNAPSHOT_DIR = path.resolve(__dirname, "../public/data");
 
 /** @type {DynamicOutbreakState} */
-let liveOutbreakState = structuredClone(defaultOutbreakData);
+let liveOutbreakState = null;
+
+function getActiveState() {
+  if (!liveOutbreakState) {
+    const snapshot = loadLatestSnapshot(SNAPSHOT_DIR);
+    if (snapshot) {
+      liveOutbreakState = mapSnapshotToLegacyState(snapshot);
+    } else {
+      liveOutbreakState = structuredClone(defaultOutbreakData);
+    }
+  }
+  return liveOutbreakState;
+}
 
 /** @type {number} */
 let lastFetchTime = 0;
@@ -67,8 +86,9 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
  */
 export async function runETL() {
   const now = Date.now();
-  if (now - lastFetchTime < CACHE_TTL_MS && liveOutbreakState) {
-    return liveOutbreakState;
+  const state = getActiveState();
+  if (now - lastFetchTime < CACHE_TTL_MS && state) {
+    return state;
   }
 
   console.log("📡 [ETL] Querying live humanitarian and epidemiological endpoints...");
@@ -112,5 +132,5 @@ export async function runETL() {
  * @returns {DynamicOutbreakState}
  */
 export function getCachedData() {
-  return liveOutbreakState;
+  return getActiveState();
 }
