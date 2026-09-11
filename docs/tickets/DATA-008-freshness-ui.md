@@ -1,6 +1,6 @@
 # DATA-008: Present truthful freshness and provenance
 
-Status: Blocked  
+Status: Open  
 Priority: High  
 Dependencies: DATA-007
 

@@ -1,6 +1,6 @@
 import { defineConfig, type Plugin } from "vite-plus";
 import { render } from "./src/entry-server.js";
-import defaultOutbreakData from "./src/data/outbreak-data.js";
+import { getPrerenderData } from "./server/pipeline/prerender-loader.js";
 
 /**
  * Vite plugin that pre-renders static HTML for:
@@ -16,9 +16,8 @@ function ebolaPrerenderPlugin(): Plugin {
       if (ctx.server?.config.server.middlewareMode) {
         return html;
       }
-      const { appHtml, jsonLd, initialState } = render(
-        defaultOutbreakData as Parameters<typeof render>[0],
-      );
+      const data = getPrerenderData();
+      const { appHtml, jsonLd, initialState } = render(data as Parameters<typeof render>[0]);
       return html
         .replace(
           /<!--ssr-jsonld-start-->[\s\S]*?<!--ssr-jsonld-end-->|<!--ssr-jsonld-->/,

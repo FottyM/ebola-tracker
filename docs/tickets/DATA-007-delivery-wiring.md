@@ -1,6 +1,6 @@
 # DATA-007: Unify API, static build, and client data wiring
 
-Status: Open  
+Status: Complete  
 Priority: High  
 Dependencies: DATA-006, DATA-013
 

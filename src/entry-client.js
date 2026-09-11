@@ -20,6 +20,8 @@ import worldCountriesGeo from "./data/world-countries.json";
 import drcProvincesGeo from "./data/drc-provinces.json";
 import defaultOutbreakData from "./data/outbreak-data.js";
 import { render } from "./entry-server.js";
+import { createStaticRefreshController } from "./pipeline/static-client-refresh.js";
+import { applyUpdatedSnapshot } from "./pipeline/client-state-updater.js";
 
 /**
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
@@ -579,6 +581,25 @@ export function initClient() {
         handleToggle();
       }
     });
+  }
+
+  // ── LAYER 5: Live Static Refresh Controller (GitHub Pages & Development) ──
+  try {
+    createStaticRefreshController({
+      baseUrl:
+        typeof import.meta !== "undefined" && import.meta.env?.BASE_URL
+          ? import.meta.env.BASE_URL
+          : "/",
+      currentSnapshotId: /** @type {any} */ (data).snapshotId || "",
+      onUpdate: (newSnapshot) => {
+        applyUpdatedSnapshot(newSnapshot, document, window);
+      },
+      onError: (err) => {
+        console.warn("[Data Delivery Warning] Background refresh:", err);
+      },
+    });
+  } catch (e) {
+    console.warn("Could not initialize static refresh controller:", e);
   }
 }
 

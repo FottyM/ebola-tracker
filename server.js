@@ -140,6 +140,25 @@ async function start() {
         return next();
       }
 
+      // Route /api/* directly to Hono API controller so dev returns JSON rather than application HTML
+      if (url.startsWith("/api/")) {
+        try {
+          const fullUrl = new URL(url, `http://${req.headers.host || "localhost"}`);
+          const request = new Request(fullUrl.toString(), {
+            method: req.method,
+            headers: /** @type {any} */ (req.headers),
+          });
+          const response = await app.fetch(request);
+          res.statusCode = response.status;
+          response.headers.forEach((val, key) => res.setHeader(key, val));
+          const body = await response.text();
+          return res.end(body);
+        } catch (e) {
+          res.statusCode = 500;
+          return res.end(JSON.stringify({ error: String(e) }));
+        }
+      }
+
       try {
         const now = Date.now();
         let html = preRenderedHtmlCache;

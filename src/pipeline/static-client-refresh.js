@@ -9,7 +9,7 @@ import {
   CURRENT_MANIFEST_SCHEMA_VERSION,
   resolveManifestUrl,
   resolveSnapshotUrl,
-} from "../../server/pipeline/manifest.js";
+} from "./manifest-urls.js";
 
 /**
  * Creates a static data refresh controller for GitHub Pages and browser environments.

@@ -5,6 +5,7 @@
  */
 
 import { isGeographicLevelSupported, classifyCountryStatus } from "./sources.js";
+import defaultOutbreakData from "../../src/data/outbreak-data.js";
 
 /**
  * @typedef {"current" | "partial" | "unchanged" | "stale" | "failed"} SnapshotStatus
@@ -320,20 +321,25 @@ export function mapSnapshotToLegacyState(snapshot) {
       lastUpdated: snapshot.generatedAt,
     },
     locations,
-    epiCurve: [],
-    demographics: {
-      sex: { femalePct: 56.8, malePct: 43.2, pregnantOrLactating: 245 },
-      ageGroups: [],
-      vulnerableGroups: { healthcareWorkersCases: 198, healthcareWorkersDeaths: 64 },
-    },
-    corridors: [],
+    epiCurve: snapshot.epiCurve || defaultOutbreakData.epiCurve,
+    demographics: snapshot.demographics || defaultOutbreakData.demographics,
+    corridors: snapshot.corridors || defaultOutbreakData.corridors,
     sources: {
       hdx: {
         name: "HDX UN OCHA Outbreak API",
         url: "https://data.humdata.org",
         status: "Live (200 OK)",
       },
-      who: { name: "WHO Acute Event Table", url: "https://www.who.int", status: "Official Stream" },
+      who: {
+        name: "WHO Acute Event Table",
+        url: "https://www.who.int",
+        status: "Official Stream",
+      },
+      reliefweb: {
+        name: "ReliefWeb Reports Portal",
+        url: "https://reliefweb.int/updates?search=ebola+DRC",
+        status: "Active Portal",
+      },
     },
   };
 }

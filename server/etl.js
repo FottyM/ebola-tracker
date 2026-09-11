@@ -65,13 +65,12 @@ const SNAPSHOT_DIR = path.resolve(__dirname, "../public/data");
 let liveOutbreakState = null;
 
 function getActiveState() {
-  if (!liveOutbreakState) {
-    const snapshot = loadLatestSnapshot(SNAPSHOT_DIR);
-    if (snapshot) {
-      liveOutbreakState = mapSnapshotToLegacyState(snapshot);
-    } else {
-      liveOutbreakState = structuredClone(defaultOutbreakData);
-    }
+  const snapshot = loadLatestSnapshot(SNAPSHOT_DIR);
+  if (snapshot) {
+    liveOutbreakState = mapSnapshotToLegacyState(snapshot);
+    liveOutbreakState.snapshotId = snapshot.snapshotId;
+  } else if (!liveOutbreakState) {
+    liveOutbreakState = structuredClone(defaultOutbreakData);
   }
   return liveOutbreakState;
 }
@@ -82,6 +81,7 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 
 /**
  * Universal dynamic ETL pipeline.
+ * Backed by atomic snapshot store.
  * @returns {Promise<DynamicOutbreakState>}
  */
 export async function runETL() {
@@ -91,40 +91,8 @@ export async function runETL() {
     return state;
   }
 
-  console.log("📡 [ETL] Querying live humanitarian and epidemiological endpoints...");
-
-  try {
-    const hdxRes = await fetch(
-      "https://data.humdata.org/api/3/action/package_search?q=ebola+DRC&rows=3",
-      { signal: AbortSignal.timeout(5000) },
-    )
-      .then((r) => (r.ok ? r.json() : null))
-      .catch(() => null);
-
-    if (hdxRes?.success) {
-      liveOutbreakState.sources.hdx.status = "Live (200 OK)";
-      console.log("✅ [ETL] HDX Open Data Feed connected successfully.");
-    }
-
-    // Recalculate totals dynamically from regional surveillance points
-    const drcLocations = liveOutbreakState.locations.filter((l) => l.countryCode === "COD");
-    const drcCases = drcLocations.reduce((sum, l) => sum + l.cases, 0);
-    const drcDeaths = drcLocations.reduce((sum, l) => sum + l.deaths, 0);
-
-    if (drcCases > 0) {
-      liveOutbreakState.summary.totalCases = drcCases;
-      liveOutbreakState.summary.totalDeaths = drcDeaths;
-      liveOutbreakState.summary.overallCfr = `${((drcDeaths / drcCases) * 100).toFixed(1)}%`;
-    }
-
-    liveOutbreakState.summary.lastUpdated = new Date().toISOString();
-    lastFetchTime = now;
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.warn("[Dynamic ETL] Fetch fallback active:", msg);
-  }
-
-  return liveOutbreakState;
+  lastFetchTime = now;
+  return getActiveState();
 }
 
 /**

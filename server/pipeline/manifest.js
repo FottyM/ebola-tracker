@@ -9,8 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { validateOutbreakSnapshot } from "./contracts.js";
-
-export const CURRENT_MANIFEST_SCHEMA_VERSION = "2026-09-11";
+import { CURRENT_MANIFEST_SCHEMA_VERSION } from "../../src/pipeline/manifest-urls.js";
 
 /**
  * @typedef {Object} ManifestSummary
@@ -165,48 +164,9 @@ export function writeManifestAtomically(manifest, storageDir) {
   return targetPath;
 }
 
-/**
- * Resolves a data URL relative to a configurable base path (e.g. '/' or '/ebola-tracker/').
- * Avoids duplicate slashes and handles relative base './'.
- * @param {string} relativePath
- * @param {string} [baseUrl]
- * @returns {string}
- */
-export function resolveDataUrl(relativePath, baseUrl = "/") {
-  const cleanRelative = relativePath.replace(/^\/+/, "");
-
-  if (!baseUrl || baseUrl === "./" || baseUrl === ".") {
-    return cleanRelative;
-  }
-
-  const cleanBase = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
-  return `${cleanBase}${cleanRelative}`;
-}
-
-/**
- * Resolves the manifest URL given a base path.
- * @param {string} [baseUrl]
- * @returns {string}
- */
-export function resolveManifestUrl(baseUrl = "/") {
-  return resolveDataUrl("data/manifest.json", baseUrl);
-}
-
-/**
- * Resolves a snapshot URL given a snapshot path and base path.
- * @param {string} snapshotPathOrUrl
- * @param {string} [baseUrl]
- * @returns {string}
- */
-export function resolveSnapshotUrl(snapshotPathOrUrl, baseUrl = "/") {
-  if (snapshotPathOrUrl.startsWith("http://") || snapshotPathOrUrl.startsWith("https://")) {
-    return snapshotPathOrUrl;
-  }
-
-  const stripped = snapshotPathOrUrl.replace(/^\/+/, "");
-  if (stripped.startsWith("data/")) {
-    return resolveDataUrl(stripped, baseUrl);
-  }
-
-  return resolveDataUrl(`data/${stripped}`, baseUrl);
-}
+export {
+  CURRENT_MANIFEST_SCHEMA_VERSION,
+  resolveDataUrl,
+  resolveManifestUrl,
+  resolveSnapshotUrl,
+} from "../../src/pipeline/manifest-urls.js";
