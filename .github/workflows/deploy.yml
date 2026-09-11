@@ -43,7 +43,7 @@ jobs:
           run_install: false
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Run ETL data ingestion (Method 1)
         run: node scripts/sync-data.js
