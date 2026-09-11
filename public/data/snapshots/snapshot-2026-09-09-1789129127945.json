@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "1.0.0",
+  "snapshotId": "snapshot-2026-09-09-1789129127945",
+  "status": "current",
+  "scheduledCadenceMinutes": 30,
+  "generatedAt": "2026-09-11T12:18:47.945Z",
+  "summary": {
+    "totalCases": 6942,
+    "totalDeaths": 3349,
+    "overallCfr": "48.2%",
+    "affectedCountriesCount": 1,
+    "lastReportDate": "2026-09-09"
+  },
+  "observations": [
+    {
+      "id": "COD:National:2026-09-09",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": null,
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 6942,
+        "confirmedDeaths": 3349,
+        "newConfirmedCases": 99,
+        "recovered": 1647
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-118-2026-09-09"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-09-09",
+        "publishedAt": "2026-09-09T12:00:00.000Z",
+        "fetchedAt": "2026-09-11T12:18:47.944Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:2026-09-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 5542,
+        "confirmedDeaths": 2511,
+        "newConfirmedCases": 78
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-118-Ituri"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-09-09",
+        "publishedAt": "2026-09-09T12:00:00.000Z",
+        "fetchedAt": "2026-09-11T12:18:47.944Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:2026-09-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1109,
+        "confirmedDeaths": 718,
+        "newConfirmedCases": 16
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-118-Nord-Kivu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-09-09",
+        "publishedAt": "2026-09-09T12:00:00.000Z",
+        "fetchedAt": "2026-09-11T12:18:47.944Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:2026-09-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 260,
+        "confirmedDeaths": 107,
+        "newConfirmedCases": 5
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-118-Haut-Uele"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-09-09",
+        "publishedAt": "2026-09-09T12:00:00.000Z",
+        "fetchedAt": "2026-09-11T12:18:47.944Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:2026-09-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 24,
+        "confirmedDeaths": 9,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-118-Tshopo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-09-09",
+        "publishedAt": "2026-09-09T12:00:00.000Z",
+        "fetchedAt": "2026-09-11T12:18:47.944Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Bas-Uele:2026-09-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Bas-Uele"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 4,
+        "confirmedDeaths": 3,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-118-Bas-Uele"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-09-09",
+        "publishedAt": "2026-09-09T12:00:00.000Z",
+        "fetchedAt": "2026-09-11T12:18:47.944Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Sud-Kivu:2026-09-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Sud-Kivu"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-118-Sud-Kivu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-09-09",
+        "publishedAt": "2026-09-09T12:00:00.000Z",
+        "fetchedAt": "2026-09-11T12:18:47.944Z"
+      },
+      "classification": "affected"
+    }
+  ],
+  "sourceHealth": [
+    {
+      "sourceId": "hdx-consolidated",
+      "status": "Live (200 OK)",
+      "lastSuccessAt": "2026-09-11T12:18:47.945Z"
+    },
+    {
+      "sourceId": "who-acute-event",
+      "status": "Live (200 OK)",
+      "lastSuccessAt": "2026-09-11T12:18:47.945Z"
+    }
+  ]
+}

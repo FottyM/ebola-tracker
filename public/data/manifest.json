@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "2026-09-11",
+  "snapshotId": "snapshot-2026-09-09-1789129127945",
+  "snapshotPath": "snapshots/snapshot-2026-09-09-1789129127945.json",
+  "snapshotUrl": "data/snapshots/snapshot-2026-09-09-1789129127945.json",
+  "contentHash": "0ce12a38c5d78b7b66e54c764b744871491607c9510c413611605cda0b6826bd",
+  "sourceUpdatedAt": "2026-09-09",
+  "snapshotPublishedAt": "2026-09-09T12:00:00.000Z",
+  "scheduledCadenceMinutes": 30,
+  "status": "current",
+  "summary": {
+    "totalCases": 6942,
+    "totalDeaths": 3349,
+    "affectedCountriesCount": 1
+  }
+}

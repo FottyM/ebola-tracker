@@ -8,6 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { validateOutbreakSnapshot, createSnapshotFromObservations } from "./contracts.js";
 import { determineSnapshotFreshness } from "./reconciliation.js";
+import { generateManifest, writeManifestAtomically } from "./manifest.js";
 
 /**
  * Saves a snapshot atomically to disk by writing to a temporary file
@@ -59,6 +60,14 @@ export function saveSnapshotAtomically(snapshot, storageDir) {
     fs.writeFileSync(archivePath, serialized, "utf-8");
   } catch {
     // Non-blocking archive write
+  }
+
+  // Generate and atomically write manifest pointing to this validated snapshot
+  try {
+    const manifest = generateManifest(snapshot);
+    writeManifestAtomically(manifest, storageDir);
+  } catch {
+    // Non-blocking manifest write
   }
 
   return targetPath;

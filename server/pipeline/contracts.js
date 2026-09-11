@@ -194,18 +194,52 @@ export function createSnapshotFromObservations({
   const affectedCountries = new Set();
   let latestDate = "";
 
+  // Group observations by country to prevent double counting across national/provincial/zonal levels
+  const countryObsMap = new Map();
+
   for (const obs of observations) {
-    const classification = classifyCountryStatus(obs.country.iso3);
-
-    // Only sum into epidemic totals if classification is an affected endemic/epidemic nation
-    if (classification.includedInEpidemicTotal && obs.classification !== "medical-evacuation") {
-      totalCases += obs.metrics.confirmedCases;
-      totalDeaths += obs.metrics.confirmedDeaths;
-      affectedCountries.add(obs.country.iso3);
-    }
-
     if (obs.timestamps?.sourceUpdatedAt && obs.timestamps.sourceUpdatedAt > latestDate) {
       latestDate = obs.timestamps.sourceUpdatedAt;
+    }
+
+    const classification = classifyCountryStatus(obs.country.iso3);
+    if (!classification.includedInEpidemicTotal || obs.classification === "medical-evacuation") {
+      continue;
+    }
+
+    const iso3 = obs.country.iso3;
+    if (!countryObsMap.has(iso3)) {
+      countryObsMap.set(iso3, []);
+    }
+    countryObsMap.get(iso3).push(obs);
+  }
+
+  for (const [iso3, list] of countryObsMap.entries()) {
+    affectedCountries.add(iso3);
+
+    // Prioritize country-level observation if present
+    const nationalObs = list.find((o) => o.geographicPrecision === "country");
+    if (nationalObs) {
+      totalCases += nationalObs.metrics.confirmedCases;
+      totalDeaths += nationalObs.metrics.confirmedDeaths;
+      continue;
+    }
+
+    // Otherwise sum province-level observations if present
+    const provinceObs = list.filter((o) => o.geographicPrecision === "province");
+    if (provinceObs.length > 0) {
+      for (const p of provinceObs) {
+        totalCases += p.metrics.confirmedCases;
+        totalDeaths += p.metrics.confirmedDeaths;
+      }
+      continue;
+    }
+
+    // Otherwise sum health-zone observations
+    const zoneObs = list.filter((o) => o.geographicPrecision === "health-zone");
+    for (const z of zoneObs) {
+      totalCases += z.metrics.confirmedCases;
+      totalDeaths += z.metrics.confirmedDeaths;
     }
   }
 
