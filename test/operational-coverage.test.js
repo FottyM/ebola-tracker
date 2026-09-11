@@ -18,33 +18,40 @@ import {
 import { render } from "../src/entry-server.js";
 import { getPrerenderData } from "../server/pipeline/prerender-loader.js";
 
+import os from "node:os";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const storageDir = path.resolve(__dirname, "../public/data");
 
 describe("DATA-010: Integrity, Regression, and Operational Coverage", () => {
   describe("1. Schema-Change and Malformed Source Protection", () => {
     it("fails closed when SitRep text is missing critical health zone columns or numbers", async () => {
-      const corruptedSitrep = `
-        REPUBLIQUE DEMOCRATIQUE DU CONGO
-        MINISTERE DE LA SANTE
-        SITUATION EPIDEMIOLOGIQUE
-        RAPPORT DE SITUATION NUMERO 999
-        DATE: 2026-09-10
-        TABLEAU CORROMPU SANS COLONNES
-        ZoneInvalide | NA | Corrupted
-      `;
+      const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "ebola-op-cov-"));
+      try {
+        const corruptedSitrep = `
+          REPUBLIQUE DEMOCRATIQUE DU CONGO
+          MINISTERE DE LA SANTE
+          SITUATION EPIDEMIOLOGIQUE
+          RAPPORT DE SITUATION NUMERO 999
+          DATE: 2026-09-10
+          TABLEAU CORROMPU SANS COLONNES
+          ZoneInvalide | NA | Corrupted
+        `;
 
-      const parsed = parseMinistrySitrepText(corruptedSitrep);
-      expect(parsed.valid).toBe(false);
-      expect(parsed.provinces.length).toBe(0);
+        const parsed = parseMinistrySitrepText(corruptedSitrep);
+        expect(parsed.valid).toBe(false);
+        expect(parsed.provinces.length).toBe(0);
 
-      const result = await runIngestionPipeline({
-        storageDir,
-        drcParsed: parsed,
-      });
+        const result = await runIngestionPipeline({
+          storageDir: tempDir,
+          drcParsed: parsed,
+        });
 
-      expect(result.success).toBe(false);
-      expect(result.error).toContain("invalid");
+        expect(result.success).toBe(false);
+        expect(result.error).toContain("invalid");
+      } finally {
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      }
     });
 
     it("rejects candidate snapshot if negative counts or corrupted dates are introduced", () => {

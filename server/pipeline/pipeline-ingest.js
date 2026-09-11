@@ -141,6 +141,7 @@ export async function runIngestionPipeline({
       storageDir,
       drcParsed: drcData,
       hdxObservations: hdxData,
+      save: false,
     });
 
     if (!pipelineResult.success || !pipelineResult.snapshot) {

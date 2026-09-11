@@ -107,11 +107,12 @@ export function loadLatestSnapshot(storageDir) {
  * }}
  */
 export function executeSnapshotPipeline({
-  storageDir,
+  storageDir = DEFAULT_STORAGE_DIR,
   drcParsed,
   hdxObservations = [],
-  scheduledCadenceMinutes = 30,
   fetchedAt = new Date().toISOString(),
+  scheduledCadenceMinutes = 30,
+  save = true,
 }) {
   const errors = [];
 
@@ -205,7 +206,9 @@ export function executeSnapshotPipeline({
     observations,
   });
 
-  saveSnapshotAtomically(snapshot, storageDir);
+  if (save) {
+    saveSnapshotAtomically(snapshot, storageDir);
+  }
 
   return {
     success: true,
