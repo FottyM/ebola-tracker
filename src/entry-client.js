@@ -18,6 +18,8 @@ import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
 import worldCountriesGeo from "./data/world-countries.json";
 import drcProvincesGeo from "./data/drc-provinces.json";
+import defaultOutbreakData from "./data/outbreak-data.js";
+import { render } from "./entry-server.js";
 
 /**
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
@@ -284,9 +286,18 @@ function initModalControllers(epiCurve, ageGroups) {
 export function initClient() {
   /** @type {Window & { __INITIAL_DATA__?: DynamicOutbreakState }} */
   const win = window;
-  const data = win.__INITIAL_DATA__;
+  let data = win.__INITIAL_DATA__;
 
-  if (!data) return;
+  if (!data) {
+    data = defaultOutbreakData;
+    win.__INITIAL_DATA__ = data;
+  }
+
+  // Pure client-side fallback: If pre-rendered SSR HTML is missing, mount it into document.body
+  if (!document.getElementById("map")) {
+    const { appHtml } = render(data);
+    document.body.insertAdjacentHTML("afterbegin", appHtml);
+  }
 
   const { locations, corridors, epiCurve, demographics } = data;
 
@@ -327,12 +338,13 @@ export function initClient() {
     attributionControl: true,
   });
 
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+  // 100% Free OpenStreetMap with Dark Mode styling (Zero API Keys required)
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://carto.com/">CARTO</a>',
-    subdomains: "abcd",
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
     minZoom: 3,
     maxZoom: 13,
+    className: "osm-dark-tiles",
     noWrap: true,
     bounds: [
       [-85, -180],

@@ -23,8 +23,8 @@
     <!-- Performance & Preload Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://basemaps.cartocdn.com" />
-    <link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin />
+    <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
+    <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
 
     <!-- Google Fonts -->
     <link
@@ -32,20 +32,37 @@
       rel="stylesheet"
     />
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/node_modules/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="/src/style.css" />
 
     <!-- Structured Data JSON-LD for Search Engines -->
+    <!--ssr-jsonld-start-->
     <!--ssr-jsonld-->
+    <!--ssr-jsonld-end-->
   </head>
   <body>
     <!-- SSR pre-rendered content placeholder -->
+    <!--ssr-outlet-start-->
     <!--ssr-outlet-->
+    <!--ssr-outlet-end-->
 
     <!-- Injected Initial Data from Backend ETL -->
+    <script id="ssr-state-data" type="application/json">
+      <!--ssr-state-start-->
+      <!--ssr-state-->
+      <!--ssr-state-end-->
+    </script>
     <script>
-      window.__INITIAL_DATA__ = <!--ssr-state-->;
+      (function () {
+        try {
+          var el = document.getElementById("ssr-state-data");
+          var raw = el ? el.textContent.trim() : "";
+          if (raw && !raw.startsWith("<!--")) {
+            window.__INITIAL_DATA__ = JSON.parse(raw);
+          }
+        } catch (e) {
+          console.warn("SSR initial state parse warning:", e);
+        }
+      })();
     </script>
 
     <!-- Client Hydration & Bundled Leaflet -->

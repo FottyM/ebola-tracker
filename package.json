@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vp node server.js",
     "build": "vp build --outDir dist/client && vp build --ssr src/entry-server.js --outDir dist/server",
+    "build:pages": "vp build --outDir dist",
+    "preview": "vp preview --outDir dist",
+    "sync": "vp node scripts/sync-data.js",
     "start": "NODE_ENV=production vp node server.js",
     "prepare": "vp config"
   },
@@ -19,5 +22,12 @@
     "@types/leaflet": "^1.9.22",
     "vite": "catalog:",
     "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.3.4",
+      "onFail": "download"
+    }
   }
 }

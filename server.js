@@ -55,9 +55,18 @@ async function warmRenderCache(viteInstance) {
   const { appHtml, jsonLd, initialState } = render(data);
 
   preRenderedHtmlCache = template
-    .replace("<!--ssr-jsonld-->", `<script type="application/ld+json">${jsonLd}</script>`)
-    .replace("<!--ssr-outlet-->", appHtml)
-    .replace("<!--ssr-state-->", initialState);
+    .replace(
+      /<!--ssr-jsonld-start-->[\s\S]*?<!--ssr-jsonld-end-->|<!--ssr-jsonld-->/,
+      `<!--ssr-jsonld-start-->\n<script type="application/ld+json">${jsonLd}</script>\n<!--ssr-jsonld-end-->`,
+    )
+    .replace(
+      /<!--ssr-outlet-start-->[\s\S]*?<!--ssr-outlet-end-->|<!--ssr-outlet-->/,
+      `<!--ssr-outlet-start-->\n${appHtml}\n<!--ssr-outlet-end-->`,
+    )
+    .replace(
+      /<!--ssr-state-start-->[\s\S]*?<!--ssr-state-end-->|<!--ssr-state-->/,
+      `<!--ssr-state-start-->\n${initialState}\n<!--ssr-state-end-->`,
+    );
 
   lastRenderTime = Date.now();
   return preRenderedHtmlCache;
