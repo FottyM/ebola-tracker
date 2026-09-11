@@ -16,7 +16,7 @@ import L from "leaflet";
 import { mountChart, defineChart, areaY, lineY, dot, barY, crosshair } from "@tanstack/charts";
 import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
-import worldCountriesGeo from "./data/world-countries.json";
+
 import drcProvincesGeo from "./data/drc-provinces.json";
 import defaultOutbreakData from "./data/outbreak-data.js";
 import { render } from "./entry-server.js";
@@ -373,66 +373,74 @@ export function initClient() {
     }
   });
 
-  // ── LAYER 1: Global World Countries ──
-  L.geoJSON(/** @type {any} */ (worldCountriesGeo), {
-    style: (feature) => {
-      const name = (feature?.properties?.name || "").toLowerCase();
-      const admin = (feature?.properties?.admin || "").toLowerCase();
-      const sov = (feature?.properties?.sovereignt || "").toLowerCase();
-      const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
-      const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
+  // ── LAYER 1: Global World Countries (Loaded Dynamically) ──
+  import("./data/world-countries.json")
+    .then((mod) => {
+      const worldCountriesGeo = mod.default;
+      L.geoJSON(/** @type {any} */ (worldCountriesGeo), {
+        style: (feature) => {
+          const name = (feature?.properties?.name || "").toLowerCase();
+          const admin = (feature?.properties?.admin || "").toLowerCase();
+          const sov = (feature?.properties?.sovereignt || "").toLowerCase();
+          const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
+          const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
 
-      const matched =
-        affectedCountryLookup.get(adm0_a3) ||
-        affectedCountryLookup.get(sov_a3) ||
-        affectedCountryLookup.get(name) ||
-        affectedCountryLookup.get(admin) ||
-        affectedCountryLookup.get(sov);
+          const matched =
+            affectedCountryLookup.get(adm0_a3) ||
+            affectedCountryLookup.get(sov_a3) ||
+            affectedCountryLookup.get(name) ||
+            affectedCountryLookup.get(admin) ||
+            affectedCountryLookup.get(sov);
 
-      if (matched) {
-        const isContained = matched.status.includes("Over") || matched.status.includes("Contained");
-        return {
-          color: isContained ? "#30a46c" : "#e5484d",
-          weight: 2,
-          opacity: 0.9,
-          fillColor: isContained ? "#30a46c" : "#e5484d",
-          fillOpacity: isContained ? 0.08 : 0.06,
-        };
-      }
+          if (matched) {
+            const isContained =
+              matched.status.includes("Over") || matched.status.includes("Contained");
+            return {
+              color: isContained ? "#30a46c" : "#e5484d",
+              weight: 2,
+              opacity: 0.9,
+              fillColor: isContained ? "#30a46c" : "#e5484d",
+              fillOpacity: isContained ? 0.08 : 0.06,
+            };
+          }
 
-      return {
-        color: "#475569",
-        weight: 1.2,
-        opacity: 0.55,
-        fillColor: "#0f172a",
-        fillOpacity: 0.03,
-      };
-    },
-    onEachFeature: (feature, layer) => {
-      const name = feature?.properties?.name || feature?.properties?.admin || "Unknown Country";
-      const admin = (feature?.properties?.admin || "").toLowerCase();
-      const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
-      const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
+          return {
+            color: "#475569",
+            weight: 1.2,
+            opacity: 0.55,
+            fillColor: "#0f172a",
+            fillOpacity: 0.03,
+          };
+        },
+        onEachFeature: (feature, layer) => {
+          const name = feature?.properties?.name || feature?.properties?.admin || "Unknown Country";
+          const admin = (feature?.properties?.admin || "").toLowerCase();
+          const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
+          const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
 
-      const matched =
-        affectedCountryLookup.get(adm0_a3) ||
-        affectedCountryLookup.get(sov_a3) ||
-        affectedCountryLookup.get(name.toLowerCase()) ||
-        affectedCountryLookup.get(admin);
+          const matched =
+            affectedCountryLookup.get(adm0_a3) ||
+            affectedCountryLookup.get(sov_a3) ||
+            affectedCountryLookup.get(name.toLowerCase()) ||
+            affectedCountryLookup.get(admin);
 
-      if (matched) {
-        layer.bindTooltip(`<strong>${name}</strong><br/>Status: ${matched.status}`, {
-          sticky: true,
-          className: "custom-map-tooltip",
-        });
-      } else {
-        layer.bindTooltip(`<strong>${name}</strong>`, {
-          sticky: true,
-          className: "custom-map-tooltip",
-        });
-      }
-    },
-  }).addTo(map);
+          if (matched) {
+            layer.bindTooltip(`<strong>${name}</strong><br/>Status: ${matched.status}`, {
+              sticky: true,
+              className: "custom-map-tooltip",
+            });
+          } else {
+            layer.bindTooltip(`<strong>${name}</strong>`, {
+              sticky: true,
+              className: "custom-map-tooltip",
+            });
+          }
+        },
+      }).addTo(map);
+    })
+    .catch((err) => {
+      console.warn("Failed to load world countries dynamically:", err);
+    });
 
   // ── LAYER 2: Regional Sub-Provincial Boundaries ──
   L.geoJSON(/** @type {any} */ (drcProvincesGeo), {
