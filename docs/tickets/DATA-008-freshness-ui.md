@@ -1,6 +1,6 @@
 # DATA-008: Present truthful freshness and provenance
 
-Status: Open  
+Status: Complete  
 Priority: High  
 Dependencies: DATA-007
 

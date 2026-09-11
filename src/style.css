@@ -167,6 +167,102 @@ body {
   }
 }
 
+/* ── Freshness & Provenance Bar (DATA-008) ─────────────── */
+.freshness-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-bottom: 14px;
+  font-size: 11px;
+}
+
+.freshness-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.freshness-label-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+
+.freshness-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.freshness-current .freshness-dot {
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(48, 164, 108, 0.5);
+}
+
+.freshness-partial .freshness-dot {
+  background: var(--amber);
+  box-shadow: 0 0 6px rgba(245, 166, 35, 0.5);
+}
+
+.freshness-stale .freshness-dot {
+  background: var(--orange);
+  box-shadow: 0 0 6px rgba(247, 107, 21, 0.5);
+}
+
+.freshness-failed .freshness-dot {
+  background: var(--red);
+  box-shadow: 0 0 6px rgba(229, 72, 77, 0.5);
+}
+
+.freshness-status-pill {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.freshness-current .freshness-status-pill {
+  background: rgba(48, 164, 108, 0.12);
+  color: var(--green);
+  border: 1px solid rgba(48, 164, 108, 0.3);
+}
+
+.freshness-partial .freshness-status-pill {
+  background: rgba(245, 166, 35, 0.12);
+  color: var(--amber);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.freshness-stale .freshness-status-pill {
+  background: rgba(247, 107, 21, 0.12);
+  color: var(--orange);
+  border: 1px solid rgba(247, 107, 21, 0.3);
+}
+
+.freshness-failed .freshness-status-pill {
+  background: rgba(229, 72, 77, 0.12);
+  color: var(--red);
+  border: 1px solid rgba(229, 72, 77, 0.3);
+}
+
+.freshness-subtext {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  padding-top: 3px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 /* Stats grid */
 .stats-grid {
   display: grid;

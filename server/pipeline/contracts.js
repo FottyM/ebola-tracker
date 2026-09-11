@@ -286,29 +286,31 @@ export function mapSnapshotToLegacyState(snapshot) {
   const locations = [];
 
   for (const obs of snapshot.observations) {
-    const regionName = obs.healthZone?.name || obs.province?.name || obs.country.name;
-    const isOver = obs.country.iso3 === "UGA";
+    const countryName = obs.country?.name || "Democratic Republic of the Congo";
+    const countryIso3 = obs.country?.iso3 || "COD";
+    const regionName = obs.healthZone?.name || obs.province?.name || countryName;
+    const isOver = countryIso3 === "UGA";
     const isMedevac = obs.classification === "medical-evacuation";
 
     let status = "Active Transmission";
     if (isOver) status = "Contained / Outbreak Over";
     else if (isMedevac) status = "Medical Evacuation (Contained)";
-    else if (obs.metrics.confirmedCases >= 500) status = "Active Epicenter";
-    else if (obs.metrics.confirmedCases < 50) status = "Cluster Monitored";
+    else if ((obs.metrics?.confirmedCases ?? 0) >= 500) status = "Active Epicenter";
+    else if ((obs.metrics?.confirmedCases ?? 0) < 50) status = "Cluster Monitored";
+
+    const confirmedCases = obs.metrics?.confirmedCases ?? 0;
+    const confirmedDeaths = obs.metrics?.confirmedDeaths ?? 0;
 
     locations.push({
-      country: obs.country.name,
-      countryCode: obs.country.iso3,
+      country: countryName,
+      countryCode: countryIso3,
       region: regionName,
-      cases: obs.metrics.confirmedCases,
-      deaths: obs.metrics.confirmedDeaths,
-      cfr:
-        obs.metrics.confirmedCases > 0
-          ? Number(((obs.metrics.confirmedDeaths / obs.metrics.confirmedCases) * 100).toFixed(1))
-          : 0,
+      cases: confirmedCases,
+      deaths: confirmedDeaths,
+      cfr: confirmedCases > 0 ? Number(((confirmedDeaths / confirmedCases) * 100).toFixed(1)) : 0,
       status,
       center: [1.56, 30.25], // Default centroid, replaced by geography crosswalk
-      lastReported: obs.timestamps.sourceUpdatedAt,
+      lastReported: obs.timestamps?.sourceUpdatedAt || snapshot.summary?.lastReportDate || "",
     });
   }
 

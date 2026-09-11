@@ -5,6 +5,7 @@
  */
 
 import { mapSnapshotToLegacyState } from "../../server/pipeline/contracts.js";
+import { createFreshnessViewModel } from "./freshness-view-model.js";
 
 /**
  * Applies an updated snapshot to the DOM and global state without a full page reload.
@@ -38,6 +39,19 @@ export function applyUpdatedSnapshot(
     const badgeEl = documentRef.querySelector(".pheic-badge");
     if (badgeEl) {
       badgeEl.textContent = `Active Surveillance — ${snapshot.summary.affectedCountriesCount} Countries Affected`;
+    }
+
+    // Update freshness presentation
+    const freshness = createFreshnessViewModel(snapshot);
+    const dateEl = documentRef.querySelector(".freshness-label strong");
+    if (dateEl) dateEl.textContent = freshness.reportingDate;
+
+    const statusPill = documentRef.querySelector(".freshness-status-pill");
+    if (statusPill) statusPill.textContent = freshness.statusText;
+
+    const indicator = documentRef.querySelector(".freshness-indicator");
+    if (indicator) {
+      indicator.className = `freshness-indicator ${freshness.statusBadgeClass}`;
     }
   }
 

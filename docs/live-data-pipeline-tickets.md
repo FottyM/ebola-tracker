@@ -15,7 +15,7 @@ These tickets implement the [Live Epidemiological Data Pipeline Plan](./live-dat
 | [DATA-005](./tickets/DATA-005-geographic-adapters.md)  | Add country and subnational adapters and geography     | Complete |
 | [DATA-006](./tickets/DATA-006-snapshot-state.md)       | Replace mutable hardcoded outbreak state               | Complete |
 | [DATA-007](./tickets/DATA-007-delivery-wiring.md)      | Unify API, static build, and client data wiring        | Complete |
-| [DATA-008](./tickets/DATA-008-freshness-ui.md)         | Present truthful freshness and provenance              | Open     |
+| [DATA-008](./tickets/DATA-008-freshness-ui.md)         | Present truthful freshness and provenance              | Complete |
 | [DATA-009](./tickets/DATA-009-scheduling.md)           | Schedule safe 30-minute ingestion                      | Open     |
 | [DATA-010](./tickets/DATA-010-verification-rollout.md) | Add integrity tests, observability, and rollout checks | Blocked  |
 | [DATA-011](./tickets/DATA-011-geography-crosswalk.md)  | Build the verified health-zone geography crosswalk     | Complete |

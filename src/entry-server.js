@@ -15,6 +15,7 @@ import {
 } from "@tanstack/charts";
 import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
+import { createFreshnessViewModel } from "./pipeline/freshness-view-model.js";
 
 /**
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
@@ -260,6 +261,8 @@ export function render(data) {
   const timelineModalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 240);
   const ageChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 290, 120);
   const casesModalAgeChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 620, 180);
+  const freshness = createFreshnessViewModel(data);
+  const freshnessHtml = freshness.renderHtml();
 
   const appHtml = `
   <div id="map"></div>
@@ -279,6 +282,8 @@ export function render(data) {
     </header>
 
     <div class="pheic-badge" role="status">Active Surveillance — ${summary.affectedCountriesCount} Countries Affected</div>
+
+    ${freshnessHtml}
 
     <section class="stats-grid" aria-label="Headline Metrics">
       <!-- Clickable Total Cases Card triggering Cases & Demographics Modal -->
