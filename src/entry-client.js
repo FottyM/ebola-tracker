@@ -17,7 +17,6 @@ import { mountChart, defineChart, areaY, lineY, dot, barY, crosshair } from "@ta
 import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
 
-import drcProvincesGeo from "./data/drc-provinces.json";
 import defaultOutbreakData from "./data/outbreak-data.js";
 import { render } from "./entry-server.js";
 import { createStaticRefreshController } from "./pipeline/static-client-refresh.js";
@@ -442,65 +441,79 @@ export function initClient() {
       console.warn("Failed to load world countries dynamically:", err);
     });
 
-  // ── LAYER 2: Regional Sub-Provincial Boundaries ──
-  L.geoJSON(/** @type {any} */ (drcProvincesGeo), {
-    style: (feature) => {
-      const rawName = feature?.properties?.shapeName || "";
-      const normName = normalizeProvinceName(rawName);
-      const provData = affectedRegionLookup.get(normName);
+  // ── LAYER 2: Regional Sub-Provincial Boundaries (Loaded Dynamically) ──
+  import("./data/drc-provinces.json")
+    .then((mod) => {
+      const drcProvincesGeo = mod.default;
+      L.geoJSON(/** @type {any} */ (drcProvincesGeo), {
+        style: (feature) => {
+          const rawName = feature?.properties?.shapeName || "";
+          const normName = normalizeProvinceName(rawName);
+          const provData = affectedRegionLookup.get(normName);
 
-      if (provData) {
-        const cases = provData.cases || 0;
-        const fillAlpha = cases > 1000 ? 0.32 : cases > 100 ? 0.24 : cases > 10 ? 0.16 : 0.1;
-
-        return {
-          color:
-            cases > 1000 ? "#e5484d" : cases > 100 ? "#f76b15" : cases > 10 ? "#f5a623" : "#efc940",
-          weight: cases > 1000 ? 2.5 : 1.8,
-          opacity: 0.95,
-          fillColor: cases > 500 ? "#e5484d" : "#f76b15",
-          fillOpacity: fillAlpha,
-        };
-      }
-
-      return {
-        color: "#334155",
-        weight: 1,
-        opacity: 0.45,
-        fillColor: "transparent",
-        fillOpacity: 0,
-      };
-    },
-    onEachFeature: (feature, layer) => {
-      const rawName = feature?.properties?.shapeName || "";
-      const normName = normalizeProvinceName(rawName);
-      const provData = affectedRegionLookup.get(normName);
-
-      if (provData) {
-        layer.bindTooltip(
-          `<strong>${provData.region} Region</strong><br/>Confirmed Cases: ${provData.cases.toLocaleString()}<br/>Deaths: ${provData.deaths.toLocaleString()} (CFR ${provData.cfr}%)`,
-          { sticky: true, className: "custom-map-tooltip" },
-        );
-
-        layer.on({
-          mouseover: (e) => {
-            const l = e.target;
-            l.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.45 });
-          },
-          mouseout: (e) => {
-            const l = e.target;
+          if (provData) {
             const cases = provData.cases || 0;
             const fillAlpha = cases > 1000 ? 0.32 : cases > 100 ? 0.24 : cases > 10 ? 0.16 : 0.1;
-            l.setStyle({
+
+            return {
+              color:
+                cases > 1000
+                  ? "#e5484d"
+                  : cases > 100
+                    ? "#f76b15"
+                    : cases > 10
+                      ? "#f5a623"
+                      : "#efc940",
               weight: cases > 1000 ? 2.5 : 1.8,
               opacity: 0.95,
+              fillColor: cases > 500 ? "#e5484d" : "#f76b15",
               fillOpacity: fillAlpha,
+            };
+          }
+
+          return {
+            color: "#334155",
+            weight: 1,
+            opacity: 0.45,
+            fillColor: "transparent",
+            fillOpacity: 0,
+          };
+        },
+        onEachFeature: (feature, layer) => {
+          const rawName = feature?.properties?.shapeName || "";
+          const normName = normalizeProvinceName(rawName);
+          const provData = affectedRegionLookup.get(normName);
+
+          if (provData) {
+            layer.bindTooltip(
+              `<strong>${provData.region} Region</strong><br/>Confirmed Cases: ${provData.cases.toLocaleString()}<br/>Deaths: ${provData.deaths.toLocaleString()} (CFR ${provData.cfr}%)`,
+              { sticky: true, className: "custom-map-tooltip" },
+            );
+
+            layer.on({
+              mouseover: (e) => {
+                const l = e.target;
+                l.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.45 });
+              },
+              mouseout: (e) => {
+                const l = e.target;
+                const cases = provData.cases || 0;
+                const fillAlpha =
+                  cases > 1000 ? 0.32 : cases > 100 ? 0.24 : cases > 10 ? 0.16 : 0.1;
+                l.setStyle({
+                  weight: cases > 1000 ? 2.5 : 1.8,
+                  opacity: 0.95,
+                  fillOpacity: fillAlpha,
+                });
+              },
             });
-          },
-        });
-      }
-    },
-  }).addTo(map);
+          }
+        },
+      }).addTo(map);
+    })
+    .catch((err) => {
+      console.warn("Failed to load DRC provinces dynamically:", err);
+    });
 
   // ── LAYER 3: Outbreak Location Markers & Flight Corridors ──
   if (corridors) {
