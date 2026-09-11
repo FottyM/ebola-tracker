@@ -1,8 +1,9 @@
 # DATA-004: Build the first authoritative source adapter
 
-Status: Blocked  
+Status: Complete  
 Priority: High  
 Dependencies: DATA-002, DATA-003, DATA-012
+Resolution: Implemented DRC Ministry index discovery and guarded extraction adapter in server/pipeline/adapters/drc-ministry-adapter.js, prioritizing newest reports strictly by parsed epidemiological date, recording content SHA-256 hashes, generating normalized national and provincial observations, and failing closed on drift or reconciliation mismatch.
 
 ## Objective
 

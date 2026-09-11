@@ -11,8 +11,8 @@ These tickets implement the [Live Epidemiological Data Pipeline Plan](./live-dat
 | [DATA-001](./tickets/DATA-001-source-feasibility.md)   | Verify authoritative sources and geographic coverage   | Complete |
 | [DATA-002](./tickets/DATA-002-data-contract.md)        | Define normalized observations and snapshot contract   | Complete |
 | [DATA-003](./tickets/DATA-003-reconciliation.md)       | Implement source precedence and reconciliation rules   | Complete |
-| [DATA-004](./tickets/DATA-004-first-source-adapter.md) | Build the first authoritative source adapter           | Open     |
-| [DATA-005](./tickets/DATA-005-geographic-adapters.md)  | Add country and subnational adapters and geography     | Blocked  |
+| [DATA-004](./tickets/DATA-004-first-source-adapter.md) | Build the first authoritative source adapter           | Complete |
+| [DATA-005](./tickets/DATA-005-geographic-adapters.md)  | Add country and subnational adapters and geography     | Open     |
 | [DATA-006](./tickets/DATA-006-snapshot-state.md)       | Replace mutable hardcoded outbreak state               | Blocked  |
 | [DATA-007](./tickets/DATA-007-delivery-wiring.md)      | Unify API, static build, and client data wiring        | Blocked  |
 | [DATA-008](./tickets/DATA-008-freshness-ui.md)         | Present truthful freshness and provenance              | Blocked  |
