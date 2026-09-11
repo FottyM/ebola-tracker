@@ -1,21 +1,48 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { runETL } from "../server/etl.js";
+import { runIngestionPipeline } from "../server/pipeline/pipeline-ingest.js";
+import { parseMinistrySitrepText } from "../server/pipeline/parsers/sitrep-parser.js";
+import { getPrerenderData } from "../server/pipeline/prerender-loader.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const targetFile = path.resolve(__dirname, "../src/data/outbreak-data.js");
+const storageDir = path.resolve(__dirname, "../public/data");
 
 async function sync() {
-  console.log(
-    "🔄 [Data Ingestion] Fetching latest epidemiological feeds (WHO, HDX, Africa CDC)...",
-  );
-  const data = await runETL();
-  const fileContent = `/** @type {import('../../server/etl.js').DynamicOutbreakState} */\nexport const defaultOutbreakData = ${JSON.stringify(data, null, 2)};\n\nexport default defaultOutbreakData;\n`;
+  console.log("🔄 [Data Ingestion] Running unified ingestion transaction...");
+
+  // Load latest authoritative SitRep fixture or remote report
+  const fixturePath = path.resolve(__dirname, "../test/fixtures/sitrep/sitrep-118-2026-09-09.txt");
+  let drcParsed = null;
+  if (fs.existsSync(fixturePath)) {
+    const text = fs.readFileSync(fixturePath, "utf-8");
+    drcParsed = parseMinistrySitrepText(text);
+  }
+
+  const result = await runIngestionPipeline({
+    storageDir,
+    drcParsed,
+    hdxObservations: [],
+  });
+
+  if (!result.success) {
+    throw new Error(result.error || "Ingestion pipeline failed");
+  }
+
+  const legacyData = getPrerenderData(storageDir);
+  const fileContent = `/** @type {import('../../server/etl.js').DynamicOutbreakState} */\nexport const defaultOutbreakData = ${JSON.stringify(legacyData, null, 2)};\n\nexport default defaultOutbreakData;\n`;
   fs.writeFileSync(targetFile, fileContent, "utf-8");
-  console.log(
-    `✅ [Data Ingestion] Successfully updated: ${data.summary.totalCases.toLocaleString()} confirmed cases, ${data.summary.totalDeaths.toLocaleString()} deaths.`,
-  );
+
+  if (result.changed) {
+    console.log(
+      `✅ [Data Ingestion] Published new snapshot (${result.snapshotId}): ${legacyData.summary.totalCases.toLocaleString()} cases, ${legacyData.summary.totalDeaths.toLocaleString()} deaths.`,
+    );
+  } else {
+    console.log(
+      `ℹ️ [Data Ingestion] Unchanged content. Snapshot ${result.snapshotId} remains active.`,
+    );
+  }
 }
 
 sync().catch((err) => {

@@ -2,8 +2,8 @@ name: Scheduled Data Ingestion & Deploy to GitHub Pages
 
 on:
   schedule:
-    # Ingests fresh data and redeploys every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
-    - cron: "0 */6 * * *"
+    # Ingests fresh data and redeploys twice per hour (best-effort cadence)
+    - cron: "*/30 * * * *"
   push:
     branches:
       - master
@@ -25,6 +25,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,13 +40,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 12.3.4
           run_install: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run ETL data ingestion (Method 1)
+      - name: Run validated ingestion pipeline
         run: node scripts/sync-data.js
 
       - name: Commit updated data snapshot (if changed on scheduled run)
@@ -53,11 +54,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/data/outbreak-data.js
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): automated outbreak sync [skip ci]" && git push origin master)
+          git add public/data src/data/outbreak-data.js
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): automated validated outbreak sync [skip ci]" && git push origin master)
 
       - name: Build static site
-        run: ./node_modules/.bin/vp build --outDir dist
+        run: ./node_modules/.bin/vp run build:pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
