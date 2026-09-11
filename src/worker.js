@@ -28,7 +28,7 @@ app.get("*", async (c) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2026 Bundibugyo Ebola Outbreak — DRC & Central Africa Live Tracker (Vite+ / Edge)</title>
+    <title>2026 Bundibugyo Ebola Outbreak — DRC & Central Africa Live Tracker</title>
     <meta name="description" content="Live situation map and tracking data for the 2026 Ebola outbreak in DRC." />
     <link rel="stylesheet" href="/style.css" />
     <script type="application/ld+json">${jsonLd}</script>
