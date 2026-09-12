@@ -5,12 +5,12 @@
   "author": "Fortunat Mutunda <fotimutunda@gmail.com>",
   "type": "module",
   "scripts": {
-    "dev": "vp node server.js",
+    "dev": "node server.js",
     "build": "vp build --outDir dist/client && vp build --ssr src/entry-server.js --outDir dist/server",
     "build:pages": "vp build --outDir dist",
     "preview": "vp preview --outDir dist",
-    "sync": "vp node scripts/sync-data.js",
-    "start": "NODE_ENV=production vp node server.js",
+    "sync": "node scripts/sync-data.js",
+    "start": "NODE_ENV=production node server.js",
     "prepare": "vp config"
   },
   "dependencies": {
