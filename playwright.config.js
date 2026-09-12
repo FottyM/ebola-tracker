@@ -10,9 +10,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 1,
-  reporter: "list",
+  reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   use: {
-    baseURL: process.env.E2E_BASE_URL || "http://localhost:3001",
+    baseURL: process.env.E2E_BASE_URL || "http://127.0.0.1:3001",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     viewport: { width: 1280, height: 720 },
@@ -25,8 +25,8 @@ export default defineConfig({
   ],
   webServer: {
     command: "PORT=3001 node server.js",
-    url: "http://localhost:3001",
-    reuseExistingServer: true,
+    url: "http://127.0.0.1:3001",
+    reuseExistingServer: !process.env.CI,
     timeout: 30000,
   },
 });

@@ -66,6 +66,20 @@ jobs:
       - name: Verify data integrity and run tests
         run: ./node_modules/.bin/vp test --run
 
+      - name: Install Playwright browsers and dependencies
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright E2E behavioral tests
+        run: ./node_modules/.bin/vp run test:e2e
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-deploy
+          path: playwright-report/
+          retention-days: 7
+
       - name: Build static site
         run: ./node_modules/.bin/vp run build:pages
 
