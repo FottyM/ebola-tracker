@@ -112,7 +112,7 @@ export function executeSnapshotPipeline({
   drcParsed,
   hdxObservations = [],
   fetchedAt = new Date().toISOString(),
-  scheduledCadenceMinutes = 30,
+  scheduledCadenceMinutes = 240,
   save = true,
 }) {
   const errors = [];

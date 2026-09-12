@@ -82,7 +82,8 @@ export function generateManifest(snapshot) {
     contentHash,
     sourceUpdatedAt,
     snapshotPublishedAt,
-    scheduledCadenceMinutes: snapshot.cadence?.scheduledCadenceMinutes || 30,
+    scheduledCadenceMinutes:
+      snapshot.cadence?.scheduledCadenceMinutes || snapshot.scheduledCadenceMinutes || 240,
     status: snapshot.status || "current",
     summary: {
       totalCases: snapshot.summary?.totalCases ?? 0,

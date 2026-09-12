@@ -2,6 +2,7 @@
   "name": "ebola-tracker",
   "version": "1.0.0",
   "license": "GPL-2.0-only",
+  "author": "Fortunat Mutunda <fotimutunda@gmail.com>",
   "type": "module",
   "scripts": {
     "dev": "vp node server.js",

@@ -172,12 +172,12 @@ describe("DATA-009: Schedule safe 30-minute ingestion & Concurrency", () => {
   });
 
   describe("GitHub Actions Workflow Verification", () => {
-    it("configures 30-minute cron, timeout bounds, and pnpm version accurately", () => {
+    it("configures 4-hour cron, timeout bounds, and pnpm version accurately", () => {
       const workflowPath = path.resolve(__dirname, "../.github/workflows/deploy.yml");
       const content = fs.readFileSync(workflowPath, "utf-8");
 
-      // 30-minute cron check
-      expect(content).toContain("*/30 * * * *");
+      // 4-hour cron check
+      expect(content).toContain("0 */4 * * *");
 
       // Bounded execution timeout
       expect(content).toContain("timeout-minutes:");

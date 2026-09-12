@@ -194,7 +194,7 @@ export function validateOutbreakSnapshot(snapshot) {
 export function createSnapshotFromObservations({
   snapshotId,
   status = "current",
-  scheduledCadenceMinutes = 30,
+  scheduledCadenceMinutes = 240,
   observations = [],
 }) {
   let totalCases = 0;

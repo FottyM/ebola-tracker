@@ -2,8 +2,8 @@ name: Scheduled Data Ingestion & Deploy to GitHub Pages
 
 on:
   schedule:
-    # Ingests fresh data and redeploys twice per hour (best-effort cadence)
-    - cron: "*/30 * * * *"
+    # Ingests fresh data and redeploys every 4 hours (best-effort cadence)
+    - cron: "0 */4 * * *"
   push:
     branches:
       - master
