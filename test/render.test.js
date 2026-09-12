@@ -37,6 +37,7 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(appHtml).toContain("Marburg virus disease");
     expect(appHtml).toContain("Bleeding is not always present");
     expect(appHtml).toContain("Symptoms alone cannot diagnose Ebola");
+    expect(appHtml).toContain("Call ahead if possible");
     expect(appHtml).toContain("https://www.who.int/news-room/fact-sheets/detail/ebola-disease");
     expect(appHtml).toContain("https://www.cdc.gov/ebola/signs-symptoms/index.html");
   });

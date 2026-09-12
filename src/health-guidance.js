@@ -114,7 +114,7 @@ export function renderEbolaHealthGuidance() {
 
         <aside class="medical-safety-note" role="note">
           <strong>Symptoms alone cannot diagnose Ebola.</strong>
-          Exposure history and laboratory testing are essential. If compatible symptoms follow a possible exposure, avoid direct contact with bodily fluids and contact local health authorities or a healthcare facility immediately. Do not wait for bleeding.
+          Exposure history and laboratory testing are essential. If compatible symptoms follow a possible exposure, avoid direct contact with bodily fluids and contact local health authorities or a healthcare facility immediately. Call ahead if possible and follow their instructions. Do not wait for bleeding.
         </aside>
 
         <div class="dialog-footer symptoms-footer">
