@@ -16,9 +16,23 @@ async function sync() {
   );
 
   // Load latest authoritative SitRep fixture or remote report
-  const fixturePath = path.resolve(__dirname, "../test/fixtures/sitrep/sitrep-118-2026-09-09.txt");
+  const fixturesDir = path.resolve(__dirname, "../test/fixtures/sitrep");
+  let fixturePath = null;
+  if (fs.existsSync(fixturesDir)) {
+    const sitrepFiles = fs
+      .readdirSync(fixturesDir)
+      .filter((file) => /^sitrep-\d+-\d{4}-\d{2}-\d{2}\.txt$/.test(file))
+      .sort();
+    if (sitrepFiles.length > 0) {
+      fixturePath = path.join(fixturesDir, sitrepFiles[sitrepFiles.length - 1]);
+    }
+  }
+
   let drcParsed = null;
-  if (fs.existsSync(fixturePath)) {
+  if (fixturePath && fs.existsSync(fixturePath)) {
+    console.log(
+      `📄 [Data Ingestion] Ingesting latest SitRep fixture: ${path.basename(fixturePath)}`,
+    );
     const text = fs.readFileSync(fixturePath, "utf-8");
     drcParsed = parseMinistrySitrepText(text);
   }
