@@ -950,6 +950,17 @@ body {
   background: var(--border);
 }
 
+/* ── Leaflet SVG Focus Outline Reset ─────────────────── */
+.leaflet-container path,
+.leaflet-container svg,
+path.leaflet-interactive,
+path.leaflet-interactive:focus,
+path.leaflet-interactive:focus-visible,
+.leaflet-container path:focus,
+.leaflet-container svg:focus {
+  outline: none !important;
+}
+
 /* ── Leaflet popup override ─────────────────────────── */
 .leaflet-popup-content-wrapper {
   background: var(--surface) !important;

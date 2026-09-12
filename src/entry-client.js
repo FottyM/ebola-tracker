@@ -372,6 +372,24 @@ export function initClient() {
     attributionControl: true,
   });
 
+  // Dedicated custom panes to guarantee correct layer stacking:
+  // - worldCountriesPane (z-index 250): visual background vector boundaries (strictly non-interactive)
+  // - provincesPane (z-index 350): DRC sub-provincial administrative boundaries
+  // - corridorsPane (z-index 400): international evacuation flight corridors
+  // - bubblesPane (z-index 500): outbreak location circle markers & pulse rings
+  const worldPane = map.createPane("worldCountriesPane");
+  worldPane.style.zIndex = "250";
+  worldPane.style.pointerEvents = "none";
+
+  const provPane = map.createPane("provincesPane");
+  provPane.style.zIndex = "350";
+
+  const corridorsPane = map.createPane("corridorsPane");
+  corridorsPane.style.zIndex = "400";
+
+  const bubblesPane = map.createPane("bubblesPane");
+  bubblesPane.style.zIndex = "500";
+
   // 100% Free OpenStreetMap with Dark Mode styling (Zero API Keys required)
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -402,15 +420,23 @@ export function initClient() {
     .then((mod) => {
       const worldCountriesGeo = mod.default;
       L.geoJSON(/** @type {any} */ (worldCountriesGeo), {
+        pane: "worldCountriesPane",
+        interactive: false,
         style: (feature) => {
           const name = (feature?.properties?.name || "").toLowerCase();
           const admin = (feature?.properties?.admin || "").toLowerCase();
           const sov = (feature?.properties?.sovereignt || "").toLowerCase();
-          const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
+          const adm0_a3 = (
+            feature?.properties?.["ISO3166-1-Alpha-3"] ||
+            feature?.properties?.adm0_a3 ||
+            ""
+          ).toUpperCase();
+          const adm0_a2 = (feature?.properties?.["ISO3166-1-Alpha-2"] || "").toUpperCase();
           const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
 
           const matched =
             affectedCountryLookup.get(adm0_a3) ||
+            affectedCountryLookup.get(adm0_a2) ||
             affectedCountryLookup.get(sov_a3) ||
             affectedCountryLookup.get(name) ||
             affectedCountryLookup.get(admin) ||
@@ -422,9 +448,9 @@ export function initClient() {
             return {
               color: isContained ? "#30a46c" : "#e5484d",
               weight: 2,
-              opacity: 0.9,
+              opacity: 0.95,
               fillColor: isContained ? "#30a46c" : "#e5484d",
-              fillOpacity: isContained ? 0.08 : 0.06,
+              fillOpacity: isContained ? 0.1 : 0.06,
             };
           }
 
@@ -435,30 +461,6 @@ export function initClient() {
             fillColor: "#0f172a",
             fillOpacity: 0.03,
           };
-        },
-        onEachFeature: (feature, layer) => {
-          const name = feature?.properties?.name || feature?.properties?.admin || "Unknown Country";
-          const admin = (feature?.properties?.admin || "").toLowerCase();
-          const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
-          const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
-
-          const matched =
-            affectedCountryLookup.get(adm0_a3) ||
-            affectedCountryLookup.get(sov_a3) ||
-            affectedCountryLookup.get(name.toLowerCase()) ||
-            affectedCountryLookup.get(admin);
-
-          if (matched) {
-            layer.bindTooltip(`<strong>${name}</strong><br/>Status: ${matched.status}`, {
-              sticky: true,
-              className: "custom-map-tooltip",
-            });
-          } else {
-            layer.bindTooltip(`<strong>${name}</strong>`, {
-              sticky: true,
-              className: "custom-map-tooltip",
-            });
-          }
         },
       }).addTo(map);
     })
@@ -471,6 +473,7 @@ export function initClient() {
     .then((mod) => {
       const drcProvincesGeo = mod.default;
       L.geoJSON(/** @type {any} */ (drcProvincesGeo), {
+        pane: "provincesPane",
         style: (feature) => {
           const rawName = feature?.properties?.shapeName || "";
           const normName = normalizeProvinceName(rawName);
@@ -551,6 +554,7 @@ export function initClient() {
   if (corridors) {
     corridors.forEach((c) => {
       L.polyline([c.from, c.to], {
+        pane: "corridorsPane",
         color: "rgba(64, 196, 170, 0.55)",
         weight: 2,
         dashArray: "6 5",
@@ -559,10 +563,13 @@ export function initClient() {
     });
   }
 
+  const markerMap = new Map();
+
   locations.forEach((loc) => {
     const sev = getSeverity(loc);
 
     const marker = L.circleMarker(loc.center, {
+      pane: "bubblesPane",
       radius: sev.radius,
       color: sev.color,
       weight: 2.5,
@@ -570,6 +577,14 @@ export function initClient() {
       fillOpacity: 1,
       opacity: 0.95,
     }).addTo(map);
+
+    const centerKey = loc.center.join(",");
+    markerMap.set(centerKey, marker);
+    if (loc.region) {
+      markerMap.set(loc.region.toLowerCase(), marker);
+      markerMap.set(`${loc.region}, ${loc.country}`.toLowerCase(), marker);
+    }
+    markerMap.set(loc.country.toLowerCase(), marker);
 
     marker.on("click", () => {
       trackEvent("click-map-marker", {
@@ -597,6 +612,7 @@ export function initClient() {
 
     if (loc.cases > 500 && !loc.status.includes("Over")) {
       const pulse = L.circleMarker(loc.center, {
+        pane: "bubblesPane",
         radius: sev.radius,
         color: "#e5484d",
         weight: 1.5,
@@ -635,6 +651,15 @@ export function initClient() {
         const [lat, lng] = centerStr.split(",").map(Number);
         const zoomLevel = lat > 30 ? 6 : 8;
         map.flyTo([lat, lng], zoomLevel, { duration: 0.8 });
+
+        const marker =
+          markerMap.get(centerStr) ||
+          markerMap.get(region.toLowerCase()) ||
+          markerMap.get(`${region}, ${country}`.toLowerCase()) ||
+          markerMap.get(country.toLowerCase());
+        if (marker) {
+          marker.openPopup();
+        }
       }
     });
   });
