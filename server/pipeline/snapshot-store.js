@@ -9,6 +9,7 @@ import path from "node:path";
 import { validateOutbreakSnapshot, createSnapshotFromObservations } from "./contracts.js";
 import { determineSnapshotFreshness } from "./reconciliation.js";
 import { generateManifest, writeManifestAtomically } from "./manifest.js";
+import { getCanonicalInternationalObservations } from "./adapters/international-adapters.js";
 
 /**
  * Saves a snapshot atomically to disk by writing to a temporary file
@@ -112,6 +113,7 @@ export function executeSnapshotPipeline({
   drcParsed,
   hdxObservations = [],
   fetchedAt = new Date().toISOString(),
+  internationalObservations = getCanonicalInternationalObservations(fetchedAt),
   scheduledCadenceMinutes = 240,
   save = true,
 }) {
@@ -189,6 +191,11 @@ export function executeSnapshotPipeline({
   // Health Zones
   for (const z of hdxObservations) {
     observations.push(z);
+  }
+
+  // International Observations (Uganda, France, Germany)
+  for (const intObs of internationalObservations) {
+    observations.push(intObs);
   }
 
   // Determine freshness

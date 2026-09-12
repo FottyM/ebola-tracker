@@ -30,6 +30,24 @@ import { applyUpdatedSnapshot } from "./pipeline/client-state-updater.js";
  */
 
 /**
+ * Safe Umami event tracking helper.
+ * @param {string} eventName
+ * @param {Record<string, string | number | boolean>} [eventData]
+ */
+function trackEvent(eventName, eventData) {
+  if (
+    typeof window !== "undefined" &&
+    typeof (/** @type {any} */ (window).umami?.track) === "function"
+  ) {
+    try {
+      /** @type {any} */ (window).umami.track(eventName, eventData);
+    } catch {
+      // Non-blocking telemetry
+    }
+  }
+}
+
+/**
  * Computes marker radius from case count.
  * @param {number} cases
  * @returns {number}
@@ -95,6 +113,7 @@ function normalizeProvinceName(shapeName) {
   if (s.includes("south kivu") || s.includes("sud-kivu")) return "South Kivu";
   if (s.includes("lower uele") || s.includes("bas-uele") || s.includes("bas-uélé"))
     return "Bas-Uélé";
+  if (s.includes("sud-ubangi") || s.includes("sud ubangi")) return "Sud-Ubangi";
   return shapeName;
 }
 
@@ -219,6 +238,7 @@ function initModalControllers(epiCurve, ageGroups) {
   const timelineModalContainer = document.getElementById("modal-timeline-chart");
 
   function openTimelineModal() {
+    trackEvent("open-timeline-modal");
     timelineDialog?.showModal();
     document.body.style.overflow = "hidden";
     if (timelineModalContainer && epiCurve) {
@@ -226,7 +246,8 @@ function initModalControllers(epiCurve, ageGroups) {
     }
   }
 
-  function closeTimelineModal() {
+  function closeTimelineModal(method = "button") {
+    trackEvent("close-timeline-modal", { method });
     timelineDialog?.close();
     document.body.style.overflow = "";
   }
@@ -238,12 +259,13 @@ function initModalControllers(epiCurve, ageGroups) {
       openTimelineModal();
     }
   });
-  closeTimelineBtn?.addEventListener("click", closeTimelineModal);
-  doneTimelineBtn?.addEventListener("click", closeTimelineModal);
+  closeTimelineBtn?.addEventListener("click", () => closeTimelineModal("close-button"));
+  doneTimelineBtn?.addEventListener("click", () => closeTimelineModal("dismiss-button"));
   timelineDialog?.addEventListener("click", (e) => {
-    if (e.target === timelineDialog) closeTimelineModal();
+    if (e.target === timelineDialog) closeTimelineModal("backdrop");
   });
   timelineDialog?.addEventListener("cancel", () => {
+    trackEvent("close-timeline-modal", { method: "escape-key" });
     document.body.style.overflow = "";
   });
 
@@ -257,7 +279,8 @@ function initModalControllers(epiCurve, ageGroups) {
   const doneCasesBtn = document.getElementById("cases-done-btn");
   const modalAgeContainer = document.getElementById("modal-cases-age-chart");
 
-  function openCasesModal() {
+  function openCasesModal(source = "stat-card") {
+    trackEvent("open-cases-modal", { source });
     casesDialog?.showModal();
     document.body.style.overflow = "hidden";
     if (modalAgeContainer && ageGroups) {
@@ -265,25 +288,27 @@ function initModalControllers(epiCurve, ageGroups) {
     }
   }
 
-  function closeCasesModal() {
+  function closeCasesModal(method = "button") {
+    trackEvent("close-cases-modal", { method });
     casesDialog?.close();
     document.body.style.overflow = "";
   }
 
-  openCasesBtn?.addEventListener("click", openCasesModal);
-  openDemoBtn?.addEventListener("click", openCasesModal);
+  openCasesBtn?.addEventListener("click", () => openCasesModal("total-cases-card"));
+  openDemoBtn?.addEventListener("click", () => openCasesModal("demographics-section"));
   openDemoBtn?.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      openCasesModal();
+      openCasesModal("demographics-section");
     }
   });
-  closeCasesBtn?.addEventListener("click", closeCasesModal);
-  doneCasesBtn?.addEventListener("click", closeCasesModal);
+  closeCasesBtn?.addEventListener("click", () => closeCasesModal("close-button"));
+  doneCasesBtn?.addEventListener("click", () => closeCasesModal("dismiss-button"));
   casesDialog?.addEventListener("click", (e) => {
-    if (e.target === casesDialog) closeCasesModal();
+    if (e.target === casesDialog) closeCasesModal("backdrop");
   });
   casesDialog?.addEventListener("cancel", () => {
+    trackEvent("close-cases-modal", { method: "escape-key" });
     document.body.style.overflow = "";
   });
 }
@@ -347,6 +372,24 @@ export function initClient() {
     attributionControl: true,
   });
 
+  // Dedicated custom panes to guarantee correct layer stacking:
+  // - worldCountriesPane (z-index 250): visual background vector boundaries (strictly non-interactive)
+  // - provincesPane (z-index 350): DRC sub-provincial administrative boundaries
+  // - corridorsPane (z-index 400): international evacuation flight corridors
+  // - bubblesPane (z-index 500): outbreak location circle markers & pulse rings
+  const worldPane = map.createPane("worldCountriesPane");
+  worldPane.style.zIndex = "250";
+  worldPane.style.pointerEvents = "none";
+
+  const provPane = map.createPane("provincesPane");
+  provPane.style.zIndex = "350";
+
+  const corridorsPane = map.createPane("corridorsPane");
+  corridorsPane.style.zIndex = "400";
+
+  const bubblesPane = map.createPane("bubblesPane");
+  bubblesPane.style.zIndex = "500";
+
   // 100% Free OpenStreetMap with Dark Mode styling (Zero API Keys required)
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -377,15 +420,23 @@ export function initClient() {
     .then((mod) => {
       const worldCountriesGeo = mod.default;
       L.geoJSON(/** @type {any} */ (worldCountriesGeo), {
+        pane: "worldCountriesPane",
+        interactive: false,
         style: (feature) => {
           const name = (feature?.properties?.name || "").toLowerCase();
           const admin = (feature?.properties?.admin || "").toLowerCase();
           const sov = (feature?.properties?.sovereignt || "").toLowerCase();
-          const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
+          const adm0_a3 = (
+            feature?.properties?.["ISO3166-1-Alpha-3"] ||
+            feature?.properties?.adm0_a3 ||
+            ""
+          ).toUpperCase();
+          const adm0_a2 = (feature?.properties?.["ISO3166-1-Alpha-2"] || "").toUpperCase();
           const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
 
           const matched =
             affectedCountryLookup.get(adm0_a3) ||
+            affectedCountryLookup.get(adm0_a2) ||
             affectedCountryLookup.get(sov_a3) ||
             affectedCountryLookup.get(name) ||
             affectedCountryLookup.get(admin) ||
@@ -397,9 +448,9 @@ export function initClient() {
             return {
               color: isContained ? "#30a46c" : "#e5484d",
               weight: 2,
-              opacity: 0.9,
+              opacity: 0.95,
               fillColor: isContained ? "#30a46c" : "#e5484d",
-              fillOpacity: isContained ? 0.08 : 0.06,
+              fillOpacity: isContained ? 0.1 : 0.06,
             };
           }
 
@@ -410,30 +461,6 @@ export function initClient() {
             fillColor: "#0f172a",
             fillOpacity: 0.03,
           };
-        },
-        onEachFeature: (feature, layer) => {
-          const name = feature?.properties?.name || feature?.properties?.admin || "Unknown Country";
-          const admin = (feature?.properties?.admin || "").toLowerCase();
-          const adm0_a3 = (feature?.properties?.adm0_a3 || "").toUpperCase();
-          const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
-
-          const matched =
-            affectedCountryLookup.get(adm0_a3) ||
-            affectedCountryLookup.get(sov_a3) ||
-            affectedCountryLookup.get(name.toLowerCase()) ||
-            affectedCountryLookup.get(admin);
-
-          if (matched) {
-            layer.bindTooltip(`<strong>${name}</strong><br/>Status: ${matched.status}`, {
-              sticky: true,
-              className: "custom-map-tooltip",
-            });
-          } else {
-            layer.bindTooltip(`<strong>${name}</strong>`, {
-              sticky: true,
-              className: "custom-map-tooltip",
-            });
-          }
         },
       }).addTo(map);
     })
@@ -446,6 +473,7 @@ export function initClient() {
     .then((mod) => {
       const drcProvincesGeo = mod.default;
       L.geoJSON(/** @type {any} */ (drcProvincesGeo), {
+        pane: "provincesPane",
         style: (feature) => {
           const rawName = feature?.properties?.shapeName || "";
           const normName = normalizeProvinceName(rawName);
@@ -491,6 +519,13 @@ export function initClient() {
             );
 
             layer.on({
+              click: () => {
+                trackEvent("click-province-map", {
+                  province: provData.region,
+                  cases: provData.cases,
+                  cfr: provData.cfr,
+                });
+              },
               mouseover: (e) => {
                 const l = e.target;
                 l.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.45 });
@@ -519,6 +554,7 @@ export function initClient() {
   if (corridors) {
     corridors.forEach((c) => {
       L.polyline([c.from, c.to], {
+        pane: "corridorsPane",
         color: "rgba(64, 196, 170, 0.55)",
         weight: 2,
         dashArray: "6 5",
@@ -527,10 +563,13 @@ export function initClient() {
     });
   }
 
+  const markerMap = new Map();
+
   locations.forEach((loc) => {
     const sev = getSeverity(loc);
 
     const marker = L.circleMarker(loc.center, {
+      pane: "bubblesPane",
       radius: sev.radius,
       color: sev.color,
       weight: 2.5,
@@ -538,6 +577,24 @@ export function initClient() {
       fillOpacity: 1,
       opacity: 0.95,
     }).addTo(map);
+
+    const centerKey = loc.center.join(",");
+    markerMap.set(centerKey, marker);
+    if (loc.region) {
+      markerMap.set(loc.region.toLowerCase(), marker);
+      markerMap.set(`${loc.region}, ${loc.country}`.toLowerCase(), marker);
+    }
+    markerMap.set(loc.country.toLowerCase(), marker);
+
+    marker.on("click", () => {
+      trackEvent("click-map-marker", {
+        region: loc.region || loc.country,
+        country: loc.countryCode,
+        cases: loc.cases,
+        deaths: loc.deaths,
+        status: loc.status,
+      });
+    });
 
     const popupHtml = `
       <div class="popup-content">
@@ -555,6 +612,7 @@ export function initClient() {
 
     if (loc.cases > 500 && !loc.status.includes("Over")) {
       const pulse = L.circleMarker(loc.center, {
+        pane: "bubblesPane",
         radius: sev.radius,
         color: "#e5484d",
         weight: 1.5,
@@ -582,10 +640,26 @@ export function initClient() {
   document.querySelectorAll(".province-item").forEach((item) => {
     item.addEventListener("click", () => {
       const centerStr = item.getAttribute("data-center");
+      const region =
+        item.getAttribute("data-region") ||
+        item.querySelector(".province-name")?.textContent?.trim() ||
+        "Unknown";
+      const country = item.getAttribute("data-country") || "";
+      trackEvent("select-location-sidebar", { region, country });
+
       if (centerStr) {
         const [lat, lng] = centerStr.split(",").map(Number);
         const zoomLevel = lat > 30 ? 6 : 8;
         map.flyTo([lat, lng], zoomLevel, { duration: 0.8 });
+
+        const marker =
+          markerMap.get(centerStr) ||
+          markerMap.get(region.toLowerCase()) ||
+          markerMap.get(`${region}, ${country}`.toLowerCase()) ||
+          markerMap.get(country.toLowerCase());
+        if (marker) {
+          marker.openPopup();
+        }
       }
     });
   });
@@ -594,7 +668,12 @@ export function initClient() {
   const panelToggle = document.getElementById("panel-toggle");
   const infoPanel = document.querySelector(".info-panel");
   if (panelToggle && infoPanel) {
-    const handleToggle = () => infoPanel.classList.toggle("collapsed");
+    const handleToggle = () => {
+      infoPanel.classList.toggle("collapsed");
+      trackEvent("toggle-mobile-panel", {
+        collapsed: infoPanel.classList.contains("collapsed"),
+      });
+    };
     panelToggle.addEventListener("click", handleToggle);
     panelToggle.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -603,6 +682,14 @@ export function initClient() {
       }
     });
   }
+
+  // Surveillance Context Disclosure
+  const accordion = document.querySelector(".seo-brief-accordion");
+  accordion?.addEventListener("toggle", () => {
+    trackEvent("toggle-surveillance-brief", {
+      open: accordion.hasAttribute("open"),
+    });
+  });
 
   // ── LAYER 5: Live Static Refresh Controller (GitHub Pages & Development) ──
   try {
@@ -613,6 +700,11 @@ export function initClient() {
           : "/",
       currentSnapshotId: /** @type {any} */ (data).snapshotId || "",
       onUpdate: (newSnapshot) => {
+        trackEvent("snapshot-auto-refreshed", {
+          snapshotId: newSnapshot.snapshotId,
+          totalCases: newSnapshot.summary?.totalCases,
+          totalDeaths: newSnapshot.summary?.totalDeaths,
+        });
         applyUpdatedSnapshot(newSnapshot, document, window);
       },
       onError: (err) => {

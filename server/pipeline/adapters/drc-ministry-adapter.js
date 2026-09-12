@@ -67,26 +67,62 @@ export function discoverLatestSitrep(indexHtml, baseUrl = "https://sante.gouv.cd
 
     // Extract Date (e.g. "09 Septembre 2026")
     const dateMatch = linkText.match(/(\d{1,2})\s+([a-zA-Z\u00C0-\u017F]+)\s+(\d{4})/i);
+    let reportingDate = "";
     if (dateMatch) {
       const day = dateMatch[1].padStart(2, "0");
       const monthStr = dateMatch[2].toLowerCase();
       const year = dateMatch[3];
       const month = FRENCH_MONTHS[monthStr];
-
       if (month) {
-        const reportingDate = `${year}-${month}-${day}`;
-        let fullUrl = rawHref;
-        if (!fullUrl.startsWith("http://") && !fullUrl.startsWith("https://")) {
-          fullUrl = new URL(rawHref, baseUrl).href;
-        }
-
-        candidates.push({
-          url: fullUrl,
-          reportNumber,
-          reportingDate,
-          title: linkText,
-        });
+        reportingDate = `${year}-${month}-${day}`;
       }
+    }
+
+    if (!reportingDate) {
+      // Extract date from filename if link text lacked it (e.g. SitRep_MVEBDB_118_09_09_2026.pdf)
+      const fileDateMatch = rawHref.match(/(\d{1,2})_(\d{1,2})_(\d{4})/);
+      if (fileDateMatch) {
+        const day = fileDateMatch[1].padStart(2, "0");
+        const month = fileDateMatch[2].padStart(2, "0");
+        const year = fileDateMatch[3];
+        reportingDate = `${year}-${month}-${day}`;
+      }
+    }
+
+    if (reportingDate) {
+      let fullUrl = rawHref;
+      if (!fullUrl.startsWith("http://") && !fullUrl.startsWith("https://")) {
+        fullUrl = new URL(rawHref, baseUrl).href;
+      }
+
+      candidates.push({
+        url: fullUrl,
+        reportNumber,
+        reportingDate,
+        title: linkText || path.basename(rawHref),
+      });
+    }
+  }
+
+  // Also scan for direct SitRep PDF URLs in HTML (e.g. Next.js / React Server Components payloads)
+  const directPdfRegex =
+    /https?:\/\/[^\s"'<>]+\/SitRep_MVEBDB_(\d+)_(\d{1,2})_(\d{1,2})_(\d{4})\.pdf/gi;
+  let directMatch;
+  while ((directMatch = directPdfRegex.exec(indexHtml)) !== null) {
+    const url = directMatch[0];
+    const reportNumber = parseInt(directMatch[1], 10);
+    const day = directMatch[2].padStart(2, "0");
+    const month = directMatch[3].padStart(2, "0");
+    const year = directMatch[4];
+    const reportingDate = `${year}-${month}-${day}`;
+
+    if (!candidates.some((c) => c.url === url)) {
+      candidates.push({
+        url,
+        reportNumber,
+        reportingDate,
+        title: `SitRep N°${reportNumber} (${reportingDate})`,
+      });
     }
   }
 
@@ -95,6 +131,60 @@ export function discoverLatestSitrep(indexHtml, baseUrl = "https://sante.gouv.cd
   // Strict sorting: Newest reporting date first
   candidates.sort((a, b) => b.reportingDate.localeCompare(a.reportingDate));
   return candidates[0];
+}
+
+import path from "node:path";
+import { PDFParse } from "pdf-parse";
+
+/**
+ * Downloads and extracts text from the latest official DRC Ministry SitRep PDF.
+ * @param {Object} [options]
+ * @param {string} [options.baseUrl]
+ * @param {string} [options.directPdfUrl]
+ * @param {number} [options.timeoutMs]
+ * @returns {Promise<ReturnType<typeof parseMinistrySitrepText> & { sourceUrl: string }>}
+ */
+export async function fetchLatestMinistrySitrepPdf({
+  baseUrl = "https://sante.gouv.cd",
+  directPdfUrl,
+  timeoutMs = 15000,
+} = {}) {
+  let targetUrl = directPdfUrl;
+
+  if (!targetUrl) {
+    const indexRes = await fetch(`${baseUrl}/documents/sitreps`, {
+      signal: AbortSignal.timeout(timeoutMs),
+      headers: { "User-Agent": "EbolaTracker/1.0 (Public Health Surveillance)" },
+    });
+    if (!indexRes.ok) {
+      throw new Error(`Ministry index portal returned HTTP ${indexRes.status}`);
+    }
+    const html = await indexRes.text();
+    const discovered = discoverLatestSitrep(html, baseUrl);
+    if (!discovered) {
+      throw new Error("No Ebola SitRep PDF discovered on Ministry portal");
+    }
+    targetUrl = discovered.url;
+  }
+
+  const pdfRes = await fetch(targetUrl, {
+    signal: AbortSignal.timeout(timeoutMs),
+    headers: { "User-Agent": "EbolaTracker/1.0 (Public Health Surveillance)" },
+  });
+
+  if (!pdfRes.ok) {
+    throw new Error(`Failed to download SitRep PDF (${targetUrl}): HTTP ${pdfRes.status}`);
+  }
+
+  const arrayBuffer = await pdfRes.arrayBuffer();
+  const parser = new PDFParse(new Uint8Array(arrayBuffer));
+  const data = await parser.getText();
+
+  const parsed = parseMinistrySitrepText(data.text);
+  return {
+    ...parsed,
+    sourceUrl: targetUrl,
+  };
 }
 
 /**

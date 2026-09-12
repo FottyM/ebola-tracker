@@ -245,7 +245,7 @@ export function render(data) {
   const locationItemsHtml = locations
     .map(
       (loc) => `
-    <li class="province-item" data-center="${loc.center.join(",")}">
+    <li class="province-item" data-center="${loc.center.join(",")}" data-region="${loc.region || loc.country}" data-country="${loc.countryCode || ""}" data-umami-event="select-location-sidebar" data-umami-event-location="${loc.region ? `${loc.region} (${loc.country})` : loc.country}">
       <span class="province-dot" style="background:${loc.cases > 100 ? "#e5484d" : loc.status.includes("Over") || loc.status.includes("Contained") ? "#30a46c" : "#f5a623"}"></span>
       <div style="flex: 1; display: flex; flex-direction: column;">
         <span class="province-name">${loc.region ? `${loc.region} (${loc.country})` : loc.country}</span>
@@ -263,6 +263,28 @@ export function render(data) {
   const casesModalAgeChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 620, 180);
   const freshness = createFreshnessViewModel(data);
   const freshnessHtml = freshness.renderHtml();
+
+  // Dynamic calculation of timeline KPIs from active epiCurve
+  const peakCasesPoint = epiCurve?.length
+    ? epiCurve.reduce((max, p) => (p.weeklyCases > max.weeklyCases ? p : max), epiCurve[0])
+    : null;
+  const peakDeathsPoint = epiCurve?.length
+    ? epiCurve.reduce((max, p) => (p.weeklyDeaths > max.weeklyDeaths ? p : max), epiCurve[0])
+    : null;
+  const latestEpiPoint = epiCurve?.length ? epiCurve[epiCurve.length - 1] : null;
+  const prevEpiPoint = epiCurve?.length > 1 ? epiCurve[epiCurve.length - 2] : null;
+  const trajectoryPct =
+    latestEpiPoint && prevEpiPoint
+      ? (
+          ((latestEpiPoint.weeklyCases - prevEpiPoint.weeklyCases) / prevEpiPoint.weeklyCases) *
+          100
+        ).toFixed(1)
+      : "0.0";
+  const isDeclining = Number(trajectoryPct) < 0;
+  const trajectoryLabel = isDeclining ? "Plateauing" : "Accelerating";
+  const trajectoryColor = isDeclining ? "#f5a623" : "#e5484d";
+  const startWeekTag = epiCurve?.length ? epiCurve[0].week.replace(/\s*\(.*?\)/, "") : "W20";
+  const endWeekTag = latestEpiPoint ? latestEpiPoint.week.replace(/\s*\(.*?\)/, "") : "W36";
 
   const appHtml = `
   <div id="map"></div>
@@ -316,6 +338,10 @@ export function render(data) {
         <h3>Epidemic Spread Curve (Epi Week) <span class="click-hint">↗ Enlarge</span></h3>
         <span class="chart-tag">Weekly Cases & Fatalities</span>
       </div>
+      <div class="chart-legend" style="display: flex; gap: 10px; font-size: 9.5px; color: var(--text-muted); margin-bottom: 6px;">
+        <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #f76b15; display: inline-block;"></span> Cases</span>
+        <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #e5484d; display: inline-block;"></span> Deaths</span>
+      </div>
       <div class="chart-container" id="epi-chart">${sidebarChartSvgHtml}</div>
     </section>
 
@@ -367,7 +393,7 @@ export function render(data) {
       </ul>
     </section>
 
-    <details class="seo-brief-accordion">
+    <details class="seo-brief-accordion" data-umami-event="toggle-surveillance-brief">
       <summary>Epidemiological Context & Surveillance Brief</summary>
       <div class="seo-brief-content">
         <p>This operational dashboard provides real-time geographic and clinical surveillance on the <strong>2026 Bundibugyo ebolavirus (BDBV)</strong> outbreak centered in northeastern <strong>Democratic Republic of the Congo (DRC)</strong>, with active cross-border surveillance across the Albertine Rift corridor and western <strong>Uganda</strong>.</p>
@@ -377,9 +403,9 @@ export function render(data) {
 
     <footer class="sources">
       <strong>Data Sources & Synchronization</strong><br/>
-      • <a href="${sources.who.url}" target="_blank" rel="noopener noreferrer">${sources.who.name}</a> [${sources.who.status}]<br/>
-      • <a href="${sources.hdx.url}" target="_blank" rel="noopener noreferrer">${sources.hdx.name}</a> [${sources.hdx.status}]<br/>
-      • <a href="${sources.reliefweb.url}" target="_blank" rel="noopener noreferrer">${sources.reliefweb.name}</a> [${sources.reliefweb.status}]
+      • <a href="${sources.who.url}" target="_blank" rel="noopener noreferrer" data-umami-event="outbound-source-click" data-umami-event-source="WHO">${sources.who.name}</a> [${sources.who.status}]<br/>
+      • <a href="${sources.hdx.url}" target="_blank" rel="noopener noreferrer" data-umami-event="outbound-source-click" data-umami-event-source="OCHA HDX">${sources.hdx.name}</a> [${sources.hdx.status}]<br/>
+      • <a href="${sources.reliefweb.url}" target="_blank" rel="noopener noreferrer" data-umami-event="outbound-source-click" data-umami-event-source="ReliefWeb">${sources.reliefweb.name}</a> [${sources.reliefweb.status}]
     </footer>
   </aside>
 
@@ -391,36 +417,40 @@ export function render(data) {
           <span class="dialog-badge">Epidemiological Timeline</span>
           <h2 id="timeline-dialog-title">Epidemic Timeline (Weekly Cases vs Fatalities)</h2>
         </div>
-        <button class="dialog-close-btn" id="close-timeline-modal" aria-label="Close dialog">✕</button>
+        <button class="dialog-close-btn" id="close-timeline-modal" aria-label="Close dialog" data-umami-event="close-timeline-modal">✕</button>
       </header>
 
       <div class="dialog-stats-summary">
         <div class="dialog-kpi">
           <span class="kpi-label">Peak Weekly Influx</span>
-          <span class="kpi-number orange">579 Cases</span>
-          <span class="kpi-sub">Surveillance Week 31</span>
+          <span class="kpi-number orange">${peakCasesPoint ? `${peakCasesPoint.weeklyCases.toLocaleString()} Cases` : "N/A"}</span>
+          <span class="kpi-sub">${peakCasesPoint ? `Surveillance ${peakCasesPoint.week}` : ""}</span>
         </div>
         <div class="dialog-kpi">
           <span class="kpi-label">Latest Week Influx</span>
-          <span class="kpi-number cases">480 Cases</span>
-          <span class="kpi-sub">Surveillance Week 32</span>
+          <span class="kpi-number cases">${latestEpiPoint ? `${latestEpiPoint.weeklyCases.toLocaleString()} Cases` : "N/A"}</span>
+          <span class="kpi-sub">${latestEpiPoint ? `Surveillance ${latestEpiPoint.week}` : ""}</span>
         </div>
         <div class="dialog-kpi">
           <span class="kpi-label">Peak Fatalities</span>
-          <span class="kpi-number" style="color: #e5484d;">271 Deaths</span>
-          <span class="kpi-sub">Surveillance Week 31</span>
+          <span class="kpi-number" style="color: #e5484d;">${peakDeathsPoint ? `${peakDeathsPoint.weeklyDeaths.toLocaleString()} Deaths` : "N/A"}</span>
+          <span class="kpi-sub">${peakDeathsPoint ? `Surveillance ${peakDeathsPoint.week}` : ""}</span>
         </div>
         <div class="dialog-kpi">
           <span class="kpi-label">Active Trajectory</span>
-          <span class="kpi-number" style="color: #f5a623;">Plateauing</span>
-          <span class="kpi-sub">-17.1% vs previous week</span>
+          <span class="kpi-number" style="color: ${trajectoryColor};">${trajectoryLabel}</span>
+          <span class="kpi-sub">${isDeclining ? "" : "+"}${trajectoryPct}% vs previous reporting week</span>
         </div>
       </div>
 
       <div class="dialog-chart-wrapper">
         <div class="chart-header">
           <h3>Full Epidemic Curve Timeline</h3>
-          <span class="chart-tag">Epi Weeks 20–32</span>
+          <span class="chart-tag">Epi Weeks ${startWeekTag}–${endWeekTag}</span>
+        </div>
+        <div class="chart-legend" style="display: flex; gap: 14px; font-size: 11px; color: var(--text-muted); margin: 6px 0 10px;">
+          <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #f76b15; display: inline-block;"></span> Weekly Confirmed Cases (Orange)</span>
+          <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #e5484d; display: inline-block;"></span> Weekly Fatalities (Red)</span>
         </div>
         <div class="modal-chart-container" style="height: 240px;" id="modal-timeline-chart">
           ${timelineModalChartSvgHtml}
@@ -429,7 +459,7 @@ export function render(data) {
 
       <div class="dialog-footer">
         <span class="dialog-note">Data source: WHO Disease Outbreak News & Africa CDC Epidemiological Updates.</span>
-        <button class="dialog-action-btn" id="timeline-done-btn">Dismiss</button>
+        <button class="dialog-action-btn" id="timeline-done-btn" data-umami-event="close-timeline-modal">Dismiss</button>
       </div>
     </div>
   </dialog>
@@ -442,7 +472,7 @@ export function render(data) {
           <span class="dialog-badge">Caseload & Demographics Intelligence</span>
           <h2 id="cases-dialog-title">Total Cases & Demographic Distribution</h2>
         </div>
-        <button class="dialog-close-btn" id="close-cases-modal" aria-label="Close dialog">✕</button>
+        <button class="dialog-close-btn" id="close-cases-modal" aria-label="Close dialog" data-umami-event="close-cases-modal">✕</button>
       </header>
 
       <div class="dialog-stats-summary">
@@ -481,7 +511,7 @@ export function render(data) {
 
       <div class="dialog-footer">
         <span class="dialog-note">Disaggregated age & sex distribution verified via WHO Field Reports.</span>
-        <button class="dialog-action-btn" id="cases-done-btn">Dismiss</button>
+        <button class="dialog-action-btn" id="cases-done-btn" data-umami-event="close-cases-modal">Dismiss</button>
       </div>
     </div>
   </dialog>
