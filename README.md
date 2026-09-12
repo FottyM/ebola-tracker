@@ -100,9 +100,9 @@ flowchart TD
         Noop["ℹ️ Unchanged: Retain Active Snapshot<br/>(Skip Git Commit & Mutation)"]
     end
 
-    subgraph Delivery ["🚀 5. Dual Production Delivery Modes"]
-        SSGBuild["⚡ <b>Static Site Generator (SSG)</b><br/>Pre-renders HTML, SVG & Schema.org<br/>Deploys to GitHub Pages CDN"]
-        SSRServer["⚡ <b>Hono + Node.js SSR Server</b><br/>In-memory pre-warmed cache<br/>0ms TTFB (<code>X-SSR-Cache: HIT</code>)"]
+    subgraph Delivery ["🚀 5. Production Edge Delivery & Local Dev"]
+        SSGBuild["🌐 <b>GitHub Pages (Production Host)</b><br/>100% pure static edge hosting (0 backend servers)<br/>Pre-rendered HTML, SVG & Schema.org"]
+        SSRServer["💻 <b>Local Dev Server (Hono + Vite)</b><br/><code>node server.js</code> (port 3000 / 3001)<br/>Emulates SSR & <code>/api/*</code> routes locally"]
     end
 
     Cron --> FetchPortal
@@ -121,7 +121,7 @@ flowchart TD
     Store --> Manifest
     Manifest --> Retain
     Retain --> SSGBuild
-    Retain --> SSRServer
+    Retain -.->|Local dev inspection| SSRServer
     Noop --> SSGBuild
 
     classDef holoBlue fill:#081c2e,stroke:#33b5e5,stroke-width:2px,color:#ffffff;
@@ -163,6 +163,10 @@ flowchart TD
    - Volatile fetch timestamps (`fetchedAt`, `generatedAt`) are strictly ignored.
    - If genuine epidemiological metrics have changed, it writes an immutable timestamped snapshot to `public/data/snapshots/`, updates the manifest with SHA-256 hashes, and refreshes the prerender dataset.
    - If metrics are unchanged, zero mutations occur, skipping git commit churn.
+
+5. **Static Production vs. Local Hono Development**:
+   - **Production (GitHub Pages):** Operates with **zero backend servers**. The site is 100% pre-rendered into static HTML, client JS/CSS bundles, and JSON snapshots deployed directly to GitHub Pages CDN.
+   - **Local Development (`server.js`):** Hono (`@hono/node-server`) is used **strictly for local dev**. It embeds Vite's dev middleware, provides in-memory HTML pre-warming for instant 0ms TTFB, and simulates the `/api/*` endpoints on `http://localhost:3000` (or `PORT=3001`).
 
 ---
 
@@ -237,7 +241,7 @@ ebola/
 │   │   ├── adapters/         # DRC Ministry PDF, OCHA HDX, and international adapters
 │   │   ├── data/             # Server baseline caches (baseline-sitrep.txt)
 │   │   └── parsers/          # Ministry SitRep digital PDF and text parsers
-│   └── server.js             # High-performance Hono SSR server with pre-warmed cache
+│   └── server.js             # Local development server (Hono + Vite SSR middleware)
 ├── src/
 │   ├── data/
 │   │   ├── outbreak-data.js  # Fallback baseline epidemiological dataset
