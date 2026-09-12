@@ -26,3 +26,8 @@ dist-ssr
 # Ephemeral pipeline cache
 server/pipeline/data/*.csv
 
+# Playwright
+test-results/
+playwright-report/
+
+
