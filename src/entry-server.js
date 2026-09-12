@@ -245,7 +245,7 @@ export function render(data) {
   const locationItemsHtml = locations
     .map(
       (loc) => `
-    <li class="province-item" data-center="${loc.center.join(",")}">
+    <li class="province-item" data-center="${loc.center.join(",")}" data-region="${loc.region || loc.country}" data-country="${loc.countryCode || ""}" data-umami-event="select-location-sidebar" data-umami-event-location="${loc.region ? `${loc.region} (${loc.country})` : loc.country}">
       <span class="province-dot" style="background:${loc.cases > 100 ? "#e5484d" : loc.status.includes("Over") || loc.status.includes("Contained") ? "#30a46c" : "#f5a623"}"></span>
       <div style="flex: 1; display: flex; flex-direction: column;">
         <span class="province-name">${loc.region ? `${loc.region} (${loc.country})` : loc.country}</span>
@@ -367,7 +367,7 @@ export function render(data) {
       </ul>
     </section>
 
-    <details class="seo-brief-accordion">
+    <details class="seo-brief-accordion" data-umami-event="toggle-surveillance-brief">
       <summary>Epidemiological Context & Surveillance Brief</summary>
       <div class="seo-brief-content">
         <p>This operational dashboard provides real-time geographic and clinical surveillance on the <strong>2026 Bundibugyo ebolavirus (BDBV)</strong> outbreak centered in northeastern <strong>Democratic Republic of the Congo (DRC)</strong>, with active cross-border surveillance across the Albertine Rift corridor and western <strong>Uganda</strong>.</p>
@@ -377,9 +377,9 @@ export function render(data) {
 
     <footer class="sources">
       <strong>Data Sources & Synchronization</strong><br/>
-      • <a href="${sources.who.url}" target="_blank" rel="noopener noreferrer">${sources.who.name}</a> [${sources.who.status}]<br/>
-      • <a href="${sources.hdx.url}" target="_blank" rel="noopener noreferrer">${sources.hdx.name}</a> [${sources.hdx.status}]<br/>
-      • <a href="${sources.reliefweb.url}" target="_blank" rel="noopener noreferrer">${sources.reliefweb.name}</a> [${sources.reliefweb.status}]
+      • <a href="${sources.who.url}" target="_blank" rel="noopener noreferrer" data-umami-event="outbound-source-click" data-umami-event-source="WHO">${sources.who.name}</a> [${sources.who.status}]<br/>
+      • <a href="${sources.hdx.url}" target="_blank" rel="noopener noreferrer" data-umami-event="outbound-source-click" data-umami-event-source="OCHA HDX">${sources.hdx.name}</a> [${sources.hdx.status}]<br/>
+      • <a href="${sources.reliefweb.url}" target="_blank" rel="noopener noreferrer" data-umami-event="outbound-source-click" data-umami-event-source="ReliefWeb">${sources.reliefweb.name}</a> [${sources.reliefweb.status}]
     </footer>
   </aside>
 
@@ -391,7 +391,7 @@ export function render(data) {
           <span class="dialog-badge">Epidemiological Timeline</span>
           <h2 id="timeline-dialog-title">Epidemic Timeline (Weekly Cases vs Fatalities)</h2>
         </div>
-        <button class="dialog-close-btn" id="close-timeline-modal" aria-label="Close dialog">✕</button>
+        <button class="dialog-close-btn" id="close-timeline-modal" aria-label="Close dialog" data-umami-event="close-timeline-modal">✕</button>
       </header>
 
       <div class="dialog-stats-summary">
@@ -429,7 +429,7 @@ export function render(data) {
 
       <div class="dialog-footer">
         <span class="dialog-note">Data source: WHO Disease Outbreak News & Africa CDC Epidemiological Updates.</span>
-        <button class="dialog-action-btn" id="timeline-done-btn">Dismiss</button>
+        <button class="dialog-action-btn" id="timeline-done-btn" data-umami-event="close-timeline-modal">Dismiss</button>
       </div>
     </div>
   </dialog>
@@ -442,7 +442,7 @@ export function render(data) {
           <span class="dialog-badge">Caseload & Demographics Intelligence</span>
           <h2 id="cases-dialog-title">Total Cases & Demographic Distribution</h2>
         </div>
-        <button class="dialog-close-btn" id="close-cases-modal" aria-label="Close dialog">✕</button>
+        <button class="dialog-close-btn" id="close-cases-modal" aria-label="Close dialog" data-umami-event="close-cases-modal">✕</button>
       </header>
 
       <div class="dialog-stats-summary">
@@ -481,7 +481,7 @@ export function render(data) {
 
       <div class="dialog-footer">
         <span class="dialog-note">Disaggregated age & sex distribution verified via WHO Field Reports.</span>
-        <button class="dialog-action-btn" id="cases-done-btn">Dismiss</button>
+        <button class="dialog-action-btn" id="cases-done-btn" data-umami-event="close-cases-modal">Dismiss</button>
       </div>
     </div>
   </dialog>

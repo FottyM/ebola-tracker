@@ -30,6 +30,24 @@ import { applyUpdatedSnapshot } from "./pipeline/client-state-updater.js";
  */
 
 /**
+ * Safe Umami event tracking helper.
+ * @param {string} eventName
+ * @param {Record<string, string | number | boolean>} [eventData]
+ */
+function trackEvent(eventName, eventData) {
+  if (
+    typeof window !== "undefined" &&
+    typeof (/** @type {any} */ (window).umami?.track) === "function"
+  ) {
+    try {
+      /** @type {any} */ (window).umami.track(eventName, eventData);
+    } catch {
+      // Non-blocking telemetry
+    }
+  }
+}
+
+/**
  * Computes marker radius from case count.
  * @param {number} cases
  * @returns {number}
@@ -219,6 +237,7 @@ function initModalControllers(epiCurve, ageGroups) {
   const timelineModalContainer = document.getElementById("modal-timeline-chart");
 
   function openTimelineModal() {
+    trackEvent("open-timeline-modal");
     timelineDialog?.showModal();
     document.body.style.overflow = "hidden";
     if (timelineModalContainer && epiCurve) {
@@ -226,7 +245,8 @@ function initModalControllers(epiCurve, ageGroups) {
     }
   }
 
-  function closeTimelineModal() {
+  function closeTimelineModal(method = "button") {
+    trackEvent("close-timeline-modal", { method });
     timelineDialog?.close();
     document.body.style.overflow = "";
   }
@@ -238,12 +258,13 @@ function initModalControllers(epiCurve, ageGroups) {
       openTimelineModal();
     }
   });
-  closeTimelineBtn?.addEventListener("click", closeTimelineModal);
-  doneTimelineBtn?.addEventListener("click", closeTimelineModal);
+  closeTimelineBtn?.addEventListener("click", () => closeTimelineModal("close-button"));
+  doneTimelineBtn?.addEventListener("click", () => closeTimelineModal("dismiss-button"));
   timelineDialog?.addEventListener("click", (e) => {
-    if (e.target === timelineDialog) closeTimelineModal();
+    if (e.target === timelineDialog) closeTimelineModal("backdrop");
   });
   timelineDialog?.addEventListener("cancel", () => {
+    trackEvent("close-timeline-modal", { method: "escape-key" });
     document.body.style.overflow = "";
   });
 
@@ -257,7 +278,8 @@ function initModalControllers(epiCurve, ageGroups) {
   const doneCasesBtn = document.getElementById("cases-done-btn");
   const modalAgeContainer = document.getElementById("modal-cases-age-chart");
 
-  function openCasesModal() {
+  function openCasesModal(source = "stat-card") {
+    trackEvent("open-cases-modal", { source });
     casesDialog?.showModal();
     document.body.style.overflow = "hidden";
     if (modalAgeContainer && ageGroups) {
@@ -265,25 +287,27 @@ function initModalControllers(epiCurve, ageGroups) {
     }
   }
 
-  function closeCasesModal() {
+  function closeCasesModal(method = "button") {
+    trackEvent("close-cases-modal", { method });
     casesDialog?.close();
     document.body.style.overflow = "";
   }
 
-  openCasesBtn?.addEventListener("click", openCasesModal);
-  openDemoBtn?.addEventListener("click", openCasesModal);
+  openCasesBtn?.addEventListener("click", () => openCasesModal("total-cases-card"));
+  openDemoBtn?.addEventListener("click", () => openCasesModal("demographics-section"));
   openDemoBtn?.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      openCasesModal();
+      openCasesModal("demographics-section");
     }
   });
-  closeCasesBtn?.addEventListener("click", closeCasesModal);
-  doneCasesBtn?.addEventListener("click", closeCasesModal);
+  closeCasesBtn?.addEventListener("click", () => closeCasesModal("close-button"));
+  doneCasesBtn?.addEventListener("click", () => closeCasesModal("dismiss-button"));
   casesDialog?.addEventListener("click", (e) => {
-    if (e.target === casesDialog) closeCasesModal();
+    if (e.target === casesDialog) closeCasesModal("backdrop");
   });
   casesDialog?.addEventListener("cancel", () => {
+    trackEvent("close-cases-modal", { method: "escape-key" });
     document.body.style.overflow = "";
   });
 }
@@ -491,6 +515,13 @@ export function initClient() {
             );
 
             layer.on({
+              click: () => {
+                trackEvent("click-province-map", {
+                  province: provData.region,
+                  cases: provData.cases,
+                  cfr: provData.cfr,
+                });
+              },
               mouseover: (e) => {
                 const l = e.target;
                 l.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.45 });
@@ -539,6 +570,16 @@ export function initClient() {
       opacity: 0.95,
     }).addTo(map);
 
+    marker.on("click", () => {
+      trackEvent("click-map-marker", {
+        region: loc.region || loc.country,
+        country: loc.countryCode,
+        cases: loc.cases,
+        deaths: loc.deaths,
+        status: loc.status,
+      });
+    });
+
     const popupHtml = `
       <div class="popup-content">
         <h3>${loc.region ? `${loc.region}, ${loc.country}` : loc.country}</h3>
@@ -582,6 +623,13 @@ export function initClient() {
   document.querySelectorAll(".province-item").forEach((item) => {
     item.addEventListener("click", () => {
       const centerStr = item.getAttribute("data-center");
+      const region =
+        item.getAttribute("data-region") ||
+        item.querySelector(".province-name")?.textContent?.trim() ||
+        "Unknown";
+      const country = item.getAttribute("data-country") || "";
+      trackEvent("select-location-sidebar", { region, country });
+
       if (centerStr) {
         const [lat, lng] = centerStr.split(",").map(Number);
         const zoomLevel = lat > 30 ? 6 : 8;
@@ -594,7 +642,12 @@ export function initClient() {
   const panelToggle = document.getElementById("panel-toggle");
   const infoPanel = document.querySelector(".info-panel");
   if (panelToggle && infoPanel) {
-    const handleToggle = () => infoPanel.classList.toggle("collapsed");
+    const handleToggle = () => {
+      infoPanel.classList.toggle("collapsed");
+      trackEvent("toggle-mobile-panel", {
+        collapsed: infoPanel.classList.contains("collapsed"),
+      });
+    };
     panelToggle.addEventListener("click", handleToggle);
     panelToggle.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -603,6 +656,14 @@ export function initClient() {
       }
     });
   }
+
+  // Surveillance Context Disclosure
+  const accordion = document.querySelector(".seo-brief-accordion");
+  accordion?.addEventListener("toggle", () => {
+    trackEvent("toggle-surveillance-brief", {
+      open: accordion.hasAttribute("open"),
+    });
+  });
 
   // ── LAYER 5: Live Static Refresh Controller (GitHub Pages & Development) ──
   try {
@@ -613,6 +674,11 @@ export function initClient() {
           : "/",
       currentSnapshotId: /** @type {any} */ (data).snapshotId || "",
       onUpdate: (newSnapshot) => {
+        trackEvent("snapshot-auto-refreshed", {
+          snapshotId: newSnapshot.snapshotId,
+          totalCases: newSnapshot.summary?.totalCases,
+          totalDeaths: newSnapshot.summary?.totalDeaths,
+        });
         applyUpdatedSnapshot(newSnapshot, document, window);
       },
       onError: (err) => {
