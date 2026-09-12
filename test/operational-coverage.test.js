@@ -179,6 +179,7 @@ describe("DATA-010: Integrity, Regression, and Operational Coverage", () => {
       const result = await runIngestionPipeline({
         storageDir,
         drcParsed,
+        internationalObservations: [],
         dryRun: true,
       });
 

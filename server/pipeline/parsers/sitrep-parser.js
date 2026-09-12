@@ -188,6 +188,8 @@ export function parseMinistrySitrepText(rawText) {
     "Bas Uélé",
     "Bas Uele",
     "Sud-Kivu",
+    "Sud Ubangi",
+    "Sud-Ubangi",
   ];
   const lines = clean.split("\n");
 
@@ -198,7 +200,10 @@ export function parseMinistrySitrepText(rawText) {
 
       if (knownProvinces.some((kp) => kp.toLowerCase() === pName.toLowerCase())) {
         provinces.push({
-          name: pName.replace("Uélé", "Uele").replace("Bas Uélé", "Bas-Uele"),
+          name: pName
+            .replace("Uélé", "Uele")
+            .replace("Bas Uélé", "Bas-Uele")
+            .replace("Sud Ubangi", "Sud-Ubangi"),
           newCases: cleanInt(parts[1] || "0"),
           cases: cleanInt(parts[2] || "0"),
           deaths: cleanInt(parts[3] || "0"),
@@ -211,14 +216,15 @@ export function parseMinistrySitrepText(rawText) {
   // If no pipe-delimited lines found, extract from space-delimited table (e.g. from PDF)
   if (provinces.length === 0) {
     const provRegex =
-      /^(Ituri|Nord-Kivu|Haut-U[ée]l[ée]|Tshopo|Bas\s*-?U[ée]l[ée]|Sud-Kivu)\s+(\d+)\s+([\d\s]+?)\s+([\d\s]+?)\s+([\d,]+%)/gim;
+      /^(Ituri|Nord-Kivu|Haut-U[ée]l[ée]|Tshopo|Bas\s*-?U[ée]l[ée]|Sud-Kivu|Sud\s*-?Ubangi)\s+(\d+)\s+(\d{1,3}(?:\s\d{3})*|\d+)\s+(\d{1,3}(?:\s\d{3})*|\d+)\s+([\d.,]+%)/gim;
     let m;
     while ((m = provRegex.exec(clean)) !== null) {
       provinces.push({
         name: m[1]
           .replace("Uélé", "Uele")
           .replace("Bas Uélé", "Bas-Uele")
-          .replace("Bas-Uélé", "Bas-Uele"),
+          .replace("Bas-Uélé", "Bas-Uele")
+          .replace("Sud Ubangi", "Sud-Ubangi"),
         newCases: cleanInt(m[2] || "0"),
         cases: cleanInt(m[3] || "0"),
         deaths: cleanInt(m[4] || "0"),

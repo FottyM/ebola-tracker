@@ -113,6 +113,7 @@ function normalizeProvinceName(shapeName) {
   if (s.includes("south kivu") || s.includes("sud-kivu")) return "South Kivu";
   if (s.includes("lower uele") || s.includes("bas-uele") || s.includes("bas-uélé"))
     return "Bas-Uélé";
+  if (s.includes("sud-ubangi") || s.includes("sud ubangi")) return "Sud-Ubangi";
   return shapeName;
 }
 

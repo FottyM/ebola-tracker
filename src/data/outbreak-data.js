@@ -1,45 +1,34 @@
 /** @type {import('../../server/etl.js').DynamicOutbreakState} */
 export const defaultOutbreakData = {
   summary: {
-    totalCases: 7022,
-    totalDeaths: 3398,
-    overallCfr: "48.4%",
-    affectedCountriesCount: 1,
-    lastUpdated: "2026-09-12T22:31:35.050Z",
+    totalCases: 7042,
+    totalDeaths: 3400,
+    overallCfr: "48.3%",
+    affectedCountriesCount: 2,
+    lastUpdated: "2026-09-12T23:09:56.787Z",
     lastReportDate: "2026-09-10",
   },
   locations: [
     {
       country: "Democratic Republic of the Congo",
       countryCode: "COD",
-      region: "Democratic Republic of the Congo",
-      cases: 7022,
-      deaths: 3398,
-      cfr: 48.4,
-      status: "Active Epicenter",
-      center: [1.56, 30.25],
-      lastReported: "2026-09-10",
-    },
-    {
-      country: "Democratic Republic of the Congo",
-      countryCode: "COD",
       region: "Ituri",
-      cases: 5,
-      deaths: 5382524,
-      cfr: 107650480,
-      status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      cases: 5538,
+      deaths: 2524,
+      cfr: 45.6,
+      status: "Active Epicenter",
+      center: [1.7, 29.9],
       lastReported: "2026-09-10",
     },
     {
       country: "Democratic Republic of the Congo",
       countryCode: "COD",
       region: "Nord-Kivu",
-      cases: 1,
-      deaths: 182746,
-      cfr: 18274600,
-      status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      cases: 1182,
+      deaths: 746,
+      cfr: 63.1,
+      status: "Active Epicenter",
+      center: [-0.79, 29.05],
       lastReported: "2026-09-10",
     },
     {
@@ -50,7 +39,7 @@ export const defaultOutbreakData = {
       deaths: 114,
       cfr: 42.2,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [3.33, 27.99],
       lastReported: "2026-09-10",
     },
     {
@@ -61,7 +50,7 @@ export const defaultOutbreakData = {
       deaths: 9,
       cfr: 37.5,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.52, 25.19],
       lastReported: "2026-09-10",
     },
     {
@@ -72,7 +61,7 @@ export const defaultOutbreakData = {
       deaths: 1,
       cfr: 33.3,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [-2.51, 28.86],
       lastReported: "2026-09-10",
     },
     {
@@ -83,7 +72,18 @@ export const defaultOutbreakData = {
       deaths: 3,
       cfr: 75,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [2.8, 24.74],
+      lastReported: "2026-09-10",
+    },
+    {
+      country: "Democratic Republic of the Congo",
+      countryCode: "COD",
+      region: "Sud-Ubangi",
+      cases: 1,
+      deaths: 1,
+      cfr: 100,
+      status: "Cluster Monitored",
+      center: [3.25, 19.78],
       lastReported: "2026-09-10",
     },
     {
@@ -94,7 +94,7 @@ export const defaultOutbreakData = {
       deaths: 294,
       cfr: 45.7,
       status: "Active Epicenter",
-      center: [1.56, 30.25],
+      center: [1.95, 30.04],
       lastReported: "2026-09-09",
     },
     {
@@ -116,7 +116,7 @@ export const defaultOutbreakData = {
       deaths: 349,
       cfr: 34.8,
       status: "Active Epicenter",
-      center: [1.56, 30.25],
+      center: [1.51, 30.18],
       lastReported: "2026-09-09",
     },
     {
@@ -127,7 +127,7 @@ export const defaultOutbreakData = {
       deaths: 149,
       cfr: 67.7,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [0.13, 29.28],
       lastReported: "2026-09-09",
     },
     {
@@ -138,7 +138,7 @@ export const defaultOutbreakData = {
       deaths: 0,
       cfr: 0,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [-1.68, 29.23],
       lastReported: "2026-09-09",
     },
     {
@@ -149,7 +149,7 @@ export const defaultOutbreakData = {
       deaths: 309,
       cfr: 63.6,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [0.11, 29.32],
       lastReported: "2026-09-09",
     },
     {
@@ -160,7 +160,7 @@ export const defaultOutbreakData = {
       deaths: 36,
       cfr: 28.8,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [1.37, 30.12],
       lastReported: "2026-09-09",
     },
     {
@@ -171,7 +171,7 @@ export const defaultOutbreakData = {
       deaths: 39,
       cfr: 22,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [1.75, 30.15],
       lastReported: "2026-09-09",
     },
     {
@@ -182,7 +182,7 @@ export const defaultOutbreakData = {
       deaths: 12,
       cfr: 36.4,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.82, 30.11],
       lastReported: "2026-09-09",
     },
     {
@@ -193,7 +193,7 @@ export const defaultOutbreakData = {
       deaths: 273,
       cfr: 37.6,
       status: "Active Epicenter",
-      center: [1.56, 30.25],
+      center: [1.72, 30.31],
       lastReported: "2026-09-09",
     },
     {
@@ -204,7 +204,7 @@ export const defaultOutbreakData = {
       deaths: 6,
       cfr: 75,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [2.87, 30.84],
       lastReported: "2026-09-09",
     },
     {
@@ -215,7 +215,7 @@ export const defaultOutbreakData = {
       deaths: 82,
       cfr: 66.7,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [1.38, 29.78],
       lastReported: "2026-09-09",
     },
     {
@@ -226,7 +226,7 @@ export const defaultOutbreakData = {
       deaths: 11,
       cfr: 47.8,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.3, 29.35],
       lastReported: "2026-09-09",
     },
     {
@@ -237,7 +237,7 @@ export const defaultOutbreakData = {
       deaths: 0,
       cfr: 0,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [-1.66, 29.21],
       lastReported: "2026-05-30",
     },
     {
@@ -248,7 +248,7 @@ export const defaultOutbreakData = {
       deaths: 17,
       cfr: 65.4,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [-0.02, 29.45],
       lastReported: "2026-09-09",
     },
     {
@@ -259,7 +259,7 @@ export const defaultOutbreakData = {
       deaths: 7,
       cfr: 70,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.7, 29.52],
       lastReported: "2026-09-09",
     },
     {
@@ -270,7 +270,7 @@ export const defaultOutbreakData = {
       deaths: 30,
       cfr: 38.5,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [1.98, 30.62],
       lastReported: "2026-09-09",
     },
     {
@@ -281,7 +281,7 @@ export const defaultOutbreakData = {
       deaths: 7,
       cfr: 41.2,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.36, 29.05],
       lastReported: "2026-09-09",
     },
     {
@@ -292,7 +292,7 @@ export const defaultOutbreakData = {
       deaths: 5,
       cfr: 41.7,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [2.48, 30.85],
       lastReported: "2026-09-09",
     },
     {
@@ -303,7 +303,7 @@ export const defaultOutbreakData = {
       deaths: 145,
       cfr: 74.4,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [0.49, 29.47],
       lastReported: "2026-09-09",
     },
     {
@@ -314,7 +314,7 @@ export const defaultOutbreakData = {
       deaths: 3,
       cfr: 42.9,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.24, 30.22],
       lastReported: "2026-09-09",
     },
     {
@@ -325,7 +325,7 @@ export const defaultOutbreakData = {
       deaths: 0,
       cfr: 0,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.88, 30.72],
       lastReported: "2026-05-30",
     },
     {
@@ -336,7 +336,7 @@ export const defaultOutbreakData = {
       deaths: 123,
       cfr: 49,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [1.68, 30.65],
       lastReported: "2026-09-09",
     },
     {
@@ -347,7 +347,7 @@ export const defaultOutbreakData = {
       deaths: 5,
       cfr: 38.5,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [2.18, 30.91],
       lastReported: "2026-09-09",
     },
     {
@@ -358,7 +358,7 @@ export const defaultOutbreakData = {
       deaths: 25,
       cfr: 39.7,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [1.65, 30.48],
       lastReported: "2026-09-09",
     },
     {
@@ -369,7 +369,7 @@ export const defaultOutbreakData = {
       deaths: 0,
       cfr: 0,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [2.25, 30.38],
       lastReported: "2026-09-09",
     },
     {
@@ -380,7 +380,7 @@ export const defaultOutbreakData = {
       deaths: 5,
       cfr: 35.7,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.08, 29.4],
       lastReported: "2026-09-09",
     },
     {
@@ -391,7 +391,7 @@ export const defaultOutbreakData = {
       deaths: 8,
       cfr: 44.4,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.42, 29.25],
       lastReported: "2026-09-09",
     },
     {
@@ -402,7 +402,7 @@ export const defaultOutbreakData = {
       deaths: 116,
       cfr: 50.7,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [1.42, 27.98],
       lastReported: "2026-09-09",
     },
     {
@@ -413,7 +413,7 @@ export const defaultOutbreakData = {
       deaths: 55,
       cfr: 53.4,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [0.03, 29.22],
       lastReported: "2026-09-09",
     },
     {
@@ -424,7 +424,7 @@ export const defaultOutbreakData = {
       deaths: 7,
       cfr: 46.7,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.78, 30.52],
       lastReported: "2026-09-09",
     },
     {
@@ -435,7 +435,7 @@ export const defaultOutbreakData = {
       deaths: 24,
       cfr: 54.5,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.35, 29.42],
       lastReported: "2026-09-09",
     },
     {
@@ -446,7 +446,7 @@ export const defaultOutbreakData = {
       deaths: 8,
       cfr: 25.8,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.32, 29.62],
       lastReported: "2026-09-09",
     },
     {
@@ -457,7 +457,7 @@ export const defaultOutbreakData = {
       deaths: 2,
       cfr: 100,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [1.02, 30.01],
       lastReported: "2026-09-09",
     },
     {
@@ -468,7 +468,7 @@ export const defaultOutbreakData = {
       deaths: 0,
       cfr: 0,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.48, 25.17],
       lastReported: "2026-09-09",
     },
     {
@@ -479,7 +479,7 @@ export const defaultOutbreakData = {
       deaths: 5,
       cfr: 50,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.52, 25.19],
       lastReported: "2026-09-09",
     },
     {
@@ -490,7 +490,7 @@ export const defaultOutbreakData = {
       deaths: 2,
       cfr: 25,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [3.02, 30.71],
       lastReported: "2026-09-09",
     },
     {
@@ -501,7 +501,7 @@ export const defaultOutbreakData = {
       deaths: 38,
       cfr: 41.3,
       status: "Active Transmission",
-      center: [1.56, 30.25],
+      center: [2.77, 27.62],
       lastReported: "2026-09-09",
     },
     {
@@ -512,7 +512,7 @@ export const defaultOutbreakData = {
       deaths: 1,
       cfr: 25,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [2.3, 30.98],
       lastReported: "2026-09-09",
     },
     {
@@ -523,7 +523,7 @@ export const defaultOutbreakData = {
       deaths: 1,
       cfr: 25,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [3.81, 23.68],
       lastReported: "2026-09-09",
     },
     {
@@ -534,7 +534,7 @@ export const defaultOutbreakData = {
       deaths: 4,
       cfr: 40,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [-0.15, 29.23],
       lastReported: "2026-09-09",
     },
     {
@@ -545,7 +545,7 @@ export const defaultOutbreakData = {
       deaths: 2,
       cfr: 66.7,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [0.33, 29.74],
       lastReported: "2026-09-09",
     },
     {
@@ -556,8 +556,56 @@ export const defaultOutbreakData = {
       deaths: 0,
       cfr: 0,
       status: "Cluster Monitored",
-      center: [1.56, 30.25],
+      center: [-0.62, 29.18],
       lastReported: "2026-09-09",
+    },
+    {
+      country: "Uganda",
+      countryCode: "UGA",
+      region: "Bundibugyo District (Border)",
+      cases: 18,
+      deaths: 2,
+      cfr: 11.1,
+      status: "Contained / Outbreak Over",
+      center: [0.71, 30.06],
+      lastReported: "2026-08-25",
+      note: "Index cross-border cluster. Declared officially over by WHO on 25 August 2026 after 42 days with zero new cases.",
+    },
+    {
+      country: "Uganda",
+      countryCode: "UGA",
+      region: "Kampala / Entebbe Isolation Unit",
+      cases: 2,
+      deaths: 0,
+      cfr: 0,
+      status: "Contained / Outbreak Over",
+      center: [0.3136, 32.5811],
+      lastReported: "2026-08-25",
+      note: "Imported contacts isolated at Entebbe National Isolation Facility. Zero tertiary spread.",
+    },
+    {
+      country: "France",
+      countryCode: "FRA",
+      region: "Paris (Military Hospital Bégin)",
+      cases: 1,
+      deaths: 0,
+      cfr: 0,
+      status: "Medical Evacuation (Contained)",
+      center: [48.8566, 2.3522],
+      lastReported: "2026-06-12",
+      note: "Humanitarian healthcare worker evacuated under high-level biocontainment. No secondary local transmission.",
+    },
+    {
+      country: "Germany",
+      countryCode: "DEU",
+      region: "Frankfurt / Berlin (Charité)",
+      cases: 1,
+      deaths: 0,
+      cfr: 0,
+      status: "Medical Evacuation (Contained)",
+      center: [52.52, 13.405],
+      lastReported: "2026-07-04",
+      note: "Specialized clinical evacuation under biocontainment. Patient recovered.",
     },
   ],
   epiCurve: [
@@ -708,7 +756,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-09-10-1789252295050",
+  snapshotId: "snapshot-2026-09-10-1789254596787",
 };
 
 export default defaultOutbreakData;

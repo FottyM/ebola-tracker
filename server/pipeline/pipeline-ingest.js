@@ -87,6 +87,7 @@ export async function runIngestionPipeline({
   fetchSourceDataFn,
   drcParsed,
   hdxObservations = [],
+  internationalObservations,
   dryRun = false,
 } = {}) {
   if (isRunning) {
@@ -141,6 +142,7 @@ export async function runIngestionPipeline({
       storageDir,
       drcParsed: drcData,
       hdxObservations: hdxData,
+      ...(internationalObservations ? { internationalObservations } : {}),
       save: false,
     });
 
