@@ -16,6 +16,7 @@ import {
 import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
 import { createFreshnessViewModel } from "./pipeline/freshness-view-model.js";
+import { renderEbolaHealthGuidance } from "./health-guidance.js";
 
 /**
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
@@ -310,6 +311,15 @@ export function render(data) {
       </article>
     </section>
 
+    <button type="button" class="symptoms-card" id="open-symptoms-modal" aria-haspopup="dialog" aria-controls="symptoms-dialog" data-umami-event="open-symptoms-modal">
+      <span class="symptoms-card-icon" aria-hidden="true">✚</span>
+      <span class="symptoms-card-copy">
+        <strong>Symptoms & look-alike illnesses</strong>
+        <span>Why early Ebola can resemble malaria, typhoid and other regional diseases</span>
+      </span>
+      <span class="symptoms-card-action" aria-hidden="true">View guide →</span>
+    </button>
+
     <!-- ── Interactive Small Epidemic Spread Curve (Click to Enlarge) ── -->
     <section class="chart-section interactive-chart-card" id="open-timeline-modal" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="timeline-dialog" aria-label="Open Epidemic Timeline Modal" data-umami-event="open-timeline-modal">
       <div class="chart-header">
@@ -485,6 +495,9 @@ export function render(data) {
       </div>
     </div>
   </dialog>
+
+  <!-- ── MODAL 3: Symptoms & Differential Diagnosis ── -->
+  ${renderEbolaHealthGuidance()}
 
   <!-- ── Legend ──────────────────────────────────────── -->
   <div class="legend" role="region" aria-label="Map Legend">

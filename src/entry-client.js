@@ -286,6 +286,34 @@ function initModalControllers(epiCurve, ageGroups) {
   casesDialog?.addEventListener("cancel", () => {
     document.body.style.overflow = "";
   });
+
+  // ── 3. Symptoms & Look-Alike Illnesses Modal Controller ──
+  const symptomsDialog = /** @type {HTMLDialogElement | null} */ (
+    document.getElementById("symptoms-dialog")
+  );
+  const openSymptomsBtn = document.getElementById("open-symptoms-modal");
+  const closeSymptomsBtn = document.getElementById("close-symptoms-modal");
+  const doneSymptomsBtn = document.getElementById("symptoms-done-btn");
+
+  function openSymptomsModal() {
+    symptomsDialog?.showModal();
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSymptomsModal() {
+    symptomsDialog?.close();
+    document.body.style.overflow = "";
+  }
+
+  openSymptomsBtn?.addEventListener("click", openSymptomsModal);
+  closeSymptomsBtn?.addEventListener("click", closeSymptomsModal);
+  doneSymptomsBtn?.addEventListener("click", closeSymptomsModal);
+  symptomsDialog?.addEventListener("click", (e) => {
+    if (e.target === symptomsDialog) closeSymptomsModal();
+  });
+  symptomsDialog?.addEventListener("cancel", () => {
+    document.body.style.overflow = "";
+  });
 }
 
 /**
