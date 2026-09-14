@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ephemeral pipeline cache
+server/pipeline/data/*.csv
+
+# Playwright
+test-results/
+playwright-report/
+
+

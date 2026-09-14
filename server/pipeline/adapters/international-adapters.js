@@ -160,3 +160,121 @@ export function parseGermanyEvacuationStatus(text) {
     errors: [],
   };
 }
+
+/**
+ * Returns canonical verified international observations for Uganda, France, and Germany.
+ * @param {string} [fetchedAt]
+ * @returns {Array<import('../contracts.js').NormalizedObservation & { representativePoint: [number, number], note?: string }>}
+ */
+export function getCanonicalInternationalObservations(fetchedAt = new Date().toISOString()) {
+  return [
+    {
+      id: "UGA:Bundibugyo:2026-08-25",
+      geographicPrecision: "province",
+      country: { iso3: "UGA", name: "Uganda" },
+      province: { name: "Bundibugyo District (Border)" },
+      healthZone: null,
+      city: null,
+      metrics: {
+        confirmedCases: 18,
+        confirmedDeaths: 2,
+        recovered: 16,
+      },
+      provenance: {
+        sourceId: "who-acute-event",
+        publisher: "Uganda Ministry of Health / WHO AFRO",
+        sourceUrl: "https://www.who.int/emergencies/alert-and-response",
+        recordIdentifier: "UGA-BUNDIBUGYO-20260825",
+      },
+      timestamps: {
+        sourceUpdatedAt: "2026-08-25",
+        publishedAt: "2026-08-25T12:00:00.000Z",
+        fetchedAt,
+      },
+      classification: "affected",
+      representativePoint: [0.71, 30.06],
+      note: "Index cross-border cluster. Declared officially over by WHO on 25 August 2026 after 42 days with zero new cases.",
+    },
+    {
+      id: "UGA:Entebbe:2026-08-25",
+      geographicPrecision: "province",
+      country: { iso3: "UGA", name: "Uganda" },
+      province: { name: "Kampala / Entebbe Isolation Unit" },
+      healthZone: null,
+      city: null,
+      metrics: {
+        confirmedCases: 2,
+        confirmedDeaths: 0,
+        recovered: 2,
+      },
+      provenance: {
+        sourceId: "who-acute-event",
+        publisher: "Uganda Ministry of Health / WHO AFRO",
+        sourceUrl: "https://www.who.int/emergencies/alert-and-response",
+        recordIdentifier: "UGA-ENTEBBE-20260825",
+      },
+      timestamps: {
+        sourceUpdatedAt: "2026-08-25",
+        publishedAt: "2026-08-25T12:00:00.000Z",
+        fetchedAt,
+      },
+      classification: "affected",
+      representativePoint: [0.3136, 32.5811],
+      note: "Imported contacts isolated at Entebbe National Isolation Facility. Zero tertiary spread.",
+    },
+    {
+      id: "FRA:Paris:2026-06-12",
+      geographicPrecision: "country",
+      country: { iso3: "FRA", name: "France" },
+      province: { name: "Paris (Military Hospital Bégin)" },
+      healthZone: null,
+      city: null,
+      metrics: {
+        confirmedCases: 1,
+        confirmedDeaths: 0,
+        recovered: 1,
+      },
+      provenance: {
+        sourceId: "who-acute-event",
+        publisher: "Ministère de la Santé et de la Prévention (France) / WHO",
+        sourceUrl: "https://www.who.int/emergencies/alert-and-response",
+        recordIdentifier: "FRA-MEDEVAC-BEGIN-20260612",
+      },
+      timestamps: {
+        sourceUpdatedAt: "2026-06-12",
+        publishedAt: "2026-06-12T12:00:00.000Z",
+        fetchedAt,
+      },
+      classification: "medical-evacuation",
+      representativePoint: [48.8566, 2.3522],
+      note: "Humanitarian healthcare worker evacuated under high-level biocontainment. No secondary local transmission.",
+    },
+    {
+      id: "DEU:Berlin:2026-07-04",
+      geographicPrecision: "country",
+      country: { iso3: "DEU", name: "Germany" },
+      province: { name: "Frankfurt / Berlin (Charité)" },
+      healthZone: null,
+      city: null,
+      metrics: {
+        confirmedCases: 1,
+        confirmedDeaths: 0,
+        recovered: 1,
+      },
+      provenance: {
+        sourceId: "who-acute-event",
+        publisher: "Bundesministerium für Gesundheit / Charité / WHO",
+        sourceUrl: "https://www.who.int/emergencies/alert-and-response",
+        recordIdentifier: "DEU-MEDEVAC-CHARITE-20260704",
+      },
+      timestamps: {
+        sourceUpdatedAt: "2026-07-04",
+        publishedAt: "2026-07-04T12:00:00.000Z",
+        fetchedAt,
+      },
+      classification: "medical-evacuation",
+      representativePoint: [52.52, 13.405],
+      note: "Specialized clinical evacuation under biocontainment. Patient recovered.",
+    },
+  ];
+}

@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - master
-      - main
   workflow_dispatch:
 
 permissions:
@@ -55,16 +54,30 @@ jobs:
       - name: Check code formatting, linting, and types
         run: ./node_modules/.bin/vp check --fix
 
-      - name: Commit updated data snapshot (if changed on scheduled run)
+      - name: Verify data integrity and run unit tests
+        run: ./node_modules/.bin/vp test --run
+
+      - name: Install Playwright browsers and dependencies
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright E2E behavioral tests
+        run: ./node_modules/.bin/vp run test:e2e
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-deploy
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Commit updated data snapshot (if changed on scheduled run after CI passes)
         if: github.event_name == 'schedule'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/data src/data/outbreak-data.js
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): automated validated outbreak sync [skip ci]" && git push origin master)
-
-      - name: Verify data integrity and run tests
-        run: ./node_modules/.bin/vp test --run
 
       - name: Build static site
         run: ./node_modules/.bin/vp run build:pages

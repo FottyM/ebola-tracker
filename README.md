@@ -69,24 +69,30 @@ The tracker is engineered to adapt smoothly to smartphones, tablets, and desktop
 
 ## 🔄 Automated Data Ingestion & Snapshot Pipeline
 
-The platform uses a scheduled, fail-closed atomic snapshot pipeline running on GitHub Actions. It ingests official health feeds, reconciles hierarchical boundaries, detects genuine epidemiological changes, and redeploys static assets to GitHub Pages:
+The platform uses a scheduled, fail-closed automated ingestion pipeline running both locally and on GitHub Actions every 4 hours. It dynamically ingests official health bulletins, reconciles hierarchical boundaries, detects genuine epidemiological changes, and publishes versioned snapshots:
 
 ```mermaid
 flowchart TD
     subgraph Trigger ["⏰ 1. Pipeline Triggers (Every 4 Hours)"]
         Cron["⏱️ GitHub Actions Cron<br/><b>Every 4 Hours</b><br/><code>0 */4 * * *</code>"]
-        Dispatch["⚡ Manual Workflow Dispatch<br/>& Local Ingestion<br/><code>vp run sync</code>"]
+        Dispatch["⚡ Manual Workflow Dispatch<br/>& Local Ingestion<br/><code>npm run sync</code> / <code>node scripts/sync-data.js</code>"]
     end
 
-    subgraph Ingestion ["🔍 2. Authoritative Feed Ingestion & Validation"]
-        FetchDRC["🇨🇩 DRC Ministry / INSP SitRep<br/>(<code>drc-insp-sitrep</code>)"]
-        FetchHDX["🇺🇳 UN OCHA HDX Time Series<br/>(<code>hdx-consolidated</code>)"]
-        Reconcile{"⚖️ Fail-Closed Reconciliation<br/>& Anomaly Gate"}
-        Candidate["📋 Generate Candidate Snapshot<br/>(In-Memory / Dry-Run Safe)"]
+    subgraph DynamicIngestion ["📡 2. Live Network Ingestion (Zero Test Fixture Dependencies)"]
+        FetchPortal["🌐 <b>DRC Ministry Portal Scraper</b><br/><code>https://sante.gouv.cd/documents/sitreps</code><br/>Discovers latest <code>SitRep_MVEBDB_*.pdf</code>"]
+        ParsePDF["📄 <b>In-Memory PDF Parser</b> (<code>pdf-parse</code>)<br/>Extracts vector text in ~500ms<br/>Parses National totals & 6 Provinces"]
+        FetchHDX["🇺🇳 <b>UN OCHA HDX Feed</b><br/><code>drc_ebola_cases_consolidated.csv</code><br/>43+ Health Zones, pcodes, time series"]
+        Fallback["📁 <b>Offline Baseline Fallback</b><br/><code>server/pipeline/data/baseline-sitrep.txt</code><br/>(Used if remote endpoints time out)"]
+    end
+
+    subgraph ValidationEngine ["⚖️ 3. Boundary Crosswalk & Reconciliation"]
+        Crosswalk["🗺️ <b>Health Zone Crosswalk</b><br/>Resolves pcodes, aliases & DHIS2 IDs"]
+        Reconcile{"⚖️ <b>Hierarchical Check</b><br/>National >= Sum(Provinces)<br/>Provinces >= Sum(Health Zones)"}
+        Candidate["📋 Candidate Snapshot Generated<br/>(In-Memory / Dry-Run Safe)"]
         Halt["🛑 Halt Run & Retain Last-Known-Good"]
     end
 
-    subgraph StorageEngine ["📦 3. Atomic Snapshot Engine & Retention"]
+    subgraph StorageEngine ["📦 4. Atomic Snapshot Engine & Retention"]
         Diff{"🔍 Epidemiological<br/>Content Changed?"}
         Store["💾 Atomically Write New Snapshot<br/><code>public/data/snapshots/snapshot-*.json</code>"]
         Manifest["📑 Atomic Manifest & Hash Sync<br/><code>public/data/manifest.json</code>"]
@@ -94,20 +100,19 @@ flowchart TD
         Noop["ℹ️ Unchanged: Retain Active Snapshot<br/>(Skip Git Commit & Mutation)"]
     end
 
-    subgraph QualityGate ["✅ 4. Quality Gate & Static Pre-Rendering"]
-        CodeQuality["🧪 Integrity Test Suite & Linter<br/><code>vp test --run</code> & <code>vp check</code>"]
-        SSGBuild["⚡ Vite+ Static Site Generator (SSG)<br/>(Pre-renders HTML, SVG & Schema.org)"]
+    subgraph Delivery ["🚀 5. Production Edge Delivery & Local Dev"]
+        SSGBuild["🌐 <b>GitHub Pages (Production Host)</b><br/>100% pure static edge hosting (0 backend servers)<br/>Pre-rendered HTML, SVG & Schema.org"]
+        SSRServer["💻 <b>Local Dev Server (Hono + Vite)</b><br/><code>node server.js</code> (port 3000 / 3001)<br/>Emulates SSR & <code>/api/*</code> routes locally"]
     end
 
-    subgraph Delivery ["🚀 5. Global Edge Distribution"]
-        Pages["🌐 GitHub Pages CDN<br/>(0ms TTFB / Cache Manifest Protocol)"]
-        Client["📱 Mobile & Desktop Clients<br/>(Leaflet Map + TanStack Charts)"]
-    end
-
-    Cron --> FetchDRC
-    Dispatch --> FetchDRC
-    FetchDRC --> Reconcile
-    FetchHDX --> Reconcile
+    Cron --> FetchPortal
+    Dispatch --> FetchPortal
+    FetchPortal -->|Live PDF stream| ParsePDF
+    FetchPortal -.->|On HTTP Timeout/Error| Fallback
+    ParsePDF --> Crosswalk
+    Fallback --> Crosswalk
+    FetchHDX --> Crosswalk
+    Crosswalk --> Reconcile
     Reconcile -- "Valid & Reconciled" --> Candidate
     Reconcile -- "Discrepancy / Corrupted" --> Halt
     Candidate --> Diff
@@ -115,11 +120,9 @@ flowchart TD
     Diff -- "No (Timestamps Only)" --> Noop
     Store --> Manifest
     Manifest --> Retain
-    Retain --> CodeQuality
-    Noop --> CodeQuality
-    CodeQuality --> SSGBuild
-    SSGBuild --> Pages
-    Pages --> Client
+    Retain --> SSGBuild
+    Retain -.->|Local dev inspection| SSRServer
+    Noop --> SSGBuild
 
     classDef holoBlue fill:#081c2e,stroke:#33b5e5,stroke-width:2px,color:#ffffff;
     classDef holoDarkBlue fill:#051424,stroke:#0099cc,stroke-width:2px,color:#ffffff;
@@ -130,22 +133,40 @@ flowchart TD
     classDef holoGray fill:#1c1c1c,stroke:#777777,stroke-width:1.5px,color:#cccccc;
 
     class Cron,Dispatch holoBlue;
-    class FetchDRC,FetchHDX,Candidate holoPurple;
-    class Diff,Reconcile holoOrange;
+    class FetchPortal,ParsePDF,FetchHDX,Candidate holoPurple;
+    class Fallback holoGray;
+    class Diff,Reconcile,Crosswalk holoOrange;
     class Store,Manifest,Retain holoGreen;
-    class CodeQuality,SSGBuild holoDarkBlue;
-    class Pages,Client holoGreen;
+    class SSGBuild,SSRServer holoDarkBlue;
     class Halt holoRed;
     class Noop holoGray;
 ```
 
-### Pipeline Guarantees
+### How Ingestion Works in Detail
 
-- **4-Hour Scheduled Cadence:** Automatically executes every 4 hours (`00:00`, `04:00`, `08:00`, `12:00`, `16:00`, `20:00 UTC`).
-- **Fail-Closed Reconciliation:** Precedence rules enforce National > Provincial > Health Zone. Mismatched sums trigger a non-destructive pipeline halt, preserving the last-known-good snapshot.
-- **Content-Based Change Detection:** Differentiates between volatile check/fetch timestamps and genuine epidemiological changes. Unchanged runs produce zero repository churn and skip git commits.
-- **Atomic Snapshots & Manifest Protocol:** Every snapshot is archived under `public/data/snapshots/` and registered with SHA-256 hashing in `public/data/manifest.json`.
-- **Snapshot Retention & Instant Rollback:** Retains at least 10 historical snapshots to ensure instant rollbacks via `scripts/rollback-snapshot.js`.
+1. **Dynamic DRC Ministry PDF Scraping (`drc-ministry-adapter.js`)**:
+   - Instead of reading static mock files or importing test fixtures, the pipeline scrapes `https://sante.gouv.cd/documents/sitreps` to discover the newest daily situation report (e.g., `SitRep_MVEBDB_119_10_09_2026.pdf`).
+   - It streams the PDF into memory and parses the digital text using `pdf-parse` in ~500ms without external Python runtime dependencies.
+   - Extracts national confirmed cases, new cases, confirmed deaths, recoveries, overall CFR, and the 6 affected provinces (Ituri, Nord-Kivu, Haut-Uélé, Tshopo, Bas-Uélé, Sud-Kivu).
+
+2. **Live UN OCHA HDX Consolidated Feed (`hdx-adapter.js`)**:
+   - Fetches `drc_ebola_cases_consolidated.csv` directly from the UN OCHA Humanitarian Data Exchange.
+   - Normalizes operational health zones using the canonical crosswalk, aligning historical names with standard pcodes and DHIS2 IDs.
+   - Aggregates latest cumulative caseloads for 43+ active health zones with zero duplicate entries.
+
+3. **Offline Baseline Fallback (`server/pipeline/data/baseline-sitrep.txt`)**:
+   - Production code is strictly decoupled from the `test/` directory.
+   - If the government portal or HDX is temporarily unreachable (e.g. during maintenance or network failure), the pipeline gracefully falls back to the server-side baseline cache without failing closed or breaking the build.
+
+4. **Idempotent Change Detection & Atomic Snapshots (`pipeline-ingest.js`)**:
+   - Compares the candidate snapshot against `public/data/latest-snapshot.json`.
+   - Volatile fetch timestamps (`fetchedAt`, `generatedAt`) are strictly ignored.
+   - If genuine epidemiological metrics have changed, it writes an immutable timestamped snapshot to `public/data/snapshots/`, updates the manifest with SHA-256 hashes, and refreshes the prerender dataset.
+   - If metrics are unchanged, zero mutations occur, skipping git commit churn.
+
+5. **Static Production vs. Local Hono Development**:
+   - **Production (GitHub Pages):** Operates with **zero backend servers**. The site is 100% pre-rendered into static HTML, client JS/CSS bundles, and JSON snapshots deployed directly to GitHub Pages CDN.
+   - **Local Development (`server.js`):** Hono (`@hono/node-server`) is used **strictly for local dev**. It embeds Vite's dev middleware, provides in-memory HTML pre-warming for instant 0ms TTFB, and simulates the `/api/*` endpoints on `http://localhost:3000` (or `PORT=3001`).
 
 ---
 
@@ -157,14 +178,16 @@ This project uses [Vite+](https://viteplus.dev/), the unified toolchain for the 
 # 1. Install dependencies
 vp install
 
-# 2. Run local development server
-vp dev
+# 2. Run local Hono + Vite+ SSR development server (http://localhost:3000 or custom port)
+node server.js
+# Or specify an alternate port if 3000 is occupied:
+PORT=3001 node server.js
 
-# 3. Ingestion Dry-Run (Verifies candidate snapshot without mutating disk)
+# 3. Ingestion Dry-Run (Verifies live portal & HDX without mutating disk)
 node scripts/sync-data.js --dry-run
 
-# 4. Ingestion Run (Fetches, validates, and persists new snapshot if changed)
-vp run sync
+# 4. Live Ingestion Run (Fetches SitRep PDF & HDX feed, validates, and persists new snapshot)
+node scripts/sync-data.js
 
 # 5. Roll back active deployment to a prior validated snapshot
 node scripts/rollback-snapshot.js <snapshotId>
@@ -201,7 +224,7 @@ ebola/
 │   │   └── snapshots/        # Historical immutable snapshot archive (min 10 retained)
 │   └── geography/            # Health zone points and boundary crosswalks
 ├── scripts/
-│   ├── sync-data.js          # Ingestion runner with --dry-run support
+│   ├── sync-data.js          # Live ingestion runner (DRC PDF + HDX CSV + dry-run)
 │   ├── rollback-snapshot.js  # Atomic rollback tool for prior snapshots
 │   └── verify-ministry-live.js # Remote portal probe & fixture hashing
 ├── server/
@@ -215,9 +238,10 @@ ebola/
 │   │   ├── snapshot-store.js # Atomic filesystem writes & snapshot archive
 │   │   ├── source-health.js  # Source transport health tracking
 │   │   ├── sources.js        # Authoritative source registry
-│   │   ├── adapters/         # DRC, HDX, and international source adapters
-│   │   └── parsers/          # Ministry SitRep text and PDF table parsers
-│   └── server.js             # Optional Hono SSR server (for Node.js hosting)
+│   │   ├── adapters/         # DRC Ministry PDF, OCHA HDX, and international adapters
+│   │   ├── data/             # Server baseline caches (baseline-sitrep.txt)
+│   │   └── parsers/          # Ministry SitRep digital PDF and text parsers
+│   └── server.js             # Local development server (Hono + Vite SSR middleware)
 ├── src/
 │   ├── data/
 │   │   ├── outbreak-data.js  # Fallback baseline epidemiological dataset

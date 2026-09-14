@@ -5,6 +5,7 @@
  */
 
 import { isGeographicLevelSupported, classifyCountryStatus } from "./sources.js";
+import { resolveHealthZone } from "./geography/health-zone-crosswalk.js";
 import defaultOutbreakData from "../../src/data/outbreak-data.js";
 
 /**
@@ -282,6 +283,30 @@ export function createSnapshotFromObservations({
   });
 }
 
+export const CANONICAL_PROVINCE_CENTROIDS = Object.freeze({
+  ituri: [1.7, 29.9],
+  "nord-kivu": [-0.79, 29.05],
+  "north kivu": [-0.79, 29.05],
+  "haut-uélé": [3.33, 27.99],
+  "haut-uele": [3.33, 27.99],
+  "upper uele": [3.33, 27.99],
+  tshopo: [0.52, 25.19],
+  "bas-uélé": [2.8, 24.74],
+  "bas-uele": [2.8, 24.74],
+  "lower uele": [2.8, 24.74],
+  "sud-kivu": [-2.51, 28.86],
+  "south kivu": [-2.51, 28.86],
+  "sud ubangi": [3.25, 19.78],
+  "sud-ubangi": [3.25, 19.78],
+});
+
+export const CANONICAL_COUNTRY_CENTROIDS = Object.freeze({
+  UGA: [0.71, 30.06],
+  FRA: [48.8566, 2.3522],
+  DEU: [52.52, 13.405],
+  COD: [1.56, 30.25],
+});
+
 /**
  * Maps a modern normalized OutbreakSnapshot to the legacy DynamicOutbreakState structure
  * consumed by existing UI renderers (src/entry-server.js and src/entry-client.js).
@@ -291,8 +316,16 @@ export function createSnapshotFromObservations({
  */
 export function mapSnapshotToLegacyState(snapshot) {
   const locations = [];
+  const hasCodSubnational = snapshot.observations.some(
+    (o) => o.country?.iso3 === "COD" && o.geographicPrecision !== "country",
+  );
 
   for (const obs of snapshot.observations) {
+    // Skip national COD summary from locations list to avoid duplicate country entry
+    if (obs.country?.iso3 === "COD" && obs.geographicPrecision === "country" && hasCodSubnational) {
+      continue;
+    }
+
     const countryName = obs.country?.name || "Democratic Republic of the Congo";
     const countryIso3 = obs.country?.iso3 || "COD";
     const regionName = obs.healthZone?.name || obs.province?.name || countryName;
@@ -308,6 +341,40 @@ export function mapSnapshotToLegacyState(snapshot) {
     const confirmedCases = obs.metrics?.confirmedCases ?? 0;
     const confirmedDeaths = obs.metrics?.confirmedDeaths ?? 0;
 
+    let center = obs.representativePoint;
+    if (!center && obs.healthZone) {
+      if (obs.healthZone.pcode) {
+        try {
+          const matched = resolveHealthZone(obs.healthZone.pcode);
+          if (matched?.representativePoint) {
+            center = matched.representativePoint;
+          }
+        } catch {
+          // fallback to name query
+        }
+      }
+      if (!center && obs.healthZone.name) {
+        try {
+          const matched = resolveHealthZone(obs.healthZone.name);
+          if (matched?.representativePoint) {
+            center = matched.representativePoint;
+          }
+        } catch {
+          // fallback to province or country
+        }
+      }
+    }
+    if (!center && obs.province?.name) {
+      const pKey = obs.province.name.toLowerCase().trim();
+      center = CANONICAL_PROVINCE_CENTROIDS[pKey];
+    }
+    if (!center && countryIso3) {
+      center = CANONICAL_COUNTRY_CENTROIDS[countryIso3];
+    }
+    if (!center) {
+      center = [1.56, 30.25];
+    }
+
     locations.push({
       country: countryName,
       countryCode: countryIso3,
@@ -316,8 +383,9 @@ export function mapSnapshotToLegacyState(snapshot) {
       deaths: confirmedDeaths,
       cfr: confirmedCases > 0 ? Number(((confirmedDeaths / confirmedCases) * 100).toFixed(1)) : 0,
       status,
-      center: [1.56, 30.25], // Default centroid, replaced by geography crosswalk
+      center,
       lastReported: obs.timestamps?.sourceUpdatedAt || snapshot.summary?.lastReportDate || "",
+      ...(obs.note ? { note: obs.note } : {}),
     });
   }
 
