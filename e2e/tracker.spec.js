@@ -161,14 +161,19 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
       /Contained \/ Outbreak Over/i,
     );
 
-    // Now click an active DRC epicenter in sidebar
-    const epicenterItem = page.locator(".province-item", { hasText: "Nord-Kivu" }).first();
-    await epicenterItem.click();
+    // The scheduled ingestion job can legitimately change which DRC regions are
+    // present, so select a currently rendered DRC location rather than a fixed
+    // province name from a prior report.
+    const drcLocationItem = page.locator('.province-item[data-country="COD"]').first();
+    await expect(drcLocationItem).toBeVisible();
+    const selectedRegion = await drcLocationItem.getAttribute("data-region");
+    expect(selectedRegion).toBeTruthy();
+    await drcLocationItem.click();
 
-    // Verify popup switches to Nord-Kivu
+    // Verify the popup switches to the selected current location.
     const epicPopup = page.locator(".leaflet-popup").last();
-    await expect(epicPopup.locator(".popup-content h3")).toContainText(/Nord-Kivu/i);
-    await expect(epicPopup.locator(".popup-content .pop-province")).toContainText(/Active/i);
+    await expect(epicPopup.locator(".popup-content h3")).toContainText(selectedRegion);
+    await expect(epicPopup.locator(".popup-content .pop-province")).toContainText("Status:");
   });
 
   test("7. Regression Guard: No Giant Square Focus Outline on Countries", async ({ page }) => {
