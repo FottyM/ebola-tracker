@@ -81,6 +81,20 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       expect(vm.hasMixedDates).toBe(true);
       expect(vm.sectionDates.national).toBe("09/09/2026");
       expect(vm.sectionDates.healthZones).toBe("08/09/2026");
+      expect(vm.renderHtml()).toContain(
+        'aria-label="Surveillance Freshness: Updated 09/09/2026 12:00"',
+      );
+      expect(vm.renderHtml()).toContain("National: 09/09/2026 • Health Zones: 08/09/2026");
+
+      const frenchVm = createFreshnessViewModel(mixedSnapshot, "fr");
+      expect(frenchVm.statusText).toBe("Mise à jour partielle");
+      expect(frenchVm.checkCadence).toBe("Vérifié toutes les 30 min");
+      expect(frenchVm.renderHtml()).toContain(
+        'aria-label="Fraîcheur de la surveillance : Mis à jour 09/09/2026 12:00"',
+      );
+      expect(frenchVm.renderHtml()).toContain(
+        "National : 09/09/2026 • Zones de santé : 08/09/2026",
+      );
     });
 
     it("represents stale and failed states truthfully", () => {

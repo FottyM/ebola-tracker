@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
 import { createServer as createViteServer } from "vite";
 import { runETL, getCachedData } from "./server/etl.js";
+import { localizeSeoHtml } from "./src/seo-metadata.js";
 
 /** @type {string} */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -25,14 +26,29 @@ const PORT = Number(process.env.PORT) || 3000;
 export const app = new Hono();
 
 // ── In-Memory Pre-Rendered Page Cache (Pre-warmed for 0ms response) ──
-/** @type {string | null} */
-let preRenderedHtmlCache = null;
+/** @type {Map<"en" | "fr", string>} */
+const preRenderedHtmlCache = new Map();
 /** @type {number} */
 let lastRenderTime = 0;
 const CACHE_TTL_MS = 60 * 1000; // 1 minute pre-render cache
 
 /**
- * Pre-warms or refreshes the SSR HTML cache in the background.
+ * Resolves requested locale from URL query parameter (?lang=fr / ?locale=fr) or pathname (/fr).
+ * @param {string} [urlStr]
+ * @returns {"en" | "fr"}
+ */
+export function resolveLocaleFromUrl(urlStr = "") {
+  try {
+    const parsed = new URL(urlStr, "http://localhost");
+    const lang = parsed.searchParams.get("lang") || parsed.searchParams.get("locale");
+    if (lang === "fr" || lang === "en") return lang;
+    if (/(?:^|\/)fr(?:\/|$)/.test(parsed.pathname)) return "fr";
+  } catch {}
+  return "en";
+}
+
+/**
+ * Pre-warms or refreshes the SSR HTML cache in the background for both supported locales.
  * @param {import('vite').ViteDevServer | null} [viteInstance]
  * @returns {Promise<string>}
  */
@@ -40,7 +56,7 @@ async function warmRenderCache(viteInstance) {
   const data = await runETL();
 
   let template;
-  /** @type {(data: import('./server/etl.js').DynamicOutbreakState) => import('./src/entry-server.js').SsrRenderResult} */
+  /** @type {(data: import('./server/etl.js').DynamicOutbreakState, options?: { locale?: "en" | "fr" }) => import('./src/entry-server.js').SsrRenderResult} */
   let render;
 
   if (!isProduction && viteInstance) {
@@ -52,24 +68,27 @@ async function warmRenderCache(viteInstance) {
     render = (await import("./dist/server/entry-server.js")).render;
   }
 
-  const { appHtml, jsonLd, initialState } = render(data);
-
-  preRenderedHtmlCache = template
-    .replace(
-      /<!--ssr-jsonld-start-->[\s\S]*?<!--ssr-jsonld-end-->|<!--ssr-jsonld-->/,
-      `<!--ssr-jsonld-start-->\n<script type="application/ld+json">${jsonLd}</script>\n<!--ssr-jsonld-end-->`,
-    )
-    .replace(
-      /<!--ssr-outlet-start-->[\s\S]*?<!--ssr-outlet-end-->|<!--ssr-outlet-->/,
-      `<!--ssr-outlet-start-->\n${appHtml}\n<!--ssr-outlet-end-->`,
-    )
-    .replace(
-      /<!--ssr-state-start-->[\s\S]*?<!--ssr-state-end-->|<!--ssr-state-->/,
-      `<!--ssr-state-start-->\n${initialState}\n<!--ssr-state-end-->`,
-    );
+  const supportedLocales = /** @type {const} */ (["en", "fr"]);
+  for (const loc of supportedLocales) {
+    const { appHtml, jsonLd, initialState } = render(data, { locale: loc });
+    const html = localizeSeoHtml(template, loc)
+      .replace(
+        /<!--ssr-jsonld-start-->[\s\S]*?<!--ssr-jsonld-end-->|<!--ssr-jsonld-->/,
+        `<!--ssr-jsonld-start-->\n<script type="application/ld+json">${jsonLd}</script>\n<!--ssr-jsonld-end-->`,
+      )
+      .replace(
+        /<!--ssr-outlet-start-->[\s\S]*?<!--ssr-outlet-end-->|<!--ssr-outlet-->/,
+        `<!--ssr-outlet-start-->\n${appHtml}\n<!--ssr-outlet-end-->`,
+      )
+      .replace(
+        /<!--ssr-state-start-->[\s\S]*?<!--ssr-state-end-->|<!--ssr-state-->/,
+        `<!--ssr-state-start-->\n${initialState}\n<!--ssr-state-end-->`,
+      );
+    preRenderedHtmlCache.set(loc, html);
+  }
 
   lastRenderTime = Date.now();
-  return preRenderedHtmlCache;
+  return preRenderedHtmlCache.get("en") || "";
 }
 
 // 1. Initial background pre-fetch & warmup
@@ -80,7 +99,7 @@ setInterval(
   () => {
     runETL()
       .then(() => {
-        preRenderedHtmlCache = null; // Invalidate to regenerate on next request or interval
+        preRenderedHtmlCache.clear(); // Invalidate to regenerate on next request or interval
       })
       .catch((err) => console.error("[ETL Warmup Error]", err));
   },
@@ -123,22 +142,9 @@ async function start() {
       appType: "custom",
     });
 
-    // Warm up the render cache immediately on boot
-    void warmRenderCache(vite);
-
-    // Fast-path SSR handler with pre-rendered cache
-    vite.middlewares.use(async (req, res, next) => {
+    const http = await import("node:http");
+    const server = http.createServer(async (req, res) => {
       const url = req.url || "/";
-
-      // Let Vite serve CSS, client modules, hot-updates, and assets instantly
-      if (
-        url.startsWith("/@") ||
-        url.startsWith("/src/") ||
-        url.startsWith("/node_modules/") ||
-        url.includes(".")
-      ) {
-        return next();
-      }
 
       // Route /api/* directly to Hono API controller so dev returns JSON rather than application HTML
       if (url.startsWith("/api/")) {
@@ -159,14 +165,25 @@ async function start() {
         }
       }
 
+      // Let Vite serve CSS, client modules, hot-updates, and assets instantly
+      if (
+        url.startsWith("/@") ||
+        url.startsWith("/src/") ||
+        url.startsWith("/node_modules/") ||
+        (url.includes(".") && !url.startsWith("/api/"))
+      ) {
+        return vite.middlewares(req, res);
+      }
+
       try {
         const now = Date.now();
-        let html = preRenderedHtmlCache;
+        const reqLocale = resolveLocaleFromUrl(url);
 
-        if (!html || now - lastRenderTime > CACHE_TTL_MS) {
-          html = await warmRenderCache(vite);
+        if (!preRenderedHtmlCache.has(reqLocale) || now - lastRenderTime > CACHE_TTL_MS) {
+          await warmRenderCache(vite);
         }
 
+        const html = preRenderedHtmlCache.get(reqLocale) || preRenderedHtmlCache.get("en") || "";
         res.statusCode = 200;
         res.setHeader("Content-Type", "text/html; charset=utf-8");
         res.setHeader("Cache-Control", "no-cache");
@@ -181,14 +198,12 @@ async function start() {
       }
     });
 
-    const http = await import("node:http");
-    const server = http.createServer(vite.middlewares);
-
     server.listen(PORT, () => {
       console.log(
         `\n⚡ Ebola Outbreak Live Map (Pre-Fetched Telemetry & Pre-Warmed SSR) running at:`,
       );
       console.log(`👉 http://localhost:${PORT}/\n`);
+      void warmRenderCache(vite).catch((err) => console.warn("[Initial Warmup Warning]", err));
     });
   } else {
     const { serve } = await import("@hono/node-server");
@@ -201,12 +216,13 @@ async function start() {
 
     app.get("*", async (c) => {
       const now = Date.now();
-      let html = preRenderedHtmlCache;
+      const reqLocale = resolveLocaleFromUrl(c.req.url);
 
-      if (!html || now - lastRenderTime > CACHE_TTL_MS) {
-        html = await warmRenderCache(null);
+      if (!preRenderedHtmlCache.has(reqLocale) || now - lastRenderTime > CACHE_TTL_MS) {
+        await warmRenderCache(null);
       }
 
+      const html = preRenderedHtmlCache.get(reqLocale) || preRenderedHtmlCache.get("en") || "";
       c.header("Content-Type", "text/html; charset=utf-8");
       c.header("X-SSR-Cache", "HIT");
       return c.html(html);
@@ -219,4 +235,6 @@ async function start() {
   }
 }
 
-void start();
+if (process.env.NODE_ENV !== "test") {
+  void start();
+}

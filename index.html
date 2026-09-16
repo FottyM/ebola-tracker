@@ -28,6 +28,8 @@
 
     <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="fr_CD" />
     <meta property="og:url" content="https://fottym.github.io/ebola-tracker/" />
     <meta property="og:site_name" content="Ebola Outbreak Live Tracker" />
     <meta
@@ -105,14 +107,29 @@
     <!-- Language Alternates -->
     <link rel="alternate" hreflang="x-default" href="https://fottym.github.io/ebola-tracker/" />
     <link rel="alternate" hreflang="en" href="https://fottym.github.io/ebola-tracker/" />
+    <link rel="alternate" hreflang="fr" href="https://fottym.github.io/ebola-tracker/fr/" />
 
     <!-- FOSS Privacy Analytics: Umami (Cookieless, GDPR compliant) -->
     <link rel="dns-prefetch" href="https://cloud.umami.is" />
     <link rel="preconnect" href="https://cloud.umami.is" crossorigin />
+    <script>
+      function umamiBeforeSend(type, payload) {
+        if (payload) {
+          var lang = (document.documentElement && document.documentElement.lang) || "en";
+          payload.language = lang;
+          payload.data = Object.assign({}, payload.data, {
+            language: lang,
+            app_language: lang,
+          });
+        }
+        return payload;
+      }
+    </script>
     <script
       defer
       src="https://cloud.umami.is/script.js"
       data-website-id="f0225441-73a1-4e52-8c23-7394f59335da"
+      data-before-send="umamiBeforeSend"
     ></script>
 
     <!-- Performance & Preload Hints -->

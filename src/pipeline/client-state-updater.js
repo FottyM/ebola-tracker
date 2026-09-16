@@ -6,6 +6,7 @@
 
 import { mapSnapshotToLegacyState } from "../../server/pipeline/contracts.js";
 import { createFreshnessViewModel } from "./freshness-view-model.js";
+import { m } from "../paraglide/messages.js";
 
 /**
  * Applies an updated snapshot to the DOM and global state without a full page reload.
@@ -22,6 +23,7 @@ export function applyUpdatedSnapshot(
 
   const legacy = mapSnapshotToLegacyState(snapshot);
   legacy.snapshotId = snapshot.snapshotId;
+  const locale = documentRef?.documentElement?.lang === "fr" ? "fr" : "en";
 
   if (documentRef) {
     const casesEl = documentRef.querySelector(".stat-card.cases .value");
@@ -31,18 +33,23 @@ export function applyUpdatedSnapshot(
     if (deathsEl) deathsEl.textContent = snapshot.summary.totalDeaths.toLocaleString();
 
     const cfrSubEl = documentRef.querySelector(".stat-card.deaths .sub");
-    if (cfrSubEl) cfrSubEl.textContent = `${snapshot.summary.overallCfr} case fatality`;
+    if (cfrSubEl) {
+      cfrSubEl.textContent = m.case_fatality({ rate: snapshot.summary.overallCfr }, { locale });
+    }
 
     const nationsEl = documentRef.querySelector(".stat-card.cfr .value");
     if (nationsEl) nationsEl.textContent = String(snapshot.summary.affectedCountriesCount);
 
     const badgeEl = documentRef.querySelector(".pheic-badge");
     if (badgeEl) {
-      badgeEl.textContent = `Active Surveillance — ${snapshot.summary.affectedCountriesCount} Countries Affected`;
+      badgeEl.textContent = m.pheic_badge(
+        { count: snapshot.summary.affectedCountriesCount },
+        { locale },
+      );
     }
 
     // Update freshness presentation
-    const freshness = createFreshnessViewModel(snapshot);
+    const freshness = createFreshnessViewModel(snapshot, locale);
     const dateEl = documentRef.querySelector(".freshness-label strong");
     if (dateEl) dateEl.textContent = freshness.reportingDate;
 
