@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
 import { createServer as createViteServer } from "vite";
 import { runETL, getCachedData } from "./server/etl.js";
+import { localizeSeoHtml } from "./src/seo-metadata.js";
 
 /** @type {string} */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -41,7 +42,7 @@ export function resolveLocaleFromUrl(urlStr = "") {
     const parsed = new URL(urlStr, "http://localhost");
     const lang = parsed.searchParams.get("lang") || parsed.searchParams.get("locale");
     if (lang === "fr" || lang === "en") return lang;
-    if (parsed.pathname === "/fr" || parsed.pathname.startsWith("/fr/")) return "fr";
+    if (/(?:^|\/)fr(?:\/|$)/.test(parsed.pathname)) return "fr";
   } catch {}
   return "en";
 }
@@ -70,8 +71,7 @@ async function warmRenderCache(viteInstance) {
   const supportedLocales = /** @type {const} */ (["en", "fr"]);
   for (const loc of supportedLocales) {
     const { appHtml, jsonLd, initialState } = render(data, { locale: loc });
-    const html = template
-      .replace(/<html lang="[^"]*"/, `<html lang="${loc}"`)
+    const html = localizeSeoHtml(template, loc)
       .replace(
         /<!--ssr-jsonld-start-->[\s\S]*?<!--ssr-jsonld-end-->|<!--ssr-jsonld-->/,
         `<!--ssr-jsonld-start-->\n<script type="application/ld+json">${jsonLd}</script>\n<!--ssr-jsonld-end-->`,

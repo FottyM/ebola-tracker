@@ -231,8 +231,8 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
 
     // Verify French translations applied in-place
     await expect(page.locator(".panel-header h1")).toContainText(/Suivi de l'Épidémie d'Ebola/i);
-    await expect(page.locator(".stat-card.cases .label")).toContainText(/Total des Cas/i);
-    await expect(page.locator(".stat-card.deaths .label")).toContainText(/Total des Décès/i);
+    await expect(page.locator(".stat-card.cases .label")).toContainText(/Cas confirmés cumulés/i);
+    await expect(page.locator(".stat-card.deaths .label")).toContainText(/Décès cumulés/i);
     await expect(page.locator(".stat-card.cfr .label")).toContainText(/Pays Affectés/i);
     await expect(page.locator(".stat-card.zones .label")).toContainText(/Foyers Actifs/i);
     await expect(page.locator(".pheic-badge")).toContainText(/Surveillance Active/i);
@@ -272,7 +272,9 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
     await expect(frenchPage.locator(".panel-header h1")).toContainText(
       /Suivi de l'Épidémie d'Ebola/i,
     );
-    await expect(frenchPage.locator(".stat-card.cases .label")).toContainText(/Total des Cas/i);
+    await expect(frenchPage.locator(".stat-card.cases .label")).toContainText(
+      /Cas confirmés cumulés/i,
+    );
     await expect(frenchPage.locator('.lang-btn[data-lang="fr"]')).toHaveClass(/active/);
 
     await frenchContext.close();
@@ -284,8 +286,14 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
     await page.waitForSelector("#map.leaflet-container", { timeout: 10000 });
 
     await expect(page.locator(".panel-header h1")).toContainText(/Suivi de l'Épidémie d'Ebola/i);
-    await expect(page.locator(".stat-card.cases .label")).toContainText(/Total des Cas/i);
+    await expect(page.locator(".stat-card.cases .label")).toContainText(/Cas confirmés cumulés/i);
     await expect(page.locator('.lang-btn[data-lang="fr"]')).toHaveClass(/active/);
+    await expect(page).toHaveTitle(/Maladie à virus Ebola \(Bundibugyo\) 2026 en RDC/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      "https://fottym.github.io/ebola-tracker/fr/",
+    );
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "fr_CD");
 
     // Navigate directly with ?lang=en query parameter
     await page.goto("/?lang=en");
@@ -301,6 +309,7 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
 
     await expect(page.locator(".panel-header h1")).toContainText(/Suivi de l'Épidémie d'Ebola/i);
     await expect(page.locator('.lang-btn[data-lang="fr"]')).toHaveClass(/active/);
+    await expect(page).toHaveTitle(/Maladie à virus Ebola \(Bundibugyo\) 2026 en RDC/);
   });
 
   test("12. Umami Language Telemetry (beforeSend hook, session identify & switch-language tracking)", async ({
@@ -408,7 +417,7 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
 
     await page.locator('.lang-btn[data-lang="fr"]').click();
     await expect(page.locator(".pheic-badge")).toContainText("4 Pays Affectés");
-    await expect(page.locator(".stat-card.deaths .sub")).toContainText("49.4% de létalité");
+    await expect(page.locator(".stat-card.deaths .sub")).toContainText("Taux de létalité : 49.4%");
     await expect(page.locator(".freshness-label strong")).toContainText("16/09/2026");
 
     await page.locator('.lang-btn[data-lang="en"]').click();

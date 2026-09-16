@@ -5,6 +5,8 @@
  * Formats dates in European notation (DD/MM/YYYY) with 24-hour time (HH:mm).
  */
 
+import { m } from "../paraglide/messages.js";
+
 /**
  * Formats a date or timestamp into European notation (DD/MM/YYYY) with 24-hour time (HH:mm).
  * e.g. "2026-09-09" -> "09/09/2026 12:00"
@@ -118,20 +120,10 @@ export function formatEuropeanDate(dateStr) {
  * }}
  */
 const STATUS_CONFIG = {
-  current: { badgeClass: "freshness-current", en: "Current", fr: "À jour" },
-  partial: { badgeClass: "freshness-partial", en: "Partial Update", fr: "Mise à jour partielle" },
-  stale: { badgeClass: "freshness-stale", en: "Stale Fallback", fr: "Données antérieures" },
-  failed: { badgeClass: "freshness-failed", en: "Sync Issue", fr: "Problème de synchronisation" },
-};
-
-const CADENCE_LABELS = {
-  en: "Checked every 30m",
-  fr: "Vérifié toutes les 30 min",
-};
-
-const UPDATED_LABELS = {
-  en: "Updated:",
-  fr: "Mis à jour :",
+  current: { badgeClass: "freshness-current", message: m.status_current },
+  partial: { badgeClass: "freshness-partial", message: m.status_partial },
+  stale: { badgeClass: "freshness-stale", message: m.status_stale },
+  failed: { badgeClass: "freshness-failed", message: m.status_failed },
 };
 
 /**
@@ -159,11 +151,11 @@ export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
       rawReportingDate: "N/A",
       reportingDate: "N/A",
       status: "failed",
-      statusText: failedCfg[lang],
+      statusText: failedCfg.message({}, { locale: lang }),
       statusBadgeClass: failedCfg.badgeClass,
       hasMixedDates: false,
       sectionDates: { national: "N/A", provinces: "N/A", healthZones: "N/A" },
-      checkCadence: CADENCE_LABELS[lang],
+      checkCadence: m.checked_cadence({}, { locale: lang }),
       renderHtml: () => "",
     };
   }
@@ -216,7 +208,7 @@ export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
   }
 
   const statusConfig = STATUS_CONFIG[status] || STATUS_CONFIG.current;
-  const statusText = statusConfig[lang];
+  const statusText = statusConfig.message({}, { locale: lang });
   const statusBadgeClass = statusConfig.badgeClass;
 
   const sectionDates = {
@@ -226,15 +218,12 @@ export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
   };
 
   function renderHtml() {
-    const updatedLabel = UPDATED_LABELS[lang];
-    const ariaLabel =
-      lang === "fr"
-        ? `Fraîcheur de la surveillance : Mis à jour ${reportingDate}`
-        : `Surveillance Freshness: Updated ${reportingDate}`;
-    const subtext =
-      lang === "fr"
-        ? `National : ${sectionDates.national} • Zones de santé : ${sectionDates.healthZones}`
-        : `National: ${sectionDates.national} • Health Zones: ${sectionDates.healthZones}`;
+    const updatedLabel = m.updated({}, { locale: lang });
+    const ariaLabel = m.freshness_aria({ date: reportingDate }, { locale: lang });
+    const subtext = m.freshness_section_dates(
+      { national: sectionDates.national, healthZones: sectionDates.healthZones },
+      { locale: lang },
+    );
 
     return `
     <div class="freshness-bar" role="status" aria-label="${ariaLabel}">
@@ -257,7 +246,7 @@ export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
     statusBadgeClass,
     hasMixedDates,
     sectionDates,
-    checkCadence: CADENCE_LABELS[lang],
+    checkCadence: m.checked_cadence({}, { locale: lang }),
     renderHtml,
   };
 }

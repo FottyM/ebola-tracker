@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vite-plus/test";
 import { render } from "../src/entry-server.js";
 import defaultOutbreakData from "../src/data/outbreak-data.js";
+import { localizeSeoHtml } from "../src/seo-metadata.js";
+import { readFileSync } from "node:fs";
 
 describe("Outbreak Data and SSR Generator", () => {
   it("has valid default outbreak data", () => {
@@ -47,9 +49,23 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(appHtml).toContain('id="map"');
     expect(appHtml).toContain("Suivi de l'Épidémie d'Ebola");
     expect(appHtml).toContain("Surveillance Active");
-    expect(appHtml).toContain("Total des Cas");
-    expect(appHtml).toContain("Total des Décès");
-    expect(jsonLd).toContain("Surveillance en Direct de l'Épidémie");
+    expect(appHtml).toContain("Cas confirmés cumulés");
+    expect(appHtml).toContain("Décès cumulés");
+    expect(jsonLd).toContain("Surveillance de la flambée de maladie à virus Ebola");
+    expect(jsonLd).toContain('"inLanguage":"fr-CD"');
+    expect(jsonLd).toContain("Jeu de données de surveillance");
+  });
+
+  it("localizes canonical, social and academic metadata for the French page", () => {
+    const template = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+    const html = localizeSeoHtml(template, "fr");
+    expect(html).toContain('<html lang="fr">');
+    expect(html).toContain('href="https://fottym.github.io/ebola-tracker/fr/"');
+    expect(html).toContain('property="og:locale" content="fr_CD"');
+    expect(html).toContain('name="DC.language" content="fr"');
+    expect(html).toContain('name="twitter:title"');
+    expect(html).toContain("Maladie à virus Ebola (Bundibugyo) 2026 en RDC");
+    expect(html).toContain("Carte épidémiologique et suivi");
   });
 
   it("resolves language from URL parameters and paths via resolveLocaleFromUrl", async () => {
@@ -58,6 +74,7 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(resolveLocaleFromUrl("http://localhost:3000/?locale=fr")).toBe("fr");
     expect(resolveLocaleFromUrl("http://localhost:3000/fr")).toBe("fr");
     expect(resolveLocaleFromUrl("http://localhost:3000/fr/")).toBe("fr");
+    expect(resolveLocaleFromUrl("https://fottym.github.io/ebola-tracker/fr/")).toBe("fr");
     expect(resolveLocaleFromUrl("http://localhost:3000/?lang=en")).toBe("en");
     expect(resolveLocaleFromUrl("http://localhost:3000/")).toBe("en");
   });
@@ -97,6 +114,14 @@ describe("Outbreak Data and SSR Generator", () => {
       navigator: { language: "en-US" },
     };
     expect(detectInitialLocaleWithSource(mockWinPath)).toEqual({ locale: "fr", source: "url" });
+
+    expect(
+      detectInitialLocaleWithSource({
+        location: { search: "", pathname: "/ebola-tracker/fr/" },
+        localStorage: { getItem: () => "en" },
+        navigator: { language: "en-US" },
+      }),
+    ).toEqual({ locale: "fr", source: "url" });
 
     // 3. Saved localStorage preference
     const mockWinStorage = {

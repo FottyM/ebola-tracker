@@ -103,7 +103,7 @@ export function detectInitialLocaleWithSource(targetWindow) {
       }
       // 2. URL Path prefix (/fr or /fr/)
       const pathname = win.location.pathname || "";
-      if (pathname === "/fr" || pathname.startsWith("/fr/")) {
+      if (/(?:^|\/)fr(?:\/|$)/.test(pathname)) {
         return { locale: "fr", source: "url" };
       }
     }

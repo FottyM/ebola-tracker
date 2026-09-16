@@ -18,6 +18,7 @@ import { scaleLinear } from "@tanstack/charts/scales/linear";
 import { createFreshnessViewModel } from "./pipeline/freshness-view-model.js";
 import { renderEbolaHealthGuidance } from "./health-guidance.js";
 import { m } from "./paraglide/messages.js";
+import { getSeoMetadata } from "./seo-metadata.js";
 
 /**
  * Localizes location status for French or English display.
@@ -189,6 +190,7 @@ export function renderAgeChartSvg(ageGroups, width = 290, height = 130) {
 export function render(data, options = {}) {
   const locale = options?.locale === "fr" ? "fr" : "en";
   const languageCodes = { fr: "fr-CD", en: "en-US" };
+  const seo = getSeoMetadata(locale);
   const { summary, locations, sources, epiCurve, demographics } = data;
 
   const jsonLd = {
@@ -196,7 +198,7 @@ export function render(data, options = {}) {
     "@graph": [
       {
         "@type": "SpecialAnnouncement",
-        "@id": "https://fottym.github.io/ebola-tracker/#announcement",
+        "@id": `${seo.url}#announcement`,
         name: m.schema_announcement_name({}, { locale }),
         inLanguage: languageCodes[locale] || "en-US",
         text: m.schema_announcement_text(
@@ -208,7 +210,7 @@ export function render(data, options = {}) {
           },
           { locale },
         ),
-        url: "https://fottym.github.io/ebola-tracker/",
+        url: seo.url,
         dateModified: summary.lastUpdated || new Date().toISOString(),
         category: "https://www.wikidata.org/wiki/Q5199",
         spatialCoverage: [
@@ -226,20 +228,20 @@ export function render(data, options = {}) {
         diseaseSpreadStatistics: [
           {
             "@type": "Observation",
-            name: "Cumulative Confirmed Cases",
-            measuredProperty: "Cumulative Confirmed Cases",
+            name: m.schema_metric_cases({}, { locale }),
+            measuredProperty: m.schema_metric_cases({}, { locale }),
             measuredValue: summary.totalCases,
           },
           {
             "@type": "Observation",
-            name: "Cumulative Deaths",
-            measuredProperty: "Cumulative Deaths",
+            name: m.schema_metric_deaths({}, { locale }),
+            measuredProperty: m.schema_metric_deaths({}, { locale }),
             measuredValue: summary.totalDeaths,
           },
           {
             "@type": "Observation",
-            name: "Case Fatality Rate",
-            measuredProperty: "Case Fatality Rate",
+            name: m.schema_metric_cfr({}, { locale }),
+            measuredProperty: m.schema_metric_cfr({}, { locale }),
             measuredValue: summary.overallCfr,
           },
         ],
@@ -263,11 +265,11 @@ export function render(data, options = {}) {
       },
       {
         "@type": "Dataset",
-        "@id": "https://fottym.github.io/ebola-tracker/#dataset",
+        "@id": `${seo.url}#dataset`,
         name: m.schema_dataset_name({}, { locale }),
-        description:
-          "Standardized surveillance dataset tracking the 2026 Bundibugyo ebolavirus outbreak across DRC provinces (Ituri, Haut-Uele, Bas-Uele, Tshopo, Nord-Kivu, Sud-Kivu) and Uganda border corridors. Contains cumulative caseloads, weekly epi curves, and demographic distribution.",
-        url: "https://fottym.github.io/ebola-tracker/",
+        description: m.seo_dataset_description({}, { locale }),
+        inLanguage: languageCodes[locale],
+        url: seo.url,
         license: "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
         isAccessibleForFree: true,
         creator: {
@@ -286,16 +288,16 @@ export function render(data, options = {}) {
           },
         },
         variableMeasured: [
-          "Cumulative Confirmed Cases",
-          "Cumulative Deaths",
-          "Case Fatality Rate",
-          "Weekly Incidence Epi Curve",
-          "Age Cohort Distribution",
+          m.schema_metric_cases({}, { locale }),
+          m.schema_metric_deaths({}, { locale }),
+          m.schema_metric_cfr({}, { locale }),
+          m.schema_metric_weekly({}, { locale }),
+          m.schema_metric_age({}, { locale }),
         ],
       },
       {
         "@type": "MedicalCondition",
-        name: "Bundibugyo ebolavirus disease",
+        name: m.schema_condition_name({}, { locale }),
         alternateName: [
           "Bundibugyo virus disease",
           "Ebola virus disease",
@@ -310,9 +312,10 @@ export function render(data, options = {}) {
       },
       {
         "@type": "WebSite",
-        "@id": "https://fottym.github.io/ebola-tracker/#website",
+        "@id": `${seo.url}#website`,
         name: m.schema_website_name({}, { locale }),
-        url: "https://fottym.github.io/ebola-tracker/",
+        inLanguage: languageCodes[locale],
+        url: seo.url,
         author: {
           "@type": "Person",
           name: "Fortunat Mutunda",

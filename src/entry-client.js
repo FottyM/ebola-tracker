@@ -30,6 +30,7 @@ import {
 } from "./pipeline/locale-detector.js";
 import { m } from "./paraglide/messages.js";
 import { setLocale } from "./paraglide/runtime.js";
+import { localizeSeoDocument } from "./seo-metadata.js";
 
 export { trackEvent, identifySession, detectInitialLocaleWithSource, detectInitialLocale };
 
@@ -813,6 +814,7 @@ export function initClient() {
       // Non-blocking
     }
     document.documentElement.lang = newLocale;
+    localizeSeoDocument(document, newLocale);
 
     // Identify user session language in Umami
     identifySession({

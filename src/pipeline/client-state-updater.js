@@ -6,6 +6,7 @@
 
 import { mapSnapshotToLegacyState } from "../../server/pipeline/contracts.js";
 import { createFreshnessViewModel } from "./freshness-view-model.js";
+import { m } from "../paraglide/messages.js";
 
 /**
  * Applies an updated snapshot to the DOM and global state without a full page reload.
@@ -33,10 +34,7 @@ export function applyUpdatedSnapshot(
 
     const cfrSubEl = documentRef.querySelector(".stat-card.deaths .sub");
     if (cfrSubEl) {
-      cfrSubEl.textContent =
-        locale === "fr"
-          ? `${snapshot.summary.overallCfr} de létalité`
-          : `${snapshot.summary.overallCfr} case fatality`;
+      cfrSubEl.textContent = m.case_fatality({ rate: snapshot.summary.overallCfr }, { locale });
     }
 
     const nationsEl = documentRef.querySelector(".stat-card.cfr .value");
@@ -44,10 +42,10 @@ export function applyUpdatedSnapshot(
 
     const badgeEl = documentRef.querySelector(".pheic-badge");
     if (badgeEl) {
-      badgeEl.textContent =
-        locale === "fr"
-          ? `Surveillance Active — ${snapshot.summary.affectedCountriesCount} Pays Affectés`
-          : `Active Surveillance — ${snapshot.summary.affectedCountriesCount} Countries Affected`;
+      badgeEl.textContent = m.pheic_badge(
+        { count: snapshot.summary.affectedCountriesCount },
+        { locale },
+      );
     }
 
     // Update freshness presentation
