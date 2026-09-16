@@ -215,4 +215,205 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
     const isCollapsedFinal = await panel.evaluate((el) => el.classList.contains("collapsed"));
     expect(isCollapsedFinal).toBe(isCollapsedInitially);
   });
+
+  test("9. Language Switcher [EN | FR] Interactive Toggle & LocalStorage Persistence", async ({
+    page,
+  }) => {
+    const enBtn = page.locator('.lang-btn[data-lang="en"]');
+    const frBtn = page.locator('.lang-btn[data-lang="fr"]');
+
+    await expect(enBtn).toBeVisible();
+    await expect(frBtn).toBeVisible();
+    await expect(enBtn).toHaveClass(/active/);
+
+    // Click FR toggle
+    await frBtn.click();
+
+    // Verify French translations applied in-place
+    await expect(page.locator(".panel-header h1")).toContainText(/Suivi de l'Épidémie d'Ebola/i);
+    await expect(page.locator(".stat-card.cases .label")).toContainText(/Total des Cas/i);
+    await expect(page.locator(".stat-card.deaths .label")).toContainText(/Total des Décès/i);
+    await expect(page.locator(".stat-card.cfr .label")).toContainText(/Pays Affectés/i);
+    await expect(page.locator(".stat-card.zones .label")).toContainText(/Foyers Actifs/i);
+    await expect(page.locator(".pheic-badge")).toContainText(/Surveillance Active/i);
+    await expect(frBtn).toHaveClass(/active/);
+    await expect(enBtn).not.toHaveClass(/active/);
+
+    // Verify URL was updated to ?lang=fr
+    expect(page.url()).toContain("lang=fr");
+
+    // Verify localStorage was updated
+    const savedLocale = await page.evaluate(() => localStorage.getItem("PARAGLIDE_LOCALE"));
+    expect(savedLocale).toBe("fr");
+
+    // Click EN toggle to switch back
+    await enBtn.click();
+    await expect(page.locator(".panel-header h1")).toContainText(/Ebola Outbreak Tracker/i);
+    await expect(page.locator(".stat-card.cases .label")).toContainText(/Total Cases/i);
+    await expect(enBtn).toHaveClass(/active/);
+
+    // Verify URL was updated to ?lang=en
+    expect(page.url()).toContain("lang=en");
+
+    const restoredLocale = await page.evaluate(() => localStorage.getItem("PARAGLIDE_LOCALE"));
+    expect(restoredLocale).toBe("en");
+  });
+
+  test("10. Automatic French Language Auto-Detection via Browser Locale", async ({ browser }) => {
+    // Launch an isolated browser context configured with French locale
+    const frenchContext = await browser.newContext({
+      locale: "fr-FR",
+    });
+    const frenchPage = await frenchContext.newPage();
+    await frenchPage.goto("/");
+    await frenchPage.waitForSelector("#map.leaflet-container", { timeout: 10000 });
+
+    // Verify automatically hydrated in French
+    await expect(frenchPage.locator(".panel-header h1")).toContainText(
+      /Suivi de l'Épidémie d'Ebola/i,
+    );
+    await expect(frenchPage.locator(".stat-card.cases .label")).toContainText(/Total des Cas/i);
+    await expect(frenchPage.locator('.lang-btn[data-lang="fr"]')).toHaveClass(/active/);
+
+    await frenchContext.close();
+  });
+
+  test("11. Direct URL Language Switching (?lang=fr and /fr)", async ({ page }) => {
+    // Navigate directly with ?lang=fr query parameter
+    await page.goto("/?lang=fr");
+    await page.waitForSelector("#map.leaflet-container", { timeout: 10000 });
+
+    await expect(page.locator(".panel-header h1")).toContainText(/Suivi de l'Épidémie d'Ebola/i);
+    await expect(page.locator(".stat-card.cases .label")).toContainText(/Total des Cas/i);
+    await expect(page.locator('.lang-btn[data-lang="fr"]')).toHaveClass(/active/);
+
+    // Navigate directly with ?lang=en query parameter
+    await page.goto("/?lang=en");
+    await page.waitForSelector("#map.leaflet-container", { timeout: 10000 });
+
+    await expect(page.locator(".panel-header h1")).toContainText(/Ebola Outbreak Tracker/i);
+    await expect(page.locator(".stat-card.cases .label")).toContainText(/Total Cases/i);
+    await expect(page.locator('.lang-btn[data-lang="en"]')).toHaveClass(/active/);
+
+    // Navigate directly to /fr route
+    await page.goto("/fr");
+    await page.waitForSelector("#map.leaflet-container", { timeout: 10000 });
+
+    await expect(page.locator(".panel-header h1")).toContainText(/Suivi de l'Épidémie d'Ebola/i);
+    await expect(page.locator('.lang-btn[data-lang="fr"]')).toHaveClass(/active/);
+  });
+
+  test("12. Umami Language Telemetry (beforeSend hook, session identify & switch-language tracking)", async ({
+    page,
+  }) => {
+    // Inject mock Umami tracking object before page scripts execute
+    await page.addInitScript(() => {
+      /** @type {any} */ (window).__umamiLog = { tracks: [], identifies: [] };
+      /** @type {any} */ (window).umami = {
+        track: (name, data) => {
+          if (typeof name === "function") {
+            const result = name({ url: window.location.pathname + window.location.search });
+            /** @type {any} */ (window).__umamiLog.tracks.push({
+              name: "virtual-pageview",
+              data: result,
+            });
+          } else {
+            /** @type {any} */ (window).__umamiLog.tracks.push({ name, data });
+          }
+        },
+        identify: (data) => {
+          /** @type {any} */ (window).__umamiLog.identifies.push(data);
+        },
+      };
+    });
+
+    await page.goto("/");
+    await page.waitForSelector("#map.leaflet-container", { timeout: 10000 });
+
+    // 1. Verify window.umamiBeforeSend hook exists and normalizes language to active locale
+    const beforeSendResult = await page.evaluate(() => {
+      const payload = { language: "en-US", data: {} };
+      return /** @type {any} */ (window).umamiBeforeSend
+        ? /** @type {any} */ (window).umamiBeforeSend("pageview", payload)
+        : null;
+    });
+    expect(beforeSendResult).not.toBeNull();
+    expect(beforeSendResult.language).toBe("en");
+    expect(beforeSendResult.data.app_language).toBe("en");
+
+    // 2. Verify initial active-language event and session identification
+    const initialLog = await page.evaluate(() => /** @type {any} */ (window).__umamiLog);
+    expect(initialLog.identifies.some((i) => i.language === "en")).toBe(true);
+    expect(
+      initialLog.tracks.some((t) => t.name === "active-language" && t.data?.language === "en"),
+    ).toBe(true);
+
+    // 3. Click French toggle button
+    const frBtn = page.locator('.lang-btn[data-lang="fr"]');
+    await frBtn.click();
+
+    // 4. Verify switch-language event was tracked with language metadata
+    const switchedLog = await page.evaluate(() => /** @type {any} */ (window).__umamiLog);
+    const switchEvent = switchedLog.tracks.find((t) => t.name === "switch-language");
+    expect(switchEvent).toBeDefined();
+    expect(switchEvent.data.language).toBe("fr");
+    expect(switchEvent.data.from).toBe("en");
+    expect(switchEvent.data.to).toBe("fr");
+    expect(switchEvent.data.method).toBe("button");
+
+    // 5. Verify Umami session identify was updated to French
+    expect(switchedLog.identifies.some((i) => i.language === "fr")).toBe(true);
+
+    // 6. Verify umamiBeforeSend now maps payload.language to 'fr'
+    const frBeforeSendResult = await page.evaluate(() => {
+      const payload = { language: "en-US", data: {} };
+      return /** @type {any} */ (window).umamiBeforeSend("pageview", payload);
+    });
+    expect(frBeforeSendResult.language).toBe("fr");
+    expect(frBeforeSendResult.data.app_language).toBe("fr");
+  });
+
+  test("13. Language switching retains refreshed summary and reporting date", async ({ page }) => {
+    const snapshotId = "snapshot-language-refresh-regression";
+    await page.route("**/data/manifest.json?*", (route) =>
+      route.fulfill({
+        json: {
+          schemaVersion: "2026-09-11",
+          snapshotId,
+          snapshotPath: `snapshots/${snapshotId}.json`,
+        },
+      }),
+    );
+    await page.route(`**/data/snapshots/${snapshotId}.json`, (route) =>
+      route.fulfill({
+        json: {
+          snapshotId,
+          status: "current",
+          generatedAt: "2026-09-16T12:00:00.000Z",
+          summary: {
+            totalCases: 8123,
+            totalDeaths: 4012,
+            overallCfr: "49.4%",
+            affectedCountriesCount: 4,
+            lastReportDate: "2026-09-16",
+          },
+          observations: [],
+        },
+      }),
+    );
+
+    await page.evaluate(() => document.dispatchEvent(new Event("visibilitychange")));
+    await expect(page.locator(".stat-card.cases .value")).toHaveText("8,123");
+    await expect(page.locator(".freshness-label strong")).toContainText("16/09/2026");
+
+    await page.locator('.lang-btn[data-lang="fr"]').click();
+    await expect(page.locator(".pheic-badge")).toContainText("4 Pays Affectés");
+    await expect(page.locator(".stat-card.deaths .sub")).toContainText("49.4% de létalité");
+    await expect(page.locator(".freshness-label strong")).toContainText("16/09/2026");
+
+    await page.locator('.lang-btn[data-lang="en"]').click();
+    await expect(page.locator(".pheic-badge")).toContainText("4 Countries Affected");
+    await expect(page.locator(".stat-card.deaths .sub")).toContainText("49.4% case fatality");
+    await expect(page.locator(".freshness-label strong")).toContainText("16/09/2026");
+  });
 });

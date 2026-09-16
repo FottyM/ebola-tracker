@@ -1,5 +1,5 @@
 import { defineConfig, type Plugin } from "vite-plus";
-import { render } from "./src/entry-server.js";
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import { getPrerenderData } from "./server/pipeline/prerender-loader.js";
 
 /**
@@ -12,11 +12,12 @@ import { getPrerenderData } from "./server/pipeline/prerender-loader.js";
 function ebolaPrerenderPlugin(): Plugin {
   return {
     name: "ebola-prerender",
-    transformIndexHtml(html, ctx) {
+    async transformIndexHtml(html, ctx) {
       if (ctx.server?.config.server.middlewareMode) {
         return html;
       }
       const data = getPrerenderData();
+      const { render } = await import("./src/entry-server.js");
       const { appHtml, jsonLd, initialState } = render(data as Parameters<typeof render>[0]);
       return html
         .replace(
@@ -37,7 +38,15 @@ function ebolaPrerenderPlugin(): Plugin {
 
 export default defineConfig({
   base: process.env.BASE_URL || "./",
-  plugins: [ebolaPrerenderPlugin()],
+  plugins: [
+    paraglideVitePlugin({
+      project: "./project.inlang",
+      outdir: "./src/paraglide",
+      strategy: ["url", "localStorage", "preferredLanguage", "baseLocale"],
+      outputStructure: "message-modules",
+    }),
+    ebolaPrerenderPlugin(),
+  ],
   staged: {
     "*": "vp check --fix",
   },

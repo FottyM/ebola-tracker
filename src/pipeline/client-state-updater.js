@@ -22,6 +22,7 @@ export function applyUpdatedSnapshot(
 
   const legacy = mapSnapshotToLegacyState(snapshot);
   legacy.snapshotId = snapshot.snapshotId;
+  const locale = documentRef?.documentElement?.lang === "fr" ? "fr" : "en";
 
   if (documentRef) {
     const casesEl = documentRef.querySelector(".stat-card.cases .value");
@@ -31,18 +32,26 @@ export function applyUpdatedSnapshot(
     if (deathsEl) deathsEl.textContent = snapshot.summary.totalDeaths.toLocaleString();
 
     const cfrSubEl = documentRef.querySelector(".stat-card.deaths .sub");
-    if (cfrSubEl) cfrSubEl.textContent = `${snapshot.summary.overallCfr} case fatality`;
+    if (cfrSubEl) {
+      cfrSubEl.textContent =
+        locale === "fr"
+          ? `${snapshot.summary.overallCfr} de létalité`
+          : `${snapshot.summary.overallCfr} case fatality`;
+    }
 
     const nationsEl = documentRef.querySelector(".stat-card.cfr .value");
     if (nationsEl) nationsEl.textContent = String(snapshot.summary.affectedCountriesCount);
 
     const badgeEl = documentRef.querySelector(".pheic-badge");
     if (badgeEl) {
-      badgeEl.textContent = `Active Surveillance — ${snapshot.summary.affectedCountriesCount} Countries Affected`;
+      badgeEl.textContent =
+        locale === "fr"
+          ? `Surveillance Active — ${snapshot.summary.affectedCountriesCount} Pays Affectés`
+          : `Active Surveillance — ${snapshot.summary.affectedCountriesCount} Countries Affected`;
     }
 
     // Update freshness presentation
-    const freshness = createFreshnessViewModel(snapshot);
+    const freshness = createFreshnessViewModel(snapshot, locale);
     const dateEl = documentRef.querySelector(".freshness-label strong");
     if (dateEl) dateEl.textContent = freshness.reportingDate;
 

@@ -18,9 +18,20 @@ import { scaleBand } from "@tanstack/charts/scales/band";
 import { scaleLinear } from "@tanstack/charts/scales/linear";
 
 import defaultOutbreakData from "./data/outbreak-data.js";
-import { render } from "./entry-server.js";
+import { render, localizeStatus, localizeCountry, calculateTrajectory } from "./entry-server.js";
 import { createStaticRefreshController } from "./pipeline/static-client-refresh.js";
 import { applyUpdatedSnapshot } from "./pipeline/client-state-updater.js";
+import { createFreshnessViewModel } from "./pipeline/freshness-view-model.js";
+import {
+  trackEvent,
+  identifySession,
+  detectInitialLocaleWithSource,
+  detectInitialLocale,
+} from "./pipeline/locale-detector.js";
+import { m } from "./paraglide/messages.js";
+import { setLocale } from "./paraglide/runtime.js";
+
+export { trackEvent, identifySession, detectInitialLocaleWithSource, detectInitialLocale };
 
 /**
  * @typedef {import('../server/etl.js').DynamicOutbreakState} DynamicOutbreakState
@@ -28,24 +39,6 @@ import { applyUpdatedSnapshot } from "./pipeline/client-state-updater.js";
  * @typedef {import('../server/etl.js').EpiCurvePoint} EpiCurvePoint
  * @typedef {import('../server/etl.js').Demographics} Demographics
  */
-
-/**
- * Safe Umami event tracking helper.
- * @param {string} eventName
- * @param {Record<string, string | number | boolean>} [eventData]
- */
-function trackEvent(eventName, eventData) {
-  if (
-    typeof window !== "undefined" &&
-    typeof (/** @type {any} */ (window).umami?.track) === "function"
-  ) {
-    try {
-      /** @type {any} */ (window).umami.track(eventName, eventData);
-    } catch {
-      // Non-blocking telemetry
-    }
-  }
-}
 
 /**
  * Computes marker radius from case count.
@@ -95,6 +88,48 @@ function getSeverity(loc) {
     fill: "rgba(239,201,64,0.25)",
     radius: casesToRadius(loc.cases),
   };
+}
+
+/**
+ * Resolves province polygon fill opacity based on confirmed caseload tier.
+ * @param {number} cases
+ * @returns {number}
+ */
+export function getProvinceFillOpacity(cases) {
+  if (cases > 1000) return 0.32;
+  if (cases > 100) return 0.24;
+  if (cases > 10) return 0.16;
+  return 0.1;
+}
+
+/**
+ * Resolves province boundary stroke color based on confirmed caseload tier.
+ * @param {number} cases
+ * @returns {string}
+ */
+export function getProvinceStrokeColor(cases) {
+  if (cases > 1000) return "#e5484d";
+  if (cases > 100) return "#f76b15";
+  if (cases > 10) return "#f5a623";
+  return "#efc940";
+}
+
+/**
+ * Resolves province boundary stroke weight.
+ * @param {number} cases
+ * @returns {number}
+ */
+export function getProvinceWeight(cases) {
+  return cases > 1000 ? 2.5 : 1.8;
+}
+
+/**
+ * Resolves province fill color based on caseload.
+ * @param {number} cases
+ * @returns {string}
+ */
+export function getProvinceFillColor(cases) {
+  return cases > 500 ? "#e5484d" : "#f76b15";
 }
 
 /**
@@ -342,6 +377,29 @@ function initModalControllers(epiCurve, ageGroups) {
 }
 
 /**
+ * Generates popup HTML for a given location and locale.
+ * @param {GeoLocation} loc
+ * @param {"en"|"fr"} locale
+ * @returns {string}
+ */
+function getPopupHtml(loc, locale) {
+  const country = localizeCountry(loc.country, locale);
+  const region = loc.region ? `${loc.region}, ${country}` : country;
+  const status = localizeStatus(loc.status, locale);
+  return `
+    <div class="popup-content">
+      <h3>${region}</h3>
+      <div class="pop-province">${m.status_label({}, { locale })} ${status}</div>
+      <div class="pop-row"><span class="pop-label">${m.confirmed_cases_label({}, { locale })}</span><span class="pop-val cases">${loc.cases.toLocaleString()}</span></div>
+      <div class="pop-row"><span class="pop-label">${m.recorded_deaths_label({}, { locale })}</span><span class="pop-val deaths">${loc.deaths.toLocaleString()}</span></div>
+      <div class="pop-row"><span class="pop-label">${m.case_fatality({ rate: "" }, { locale }).trim()}</span><span class="pop-val cfr">${loc.cfr}%</span></div>
+      ${loc.note ? `<div class="pop-note">${loc.note}</div>` : ""}
+      <div class="pop-note" style="margin-top:4px;">${m.reported_date_label({}, { locale })} ${loc.lastReported}</div>
+    </div>
+  `;
+}
+
+/**
  * Hydrates map with global boundary layers, provincial sub-regions, dynamic markers, charts, and modal controllers.
  * @returns {void}
  */
@@ -355,9 +413,25 @@ export function initClient() {
     win.__INITIAL_DATA__ = data;
   }
 
+  const initialLocaleInfo = detectInitialLocaleWithSource();
+  let currentLocale = initialLocaleInfo.locale;
+
+  // Track initial active language and session state in Umami
+  identifySession({
+    language: currentLocale,
+    app_language: currentLocale,
+    detection_source: initialLocaleInfo.source,
+  });
+
+  trackEvent("active-language", {
+    language: currentLocale,
+    locale: currentLocale,
+    source: initialLocaleInfo.source,
+  });
+
   // Pure client-side fallback: If pre-rendered SSR HTML is missing, mount it into document.body
   if (!document.getElementById("map")) {
-    const { appHtml } = render(data);
+    const { appHtml } = render(data, { locale: currentLocale });
     document.body.insertAdjacentHTML("afterbegin", appHtml);
   }
 
@@ -497,10 +571,11 @@ export function initClient() {
     });
 
   // ── LAYER 2: Regional Sub-Provincial Boundaries (Loaded Dynamically) ──
+  let provincesLayer = null;
   import("./data/drc-provinces.json")
     .then((mod) => {
       const drcProvincesGeo = mod.default;
-      L.geoJSON(/** @type {any} */ (drcProvincesGeo), {
+      provincesLayer = L.geoJSON(/** @type {any} */ (drcProvincesGeo), {
         pane: "provincesPane",
         style: (feature) => {
           const rawName = feature?.properties?.shapeName || "";
@@ -509,21 +584,12 @@ export function initClient() {
 
           if (provData) {
             const cases = provData.cases || 0;
-            const fillAlpha = cases > 1000 ? 0.32 : cases > 100 ? 0.24 : cases > 10 ? 0.16 : 0.1;
-
             return {
-              color:
-                cases > 1000
-                  ? "#e5484d"
-                  : cases > 100
-                    ? "#f76b15"
-                    : cases > 10
-                      ? "#f5a623"
-                      : "#efc940",
-              weight: cases > 1000 ? 2.5 : 1.8,
+              color: getProvinceStrokeColor(cases),
+              weight: getProvinceWeight(cases),
               opacity: 0.95,
-              fillColor: cases > 500 ? "#e5484d" : "#f76b15",
-              fillOpacity: fillAlpha,
+              fillColor: getProvinceFillColor(cases),
+              fillOpacity: getProvinceFillOpacity(cases),
             };
           }
 
@@ -541,8 +607,11 @@ export function initClient() {
           const provData = affectedRegionLookup.get(normName);
 
           if (provData) {
+            const regionSuffix = m.region_suffix({}, { locale: currentLocale });
+            const casesLabel = m.confirmed_cases_label({}, { locale: currentLocale });
+            const deathsLabel = m.recorded_deaths_label({}, { locale: currentLocale });
             layer.bindTooltip(
-              `<strong>${provData.region} Region</strong><br/>Confirmed Cases: ${provData.cases.toLocaleString()}<br/>Deaths: ${provData.deaths.toLocaleString()} (CFR ${provData.cfr}%)`,
+              `<strong>${provData.region} ${regionSuffix}</strong><br/>${casesLabel}: ${provData.cases.toLocaleString()}<br/>${deathsLabel}: ${provData.deaths.toLocaleString()} (CFR ${provData.cfr}%)`,
               { sticky: true, className: "custom-map-tooltip" },
             );
 
@@ -561,12 +630,10 @@ export function initClient() {
               mouseout: (e) => {
                 const l = e.target;
                 const cases = provData.cases || 0;
-                const fillAlpha =
-                  cases > 1000 ? 0.32 : cases > 100 ? 0.24 : cases > 10 ? 0.16 : 0.1;
                 l.setStyle({
-                  weight: cases > 1000 ? 2.5 : 1.8,
+                  weight: getProvinceWeight(cases),
                   opacity: 0.95,
-                  fillOpacity: fillAlpha,
+                  fillOpacity: getProvinceFillOpacity(cases),
                 });
               },
             });
@@ -624,19 +691,7 @@ export function initClient() {
       });
     });
 
-    const popupHtml = `
-      <div class="popup-content">
-        <h3>${loc.region ? `${loc.region}, ${loc.country}` : loc.country}</h3>
-        <div class="pop-province">Status: ${loc.status}</div>
-        <div class="pop-row"><span class="pop-label">Confirmed Cases</span><span class="pop-val cases">${loc.cases.toLocaleString()}</span></div>
-        <div class="pop-row"><span class="pop-label">Recorded Deaths</span><span class="pop-val deaths">${loc.deaths.toLocaleString()}</span></div>
-        <div class="pop-row"><span class="pop-label">Case Fatality</span><span class="pop-val cfr">${loc.cfr}%</span></div>
-        ${loc.note ? `<div class="pop-note">${loc.note}</div>` : ""}
-        <div class="pop-note" style="margin-top:4px;">Reported date: ${loc.lastReported}</div>
-      </div>
-    `;
-
-    marker.bindPopup(popupHtml, { maxWidth: 280, closeButton: false });
+    marker.bindPopup(getPopupHtml(loc, currentLocale), { maxWidth: 280, closeButton: false });
 
     if (loc.cases > 500 && !loc.status.includes("Over")) {
       const pulse = L.circleMarker(loc.center, {
@@ -719,7 +774,435 @@ export function initClient() {
     });
   });
 
-  // ── LAYER 5: Live Static Refresh Controller (GitHub Pages & Development) ──
+  // ── LAYER 5: Language Switcher & Localization Controller ──
+  function updatePopups(locale) {
+    locations.forEach((loc) => {
+      const centerKey = loc.center.join(",");
+      const marker = markerMap.get(centerKey);
+      if (marker) {
+        marker.setPopupContent(getPopupHtml(loc, locale));
+      }
+    });
+  }
+
+  function updateTooltips(locale) {
+    if (!provincesLayer) return;
+    provincesLayer.eachLayer((layer) => {
+      const rawName = layer.feature?.properties?.shapeName || "";
+      const normName = normalizeProvinceName(rawName);
+      const provData = affectedRegionLookup.get(normName);
+      if (provData) {
+        const regionSuffix = m.region_suffix({}, { locale });
+        const casesLabel = m.confirmed_cases_label({}, { locale });
+        const deathsLabel = m.recorded_deaths_label({}, { locale });
+        layer.unbindTooltip();
+        layer.bindTooltip(
+          `<strong>${provData.region} ${regionSuffix}</strong><br/>${casesLabel}: ${provData.cases.toLocaleString()}<br/>${deathsLabel}: ${provData.deaths.toLocaleString()} (CFR ${provData.cfr}%)`,
+          { sticky: true, className: "custom-map-tooltip" },
+        );
+      }
+    });
+  }
+
+  function applyLanguage(newLocale, { isInitial = false } = {}) {
+    currentLocale = newLocale;
+    try {
+      void setLocale(newLocale, { reload: false });
+      localStorage.setItem("PARAGLIDE_LOCALE", newLocale);
+    } catch {
+      // Non-blocking
+    }
+    document.documentElement.lang = newLocale;
+
+    // Identify user session language in Umami
+    identifySession({
+      language: newLocale,
+      app_language: newLocale,
+    });
+
+    // Synchronize URL query parameter without page reload
+    try {
+      if (typeof window !== "undefined" && window.location) {
+        const url = new URL(window.location.href);
+        if (url.searchParams.get("lang") !== newLocale) {
+          url.searchParams.set("lang", newLocale);
+          window.history.replaceState(null, "", url.toString());
+        }
+      }
+    } catch {
+      // Non-blocking
+    }
+
+    // Track virtual pageview in Umami for user-initiated language switches
+    if (!isInitial && typeof window !== "undefined") {
+      const umamiTrack = /** @type {any} */ (window).umami?.track;
+      if (typeof umamiTrack === "function") {
+        try {
+          umamiTrack((props) => ({
+            ...props,
+            url: window.location.pathname + window.location.search,
+            title: document.title,
+            language: newLocale,
+          }));
+        } catch {
+          // Non-blocking telemetry
+        }
+      }
+    }
+
+    // Toggle active state on buttons
+    document.querySelectorAll(".lang-btn").forEach((btn) => {
+      const isCurrent = btn.getAttribute("data-lang") === newLocale;
+      btn.classList.toggle("active", isCurrent);
+      btn.setAttribute("aria-pressed", String(isCurrent));
+    });
+
+    // 1. Header & Containers
+    const infoPanel = document.querySelector(".info-panel");
+    if (infoPanel) {
+      infoPanel.setAttribute("aria-label", m.outbreak_intelligence_aria({}, { locale: newLocale }));
+    }
+    const h1 = document.querySelector(".panel-header h1");
+    if (h1) {
+      h1.innerHTML = `${m.app_title({}, { locale: newLocale })} <span>${m.app_subtitle({}, { locale: newLocale })}</span>`;
+    }
+    const switcher = document.querySelector(".lang-switcher");
+    if (switcher) {
+      switcher.setAttribute("aria-label", m.language_selector_aria({}, { locale: newLocale }));
+    }
+
+    // 2. PHEIC Badge
+    const pheic = document.querySelector(".pheic-badge");
+    if (pheic) {
+      pheic.textContent = m.pheic_badge(
+        { count: data.summary.affectedCountriesCount },
+        { locale: newLocale },
+      );
+    }
+
+    // 3. Freshness Bar
+    const freshnessContainer = document.querySelector(".freshness-bar");
+    if (freshnessContainer) {
+      const freshness = createFreshnessViewModel(data, newLocale);
+      freshnessContainer.outerHTML = freshness.renderHtml();
+    }
+
+    // 4. Headline Stat Cards
+    const statsGrid = document.querySelector(".stats-grid");
+    if (statsGrid) {
+      statsGrid.setAttribute("aria-label", m.headline_metrics_aria({}, { locale: newLocale }));
+    }
+    const casesLabel = document.querySelector(".stat-card.cases .label");
+    if (casesLabel) {
+      casesLabel.innerHTML = `${m.total_cases({}, { locale: newLocale })} <span class="click-hint">${m.breakdown_hint({}, { locale: newLocale })}</span>`;
+    }
+    const casesSub = document.querySelector(".stat-card.cases .sub");
+    if (casesSub) {
+      casesSub.textContent = m.across_zones({ count: locations.length }, { locale: newLocale });
+    }
+
+    const deathsLabel = document.querySelector(".stat-card.deaths .label");
+    if (deathsLabel) deathsLabel.textContent = m.total_deaths({}, { locale: newLocale });
+    const deathsSub = document.querySelector(".stat-card.deaths .sub");
+    if (deathsSub) {
+      deathsSub.textContent = m.case_fatality(
+        { rate: data.summary.overallCfr },
+        { locale: newLocale },
+      );
+    }
+
+    const cfrLabel = document.querySelector(".stat-card.cfr .label");
+    if (cfrLabel) cfrLabel.textContent = m.affected_nations({}, { locale: newLocale });
+    const cfrSub = document.querySelector(".stat-card.cfr .sub");
+    if (cfrSub) cfrSub.textContent = m.cross_border_monitoring({}, { locale: newLocale });
+
+    const zonesLabel = document.querySelector(".stat-card.zones .label");
+    if (zonesLabel) zonesLabel.textContent = m.active_hotspots({}, { locale: newLocale });
+    const zonesSub = document.querySelector(".stat-card.zones .sub");
+    if (zonesSub) zonesSub.textContent = m.confirmed_transmission({}, { locale: newLocale });
+
+    // 5. Spread Curve Chart Section
+    const curveCard = document.getElementById("open-timeline-modal");
+    if (curveCard) {
+      curveCard.setAttribute("aria-label", m.open_timeline_modal_aria({}, { locale: newLocale }));
+      const titleEl = curveCard.querySelector(".chart-header h3");
+      if (titleEl) {
+        titleEl.innerHTML = `${m.spread_curve_title({}, { locale: newLocale })} <span class="click-hint">${m.enlarge_hint({}, { locale: newLocale })}</span>`;
+      }
+      const tagEl = curveCard.querySelector(".chart-header .chart-tag");
+      if (tagEl) tagEl.textContent = m.weekly_cases_fatalities({}, { locale: newLocale });
+      const legendEl = curveCard.querySelector(".chart-legend");
+      if (legendEl) {
+        legendEl.innerHTML = `
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #f76b15; display: inline-block;"></span> ${m.cases_legend({}, { locale: newLocale })}</span>
+          <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #e5484d; display: inline-block;"></span> ${m.deaths_legend({}, { locale: newLocale })}</span>
+        `;
+      }
+    }
+
+    // 6. Demographics Section
+    const demoCard = document.getElementById("open-demographics-modal");
+    if (demoCard) {
+      demoCard.setAttribute(
+        "aria-label",
+        m.open_demographics_modal_aria({}, { locale: newLocale }),
+      );
+      const titleEl = demoCard.querySelector(".chart-header h3");
+      if (titleEl) {
+        titleEl.innerHTML = `${m.demographics_title({}, { locale: newLocale })} <span class="click-hint">${m.enlarge_hint({}, { locale: newLocale })}</span>`;
+      }
+      const tagEl = demoCard.querySelector(".chart-header .chart-tag");
+      if (tagEl) tagEl.textContent = m.who_cdc_source({}, { locale: newLocale });
+
+      const femaleTitle = demoCard.querySelector(".sex-card.female .sex-title");
+      if (femaleTitle) femaleTitle.textContent = m.female_cases({}, { locale: newLocale });
+      const femaleSub = demoCard.querySelector(".sex-card.female .sex-sub");
+      if (femaleSub && demographics?.sex) {
+        femaleSub.textContent = m.pregnant_lactating(
+          { count: demographics.sex.pregnantOrLactating },
+          { locale: newLocale },
+        );
+      }
+
+      const maleTitle = demoCard.querySelector(".sex-card.male .sex-title");
+      if (maleTitle) maleTitle.textContent = m.male_cases({}, { locale: newLocale });
+      const maleSub = demoCard.querySelector(".sex-card.male .sex-sub");
+      if (maleSub) maleSub.textContent = m.community_exposure({}, { locale: newLocale });
+
+      const ageHeader = demoCard.querySelector(".age-chart-wrapper .chart-header h4");
+      if (ageHeader) ageHeader.textContent = m.cases_by_age_group({}, { locale: newLocale });
+      const ageSub = demoCard.querySelector(".age-chart-wrapper .chart-header span");
+      if (ageSub) ageSub.textContent = m.cfr_stat({}, { locale: newLocale });
+
+      const hcwBanner = demoCard.querySelector(".hcw-banner");
+      if (hcwBanner && demographics?.vulnerableGroups) {
+        hcwBanner.innerHTML = `<strong>${m.healthcare_workers({}, { locale: newLocale })}</strong> ${m.hcw_stats({ cases: demographics.vulnerableGroups.healthcareWorkersCases, deaths: demographics.vulnerableGroups.healthcareWorkersDeaths }, { locale: newLocale })}`;
+      }
+    }
+
+    // 7. Location Section & Sidebar Items
+    const provH3 = document.querySelector(".province-section h3");
+    if (provH3) provH3.textContent = m.active_locations_title({}, { locale: newLocale });
+
+    document.querySelectorAll(".province-item").forEach((item) => {
+      const centerStr = item.getAttribute("data-center");
+      const loc = locations.find((l) => l.center.join(",") === centerStr);
+      if (loc) {
+        const countryLabel = localizeCountry(loc.country, newLocale);
+        const regionLabel = loc.region ? `${loc.region} (${countryLabel})` : countryLabel;
+        const statusLabel = localizeStatus(loc.status, newLocale);
+        const nameEl = item.querySelector(".province-name");
+        if (nameEl) nameEl.textContent = regionLabel;
+        const statusEl = item.querySelector("div span:last-child");
+        if (statusEl) statusEl.textContent = statusLabel;
+      }
+    });
+
+    // 8. Surveillance Brief
+    const briefSummary = document.querySelector(".seo-brief-accordion summary");
+    if (briefSummary)
+      briefSummary.textContent = m.surveillance_brief_title({}, { locale: newLocale });
+    const briefParas = document.querySelectorAll(".seo-brief-content p");
+    if (briefParas.length >= 2) {
+      briefParas[0].textContent = m.surveillance_brief_p1({}, { locale: newLocale });
+      briefParas[1].textContent = m.surveillance_brief_p2({}, { locale: newLocale });
+    }
+
+    // 9. Sources Footer
+    const sourcesTitle = document.querySelector(".sources strong");
+    if (sourcesTitle) sourcesTitle.textContent = m.sources_header({}, { locale: newLocale });
+
+    // 10. Modals
+    // Modal 1: Timeline Dialog
+    const tBadge = document.querySelector("#timeline-dialog .dialog-badge");
+    if (tBadge) tBadge.textContent = m.dialog_badge_timeline({}, { locale: newLocale });
+    const tTitle = document.getElementById("timeline-dialog-title");
+    if (tTitle) tTitle.textContent = m.timeline_dialog_title({}, { locale: newLocale });
+    const tClose = document.getElementById("close-timeline-modal");
+    if (tClose) tClose.setAttribute("aria-label", m.close_dialog({}, { locale: newLocale }));
+
+    const tKpiLabels = document.querySelectorAll("#timeline-dialog .kpi-label");
+    if (tKpiLabels.length >= 4) {
+      tKpiLabels[0].textContent = m.peak_weekly_influx({}, { locale: newLocale });
+      tKpiLabels[1].textContent = m.latest_week_influx({}, { locale: newLocale });
+      tKpiLabels[2].textContent = m.peak_fatalities({}, { locale: newLocale });
+      tKpiLabels[3].textContent = m.active_trajectory({}, { locale: newLocale });
+    }
+    const tKpiSubs = document.querySelectorAll("#timeline-dialog .kpi-sub");
+    if (tKpiSubs.length >= 4 && epiCurve?.length) {
+      const peakCasesPoint = epiCurve.reduce(
+        (max, p) => (p.weeklyCases > max.weeklyCases ? p : max),
+        epiCurve[0],
+      );
+      const peakDeathsPoint = epiCurve.reduce(
+        (max, p) => (p.weeklyDeaths > max.weeklyDeaths ? p : max),
+        epiCurve[0],
+      );
+      const latestEpiPoint = epiCurve[epiCurve.length - 1];
+      const prevEpiPoint = epiCurve.length > 1 ? epiCurve[epiCurve.length - 2] : null;
+      const { trajectoryPct, isDeclining, sign } = calculateTrajectory(
+        latestEpiPoint,
+        prevEpiPoint,
+      );
+
+      tKpiSubs[0].textContent = m.surveillance_week(
+        { week: peakCasesPoint.week },
+        { locale: newLocale },
+      );
+      tKpiSubs[1].textContent = m.surveillance_week(
+        { week: latestEpiPoint.week },
+        { locale: newLocale },
+      );
+      tKpiSubs[2].textContent = m.surveillance_week(
+        { week: peakDeathsPoint.week },
+        { locale: newLocale },
+      );
+      tKpiSubs[3].textContent = m.vs_previous_week(
+        { sign, pct: trajectoryPct },
+        { locale: newLocale },
+      );
+
+      const tKpiNumbers = document.querySelectorAll("#timeline-dialog .kpi-number");
+      if (tKpiNumbers.length >= 4) {
+        tKpiNumbers[0].textContent = m.cases_count(
+          { count: peakCasesPoint.weeklyCases.toLocaleString() },
+          { locale: newLocale },
+        );
+        tKpiNumbers[1].textContent = m.cases_count(
+          { count: latestEpiPoint.weeklyCases.toLocaleString() },
+          { locale: newLocale },
+        );
+        tKpiNumbers[2].textContent = m.deaths_count(
+          { count: peakDeathsPoint.weeklyDeaths.toLocaleString() },
+          { locale: newLocale },
+        );
+        tKpiNumbers[3].textContent = isDeclining
+          ? m.plateauing({}, { locale: newLocale })
+          : m.accelerating({}, { locale: newLocale });
+      }
+    }
+
+    const tChartH3 = document.querySelector(
+      "#timeline-dialog .dialog-chart-wrapper .chart-header h3",
+    );
+    if (tChartH3) tChartH3.textContent = m.full_curve_timeline({}, { locale: newLocale });
+    const tLegend = document.querySelector("#timeline-dialog .dialog-chart-wrapper .chart-legend");
+    if (tLegend) {
+      tLegend.innerHTML = `
+        <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #f76b15; display: inline-block;"></span> ${m.weekly_confirmed_cases_legend({}, { locale: newLocale })}</span>
+        <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #e5484d; display: inline-block;"></span> ${m.weekly_fatalities_legend({}, { locale: newLocale })}</span>
+      `;
+    }
+    const tNote = document.querySelector("#timeline-dialog .dialog-note");
+    if (tNote) tNote.textContent = m.timeline_note({}, { locale: newLocale });
+    const tDone = document.getElementById("timeline-done-btn");
+    if (tDone) tDone.textContent = m.dismiss({}, { locale: newLocale });
+
+    // Modal 2: Cases Dialog
+    const cBadge = document.querySelector("#cases-dialog .dialog-badge");
+    if (cBadge) cBadge.textContent = m.dialog_badge_cases({}, { locale: newLocale });
+    const cTitle = document.getElementById("cases-dialog-title");
+    if (cTitle) cTitle.textContent = m.cases_dialog_title({}, { locale: newLocale });
+    const cClose = document.getElementById("close-cases-modal");
+    if (cClose) cClose.setAttribute("aria-label", m.close_dialog({}, { locale: newLocale }));
+
+    const cKpiLabels = document.querySelectorAll("#cases-dialog .kpi-label");
+    if (cKpiLabels.length >= 4) {
+      cKpiLabels[0].textContent = m.cumulative_confirmed({}, { locale: newLocale });
+      cKpiLabels[1].textContent = m.sex_distribution({}, { locale: newLocale });
+      cKpiLabels[2].textContent = m.primary_epicenter({}, { locale: newLocale });
+      cKpiLabels[3].textContent = m.cross_border_status({}, { locale: newLocale });
+    }
+    const cKpiSubs = document.querySelectorAll("#cases-dialog .kpi-sub");
+    if (cKpiSubs.length >= 4) {
+      cKpiSubs[0].textContent = m.across_nations({}, { locale: newLocale });
+      cKpiSubs[2].textContent = m.cases_count({ count: "3,912" }, { locale: newLocale });
+      cKpiSubs[3].textContent = m.cross_border_countries({}, { locale: newLocale });
+    }
+    const cContained = document.querySelector("#cases-dialog .kpi-number.contained");
+    if (cContained) cContained.textContent = m.contained({}, { locale: newLocale });
+
+    const cChartH3 = document.querySelector("#cases-dialog .dialog-chart-wrapper .chart-header h3");
+    if (cChartH3) cChartH3.textContent = m.age_cohort_dist_title({}, { locale: newLocale });
+    const cChartTag = document.querySelector(
+      "#cases-dialog .dialog-chart-wrapper .chart-header .chart-tag",
+    );
+    if (cChartTag) cChartTag.textContent = m.demographics_tag({}, { locale: newLocale });
+    const cNote = document.querySelector("#cases-dialog .dialog-note");
+    if (cNote) cNote.textContent = m.cases_note({}, { locale: newLocale });
+    const cDone = document.getElementById("cases-done-btn");
+    if (cDone) cDone.textContent = m.dismiss({}, { locale: newLocale });
+
+    // 11. Legend
+    const legendH4 = document.querySelector(".legend h4");
+    if (legendH4) legendH4.textContent = m.legend_title({}, { locale: newLocale });
+    const legendLabels = document.querySelectorAll(".legend .legend-label");
+    if (legendLabels.length >= 5) {
+      legendLabels[0].textContent = m.gt_500({}, { locale: newLocale });
+      legendLabels[1].textContent = m.range_100_500({}, { locale: newLocale });
+      legendLabels[2].textContent = m.range_10_99({}, { locale: newLocale });
+      legendLabels[3].textContent = m.range_1_9({}, { locale: newLocale });
+      legendLabels[4].textContent = m.contained_over({}, { locale: newLocale });
+    }
+
+    // 12. Marker Popups & Province Tooltips
+    updatePopups(newLocale);
+    updateTooltips(newLocale);
+  }
+
+  // Bind language switcher button events
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetLang = btn.getAttribute("data-lang");
+      if (targetLang === "fr" || targetLang === "en") {
+        if (targetLang !== currentLocale) {
+          const fromLocale = currentLocale;
+          trackEvent("switch-language", {
+            language: targetLang,
+            locale: targetLang,
+            from: fromLocale,
+            to: targetLang,
+            method: "button",
+          });
+          applyLanguage(targetLang, { isInitial: false });
+        }
+      }
+    });
+  });
+
+  // Handle browser Back / Forward navigation with URL language updates
+  window.addEventListener("popstate", () => {
+    const poppedInfo = detectInitialLocaleWithSource();
+    if (poppedInfo.locale !== currentLocale) {
+      const fromLocale = currentLocale;
+      trackEvent("switch-language", {
+        language: poppedInfo.locale,
+        locale: poppedInfo.locale,
+        from: fromLocale,
+        to: poppedInfo.locale,
+        method: "history",
+      });
+      applyLanguage(poppedInfo.locale, { isInitial: false });
+    }
+  });
+
+  // Hydrate initial locale if detected or explicitly requested via URL
+  if (currentLocale === "fr") {
+    applyLanguage("fr", { isInitial: true });
+  } else {
+    try {
+      const params =
+        typeof window !== "undefined" && window.location
+          ? new URLSearchParams(window.location.search)
+          : null;
+      const urlLang = params?.get("lang") || params?.get("locale");
+      if (urlLang === "en") {
+        applyLanguage("en", { isInitial: true });
+      }
+    } catch {}
+  }
+
+  // ── LAYER 6: Live Static Refresh Controller (GitHub Pages & Development) ──
   try {
     createStaticRefreshController({
       baseUrl:
@@ -734,6 +1217,7 @@ export function initClient() {
           totalDeaths: newSnapshot.summary?.totalDeaths,
         });
         applyUpdatedSnapshot(newSnapshot, document, window);
+        data = win.__INITIAL_DATA__ || data;
       },
       onError: (err) => {
         console.warn("[Data Delivery Warning] Background refresh:", err);

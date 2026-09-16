@@ -12,7 +12,8 @@
     "sync": "node scripts/sync-data.js",
     "start": "NODE_ENV=production node server.js",
     "test:e2e": "playwright test",
-    "prepare": "vp config"
+    "compile:i18n": "paraglide-js compile --strategy url localStorage preferredLanguage baseLocale",
+    "prepare": "paraglide-js compile --strategy url localStorage preferredLanguage baseLocale && vp config"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.1",
@@ -22,6 +23,7 @@
     "pdf-parse": "^2.4.5"
   },
   "devDependencies": {
+    "@inlang/paraglide-js": "^2.25.2",
     "@playwright/test": "^1.63.0",
     "@types/leaflet": "^1.9.22",
     "vite": "catalog:",

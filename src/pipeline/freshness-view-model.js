@@ -117,17 +117,53 @@ export function formatEuropeanDate(dateStr) {
  *   renderHtml: () => string
  * }}
  */
-export function createFreshnessViewModel(dataOrSnapshot) {
+const STATUS_CONFIG = {
+  current: { badgeClass: "freshness-current", en: "Current", fr: "À jour" },
+  partial: { badgeClass: "freshness-partial", en: "Partial Update", fr: "Mise à jour partielle" },
+  stale: { badgeClass: "freshness-stale", en: "Stale Fallback", fr: "Données antérieures" },
+  failed: { badgeClass: "freshness-failed", en: "Sync Issue", fr: "Problème de synchronisation" },
+};
+
+const CADENCE_LABELS = {
+  en: "Checked every 30m",
+  fr: "Vérifié toutes les 30 min",
+};
+
+const UPDATED_LABELS = {
+  en: "Updated:",
+  fr: "Mis à jour :",
+};
+
+/**
+ * Creates an accessible freshness view model from a snapshot or outbreak data.
+ * @param {any} dataOrSnapshot
+ * @param {"en"|"fr"} [locale="en"]
+ * @returns {{
+ *   rawReportingDate: string,
+ *   reportingDate: string,
+ *   status: 'current' | 'partial' | 'stale' | 'failed',
+ *   statusText: string,
+ *   statusBadgeClass: string,
+ *   hasMixedDates: boolean,
+ *   sectionDates: { national: string, provinces: string, healthZones: string },
+ *   checkCadence: string,
+ *   renderHtml: () => string
+ * }}
+ */
+export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
+  const lang = locale === "fr" ? "fr" : "en";
+
   if (!dataOrSnapshot || typeof dataOrSnapshot !== "object") {
+    const failedCfg = STATUS_CONFIG.failed;
     return {
       rawReportingDate: "N/A",
       reportingDate: "N/A",
       status: "failed",
-      statusText: "Sync Issue",
-      statusBadgeClass: "freshness-failed",
+      statusText: failedCfg[lang],
+      statusBadgeClass: failedCfg.badgeClass,
       hasMixedDates: false,
       sectionDates: { national: "N/A", provinces: "N/A", healthZones: "N/A" },
-      checkCadence: "Checked every 30m",
+      checkCadence: CADENCE_LABELS[lang],
       renderHtml: () => "",
     };
   }
@@ -179,28 +215,9 @@ export function createFreshnessViewModel(dataOrSnapshot) {
     status = hasMixedDates ? "partial" : "current";
   }
 
-  let statusText = "Current";
-  let statusBadgeClass = "freshness-current";
-
-  switch (status) {
-    case "partial":
-      statusText = "Partial Update";
-      statusBadgeClass = "freshness-partial";
-      break;
-    case "stale":
-      statusText = "Stale Fallback";
-      statusBadgeClass = "freshness-stale";
-      break;
-    case "failed":
-      statusText = "Sync Issue";
-      statusBadgeClass = "freshness-failed";
-      break;
-    case "current":
-    default:
-      statusText = "Current";
-      statusBadgeClass = "freshness-current";
-      break;
-  }
+  const statusConfig = STATUS_CONFIG[status] || STATUS_CONFIG.current;
+  const statusText = statusConfig[lang];
+  const statusBadgeClass = statusConfig.badgeClass;
 
   const sectionDates = {
     national: formatEuropeanDate(rawNationalDate),
@@ -209,20 +226,26 @@ export function createFreshnessViewModel(dataOrSnapshot) {
   };
 
   function renderHtml() {
+    const updatedLabel = UPDATED_LABELS[lang];
+    const ariaLabel =
+      lang === "fr"
+        ? `Fraîcheur de la surveillance : Mis à jour ${reportingDate}`
+        : `Surveillance Freshness: Updated ${reportingDate}`;
+    const subtext =
+      lang === "fr"
+        ? `National : ${sectionDates.national} • Zones de santé : ${sectionDates.healthZones}`
+        : `National: ${sectionDates.national} • Health Zones: ${sectionDates.healthZones}`;
+
     return `
-    <div class="freshness-bar" role="status" aria-label="Surveillance Freshness: Updated ${reportingDate}">
+    <div class="freshness-bar" role="status" aria-label="${ariaLabel}">
       <div class="freshness-indicator ${statusBadgeClass}">
         <span class="freshness-label-group">
           <span class="freshness-dot" aria-hidden="true"></span>
-          <span class="freshness-label">Updated: <strong>${reportingDate}</strong></span>
+          <span class="freshness-label">${updatedLabel} <strong>${reportingDate}</strong></span>
         </span>
         <span class="freshness-status-pill">${statusText}</span>
       </div>
-      ${
-        hasMixedDates
-          ? `<div class="freshness-subtext">National: ${sectionDates.national} • Health Zones: ${sectionDates.healthZones}</div>`
-          : ""
-      }
+      ${hasMixedDates ? `<div class="freshness-subtext">${subtext}</div>` : ""}
     </div>`;
   }
 
@@ -234,7 +257,7 @@ export function createFreshnessViewModel(dataOrSnapshot) {
     statusBadgeClass,
     hasMixedDates,
     sectionDates,
-    checkCadence: "Checked every 30m",
+    checkCadence: CADENCE_LABELS[lang],
     renderHtml,
   };
 }
