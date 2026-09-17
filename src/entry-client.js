@@ -22,6 +22,7 @@ import { render, localizeStatus, localizeCountry, calculateTrajectory } from "./
 import { createStaticRefreshController } from "./pipeline/static-client-refresh.js";
 import { applyUpdatedSnapshot } from "./pipeline/client-state-updater.js";
 import { createFreshnessViewModel } from "./pipeline/freshness-view-model.js";
+import { getProvinceFallbackStyle } from "./pipeline/map-boundary-styles.js";
 import {
   trackEvent,
   identifySession,
@@ -594,13 +595,7 @@ export function initClient() {
             };
           }
 
-          return {
-            color: "#334155",
-            weight: 1,
-            opacity: 0.45,
-            fillColor: "transparent",
-            fillOpacity: 0,
-          };
+          return getProvinceFallbackStyle();
         },
         onEachFeature: (feature, layer) => {
           const rawName = feature?.properties?.shapeName || "";
