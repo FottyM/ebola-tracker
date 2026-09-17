@@ -117,6 +117,7 @@ describe("DATA-015: Separate Source Health from Epidemiological Freshness", () =
         parseStatus: "valid",
         validationStatus: "valid",
         reportingDate: "2026-09-09",
+        currentDate: "2026-09-09",
         contentHash: "sha256-abc12345",
       });
 
