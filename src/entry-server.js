@@ -421,10 +421,10 @@ export function render(data, options = {}) {
     <button type="button" class="symptoms-card" id="open-symptoms-modal" aria-haspopup="dialog" aria-controls="symptoms-dialog" data-umami-event="open-symptoms-modal">
       <span class="symptoms-card-icon" aria-hidden="true">✚</span>
       <span class="symptoms-card-copy">
-        <strong>Symptoms & look-alike illnesses</strong>
-        <span>Why early Ebola can resemble malaria, typhoid and other regional diseases</span>
+        <strong>${m.symptoms_card_title({}, { locale })}</strong>
+        <span>${m.symptoms_card_subtitle({}, { locale })}</span>
       </span>
-      <span class="symptoms-card-action" aria-hidden="true">View guide →</span>
+      <span class="symptoms-card-action" aria-hidden="true">${m.symptoms_card_action({}, { locale })}</span>
     </button>
 
     <!-- ── Interactive Small Epidemic Spread Curve (Click to Enlarge) ── -->
@@ -612,7 +612,7 @@ export function render(data, options = {}) {
   </dialog>
 
   <!-- ── MODAL 3: Symptoms & Differential Diagnosis ── -->
-  ${renderEbolaHealthGuidance()}
+  ${renderEbolaHealthGuidance(locale)}
 
   <!-- ── Legend ──────────────────────────────────────── -->
   <div class="legend" role="region" aria-label="Map Legend">
