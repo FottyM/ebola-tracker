@@ -40,7 +40,7 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(appHtml).toContain("Bleeding is not always present");
     expect(appHtml).toContain("Symptoms alone cannot diagnose Ebola");
     expect(appHtml).toContain("Call ahead if possible");
-    expect(appHtml).toContain("https://www.who.int/news-room/fact-sheets/detail/ebola-disease");
+    expect(appHtml).toContain("https://www.who.int/fr/news-room/fact-sheets/detail/ebola-disease");
     expect(appHtml).toContain("https://www.cdc.gov/ebola/signs-symptoms/index.html");
   });
 
@@ -54,6 +54,10 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(jsonLd).toContain("Surveillance de la flambée de maladie à virus Ebola");
     expect(jsonLd).toContain('"inLanguage":"fr-CD"');
     expect(jsonLd).toContain("Jeu de données de surveillance");
+    expect(appHtml).toContain("Symptômes d’Ebola et maladies similaires");
+    expect(appHtml).toContain("Les symptômes seuls ne permettent pas de diagnostiquer Ebola.");
+    expect(appHtml).toContain("Consulter le guide");
+    expect(appHtml).not.toContain("Ebola symptoms and look-alike illnesses");
   });
 
   it("localizes canonical, social and academic metadata for the French page", () => {
