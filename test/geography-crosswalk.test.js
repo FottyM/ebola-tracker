@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vite-plus/test";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -85,30 +86,35 @@ describe("DATA-011: Health-Zone Geography Crosswalk & Deterministic Points", () 
 
   describe("Artifact Generation & Idempotency", () => {
     it("generates deterministic crosswalk and point JSON files with zero drift", () => {
-      const outputDir = path.resolve(__dirname, "../public/geography");
-      generateGeographyArtifacts(outputDir);
+      const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), "ebola-geography-"));
 
-      const crosswalkPath = path.join(outputDir, "health-zone-crosswalk.json");
-      const pointsPath = path.join(outputDir, "health-zone-points.json");
+      try {
+        generateGeographyArtifacts(outputDir);
 
-      expect(fs.existsSync(crosswalkPath)).toBe(true);
-      expect(fs.existsSync(pointsPath)).toBe(true);
+        const crosswalkPath = path.join(outputDir, "health-zone-crosswalk.json");
+        const pointsPath = path.join(outputDir, "health-zone-points.json");
 
-      const crosswalkContent1 = fs.readFileSync(crosswalkPath, "utf-8");
-      const pointsContent1 = fs.readFileSync(pointsPath, "utf-8");
+        expect(fs.existsSync(crosswalkPath)).toBe(true);
+        expect(fs.existsSync(pointsPath)).toBe(true);
 
-      // Verify no 'city' label in output
-      expect(crosswalkContent1).not.toContain('"city"');
-      expect(pointsContent1).not.toContain('"city"');
-      expect(pointsContent1).toContain('"healthZoneName"');
+        const crosswalkContent1 = fs.readFileSync(crosswalkPath, "utf-8");
+        const pointsContent1 = fs.readFileSync(pointsPath, "utf-8");
 
-      // Re-run for idempotency check
-      generateGeographyArtifacts(outputDir);
-      const crosswalkContent2 = fs.readFileSync(crosswalkPath, "utf-8");
-      const pointsContent2 = fs.readFileSync(pointsPath, "utf-8");
+        // Verify no 'city' label in output
+        expect(crosswalkContent1).not.toContain('"city"');
+        expect(pointsContent1).toContain('"healthZoneName"');
+        expect(pointsContent1).not.toContain('"city"');
 
-      expect(crosswalkContent1).toBe(crosswalkContent2);
-      expect(pointsContent1).toBe(pointsContent2);
+        // Re-run for idempotency check
+        generateGeographyArtifacts(outputDir);
+        const crosswalkContent2 = fs.readFileSync(crosswalkPath, "utf-8");
+        const pointsContent2 = fs.readFileSync(pointsPath, "utf-8");
+
+        expect(crosswalkContent1).toBe(crosswalkContent2);
+        expect(pointsContent1).toBe(pointsContent2);
+      } finally {
+        fs.rmSync(outputDir, { recursive: true, force: true });
+      }
     });
   });
 });
