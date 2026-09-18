@@ -158,17 +158,15 @@
     <!--ssr-outlet-end-->
 
     <!-- Injected Initial Data from Backend ETL -->
-    <script id="ssr-state-data" type="application/json">
-      <!--ssr-state-start-->
-      <!--ssr-state-->
-      <!--ssr-state-end-->
-    </script>
+    <!--ssr-state-start-->
+    <script id="ssr-state-data" type="application/json"></script>
+    <!--ssr-state-end-->
     <script>
       (function () {
         try {
           var el = document.getElementById("ssr-state-data");
           var raw = el ? el.textContent.trim() : "";
-          if (raw && !raw.startsWith("<!--")) {
+          if (raw) {
             window.__INITIAL_DATA__ = JSON.parse(raw);
           }
         } catch (e) {
