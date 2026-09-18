@@ -1,12 +1,12 @@
 /** @type {import('../../server/etl.js').DynamicOutbreakState} */
 export const defaultOutbreakData = {
   summary: {
-    totalCases: 7424,
-    totalDeaths: 3579,
-    overallCfr: "48.2%",
+    totalCases: 7495,
+    totalDeaths: 3607,
+    overallCfr: "48.1%",
     affectedCountriesCount: 2,
-    lastUpdated: "2026-09-18T03:56:40.708Z",
-    lastReportDate: "2026-09-15",
+    lastUpdated: "2026-09-18T16:06:30.825Z",
+    lastReportDate: "2026-09-16",
   },
   locations: [
     {
@@ -679,7 +679,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-09-15-1789703800708",
+  snapshotId: "snapshot-2026-09-16-1789747590825",
 };
 
 export default defaultOutbreakData;
