@@ -12,6 +12,8 @@
  * @property {string} country - Country name.
  * @property {string} countryCode - ISO3 code.
  * @property {string} [region] - Sub-national region or district.
+ * @property {string} [province] - Parent province for a health-zone observation.
+ * @property {"country" | "province" | "health-zone"} [geographicPrecision]
  * @property {number} cases - Confirmed case count.
  * @property {number} deaths - Confirmed fatalities.
  * @property {number} cfr - Case fatality rate (%).

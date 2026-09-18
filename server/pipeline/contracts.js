@@ -379,6 +379,8 @@ export function mapSnapshotToLegacyState(snapshot) {
       country: countryName,
       countryCode: countryIso3,
       region: regionName,
+      province: obs.province?.name,
+      geographicPrecision: obs.geographicPrecision,
       cases: confirmedCases,
       deaths: confirmedDeaths,
       cfr: confirmedCases > 0 ? Number(((confirmedDeaths / confirmedCases) * 100).toFixed(1)) : 0,

@@ -22,7 +22,11 @@ import { render, localizeStatus, localizeCountry, calculateTrajectory } from "./
 import { createStaticRefreshController } from "./pipeline/static-client-refresh.js";
 import { applyUpdatedSnapshot } from "./pipeline/client-state-updater.js";
 import { createFreshnessViewModel } from "./pipeline/freshness-view-model.js";
-import { getProvinceFallbackStyle } from "./pipeline/map-boundary-styles.js";
+import {
+  getProvinceFallbackStyle,
+  normalizeProvinceName,
+  buildProvinceLookup,
+} from "./pipeline/map-boundary-styles.js";
 import {
   trackEvent,
   identifySession,
@@ -110,9 +114,9 @@ export function getProvinceFillOpacity(cases) {
  * @returns {string}
  */
 export function getProvinceStrokeColor(cases) {
-  if (cases > 1000) return "#e5484d";
-  if (cases > 100) return "#f76b15";
-  if (cases > 10) return "#f5a623";
+  if (cases > 500) return "#e5484d";
+  if (cases >= 100) return "#f76b15";
+  if (cases >= 10) return "#f5a623";
   return "#efc940";
 }
 
@@ -131,27 +135,7 @@ export function getProvinceWeight(cases) {
  * @returns {string}
  */
 export function getProvinceFillColor(cases) {
-  return cases > 500 ? "#e5484d" : "#f76b15";
-}
-
-/**
- * Normalizes province names between international shapefile and health dataset.
- * @param {string} shapeName
- * @returns {string}
- */
-function normalizeProvinceName(shapeName) {
-  if (!shapeName) return "";
-  const s = shapeName.toLowerCase().trim();
-  if (s.includes("ituri")) return "Ituri";
-  if (s.includes("north kivu") || s.includes("nord-kivu")) return "North Kivu";
-  if (s.includes("upper uele") || s.includes("haut-uele") || s.includes("haut-uélé"))
-    return "Haut-Uélé";
-  if (s.includes("tshopo")) return "Tshopo";
-  if (s.includes("south kivu") || s.includes("sud-kivu")) return "South Kivu";
-  if (s.includes("lower uele") || s.includes("bas-uele") || s.includes("bas-uélé"))
-    return "Bas-Uélé";
-  if (s.includes("sud-ubangi") || s.includes("sud ubangi")) return "Sud-Ubangi";
-  return shapeName;
+  return getProvinceStrokeColor(cases);
 }
 
 /**
@@ -509,15 +493,26 @@ export function initClient() {
   }).addTo(map);
 
   const affectedCountryLookup = new Map();
-  const affectedRegionLookup = new Map();
+  let affectedRegionLookup = buildProvinceLookup(locations);
 
   locations.forEach((loc) => {
     affectedCountryLookup.set(loc.countryCode.toUpperCase(), loc);
     affectedCountryLookup.set(loc.country.toLowerCase(), loc);
-    if (loc.region) {
-      affectedRegionLookup.set(normalizeProvinceName(loc.region), loc);
-    }
   });
+
+  function provinceTooltipHtml(provData, locale) {
+    const regionSuffix = m.region_suffix({}, { locale });
+    let casesLabel = m.confirmed_cases_label({}, { locale });
+    const deathsLabel = m.recorded_deaths_label({}, { locale });
+    let cfr = ` (CFR ${provData.cfr}%)`;
+    let note = "";
+    if (provData.partial) {
+      casesLabel = m.province_zone_subtotal({}, { locale });
+      cfr = "";
+      note = `<br/><em>${m.province_zone_note({}, { locale })}</em>`;
+    }
+    return `<strong>${provData.region} ${regionSuffix}</strong><br/>${casesLabel}: ${provData.cases.toLocaleString()}<br/>${deathsLabel}: ${provData.deaths.toLocaleString()}${cfr}${note}`;
+  }
 
   // ── LAYER 1: Global World Countries (Loaded Dynamically) ──
   import("./data/world-countries.json")
@@ -584,7 +579,7 @@ export function initClient() {
           const normName = normalizeProvinceName(rawName);
           const provData = affectedRegionLookup.get(normName);
 
-          if (provData) {
+          if (provData && provData.cases > 0) {
             const cases = provData.cases || 0;
             return {
               color: getProvinceStrokeColor(cases),
@@ -602,38 +597,43 @@ export function initClient() {
           const normName = normalizeProvinceName(rawName);
           const provData = affectedRegionLookup.get(normName);
 
-          if (provData) {
-            const regionSuffix = m.region_suffix({}, { locale: currentLocale });
-            const casesLabel = m.confirmed_cases_label({}, { locale: currentLocale });
-            const deathsLabel = m.recorded_deaths_label({}, { locale: currentLocale });
-            layer.bindTooltip(
-              `<strong>${provData.region} ${regionSuffix}</strong><br/>${casesLabel}: ${provData.cases.toLocaleString()}<br/>${deathsLabel}: ${provData.deaths.toLocaleString()} (CFR ${provData.cfr}%)`,
-              { sticky: true, className: "custom-map-tooltip" },
-            );
-
-            layer.on({
-              click: () => {
-                trackEvent("click-province-map", {
-                  province: provData.region,
-                  cases: provData.cases,
-                  cfr: provData.cfr,
-                });
-              },
-              mouseover: (e) => {
-                const l = e.target;
-                l.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.45 });
-              },
-              mouseout: (e) => {
-                const l = e.target;
-                const cases = provData.cases || 0;
-                l.setStyle({
-                  weight: getProvinceWeight(cases),
-                  opacity: 0.95,
-                  fillOpacity: getProvinceFillOpacity(cases),
-                });
-              },
+          if (provData?.cases > 0) {
+            layer.bindTooltip(provinceTooltipHtml(provData, currentLocale), {
+              sticky: true,
+              className: "custom-map-tooltip",
             });
           }
+
+          layer.on({
+            click: () => {
+              const current = affectedRegionLookup.get(normName);
+              if (current?.cases > 0) {
+                trackEvent("click-province-map", {
+                  province: current.region,
+                  cases: current.cases,
+                  cfr: current.cfr,
+                });
+              }
+            },
+            mouseover: (e) => {
+              const current = affectedRegionLookup.get(normName);
+              if (current?.cases > 0) {
+                e.target.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.45 });
+              }
+            },
+            mouseout: (e) => {
+              const current = affectedRegionLookup.get(normName);
+              if (current?.cases > 0) {
+                e.target.setStyle({
+                  weight: getProvinceWeight(current.cases),
+                  opacity: 0.95,
+                  fillOpacity: getProvinceFillOpacity(current.cases),
+                });
+              } else {
+                e.target.setStyle(getProvinceFallbackStyle());
+              }
+            },
+          });
         },
       }).addTo(map);
     })
@@ -787,15 +787,14 @@ export function initClient() {
       const rawName = layer.feature?.properties?.shapeName || "";
       const normName = normalizeProvinceName(rawName);
       const provData = affectedRegionLookup.get(normName);
-      if (provData) {
-        const regionSuffix = m.region_suffix({}, { locale });
-        const casesLabel = m.confirmed_cases_label({}, { locale });
-        const deathsLabel = m.recorded_deaths_label({}, { locale });
+      if (provData?.cases > 0) {
         layer.unbindTooltip();
-        layer.bindTooltip(
-          `<strong>${provData.region} ${regionSuffix}</strong><br/>${casesLabel}: ${provData.cases.toLocaleString()}<br/>${deathsLabel}: ${provData.deaths.toLocaleString()} (CFR ${provData.cfr}%)`,
-          { sticky: true, className: "custom-map-tooltip" },
-        );
+        layer.bindTooltip(provinceTooltipHtml(provData, locale), {
+          sticky: true,
+          className: "custom-map-tooltip",
+        });
+      } else {
+        layer.unbindTooltip();
       }
     });
   }
@@ -1215,6 +1214,24 @@ export function initClient() {
         });
         applyUpdatedSnapshot(newSnapshot, document, window);
         data = win.__INITIAL_DATA__ || data;
+        affectedRegionLookup = buildProvinceLookup(data.locations);
+        provincesLayer?.eachLayer((layer) => {
+          const province = affectedRegionLookup.get(
+            normalizeProvinceName(layer.feature?.properties?.shapeName),
+          );
+          if (province?.cases > 0) {
+            layer.setStyle({
+              color: getProvinceStrokeColor(province.cases),
+              weight: getProvinceWeight(province.cases),
+              opacity: 0.95,
+              fillColor: getProvinceFillColor(province.cases),
+              fillOpacity: getProvinceFillOpacity(province.cases),
+            });
+          } else {
+            layer.setStyle(getProvinceFallbackStyle());
+          }
+        });
+        updateTooltips(currentLocale);
       },
       onError: (err) => {
         console.warn("[Data Delivery Warning] Background refresh:", err);
