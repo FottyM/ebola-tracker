@@ -19,7 +19,7 @@ describe("DRC province boundary presentation", () => {
     });
   });
 
-  it("colours provinces from the current health-zone observations when the SitRep table is absent", () => {
+  it("colours provinces from the current snapshot regardless of available precision", () => {
     const locations = mapSnapshotToLegacyState(latestSnapshot).locations;
     const lookup = buildProvinceLookup(locations);
     const shapeNames = drcProvinces.features.map((feature) => feature.properties.shapeName);
@@ -27,16 +27,32 @@ describe("DRC province boundary presentation", () => {
       (name) => lookup.get(normalizeProvinceName(name))?.cases > 0,
     );
 
-    expect(
-      latestSnapshot.observations.some(
-        (observation) =>
-          observation.country?.iso3 === "COD" && observation.geographicPrecision === "province",
-      ),
-    ).toBe(false);
     expect(coloured).toContain("Ituri");
     expect(coloured).toContain("North Kivu");
     expect(coloured).toContain("Upper Uele");
-    expect(lookup.get(normalizeProvinceName("North Kivu")).partial).toBe(true);
+  });
+
+  it("uses health-zone subtotals when the SitRep omits province totals", () => {
+    const lookup = buildProvinceLookup([
+      {
+        countryCode: "COD",
+        region: "Bunia",
+        province: "Ituri",
+        geographicPrecision: "health-zone",
+        cases: 20,
+        deaths: 2,
+      },
+      {
+        countryCode: "COD",
+        region: "Aru",
+        province: "Ituri",
+        geographicPrecision: "health-zone",
+        cases: 5,
+        deaths: 1,
+      },
+    ]);
+    expect(lookup.get("ituri").cases).toBe(25);
+    expect(lookup.get("ituri").partial).toBe(true);
   });
 
   it("uses authoritative province totals instead of adding the same health zones twice", () => {
