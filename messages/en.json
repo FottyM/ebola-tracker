@@ -95,6 +95,8 @@
   "contained_over": "Contained / Over",
   "status_label": "Status:",
   "confirmed_cases_label": "Confirmed Cases",
+  "province_zone_subtotal": "Reported health-zone cases",
+  "province_zone_note": "Partial subtotal; province total unavailable",
   "recorded_deaths_label": "Recorded Deaths",
   "reported_date_label": "Reported date:",
   "region_suffix": "Region",

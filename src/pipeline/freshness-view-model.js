@@ -164,6 +164,9 @@ export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
   const obs = dataOrSnapshot.observations || [];
   const nationalObs = obs.find((o) => o.geographicPrecision === "country");
   const zoneObs = obs.find((o) => o.geographicPrecision === "health-zone");
+  const provinceObs = obs.find(
+    (o) => o.country?.iso3 === "COD" && o.geographicPrecision === "province",
+  );
 
   const rawReportingDate =
     dataOrSnapshot.summary?.lastReportDate ||
@@ -213,7 +216,7 @@ export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
 
   const sectionDates = {
     national: formatEuropeanDate(rawNationalDate),
-    provinces: formatEuropeanDate(rawNationalDate),
+    provinces: formatEuropeanDate(provinceObs?.timestamps?.sourceUpdatedAt || "N/A"),
     healthZones: formatEuropeanDate(rawHealthZoneDate),
   };
 

@@ -95,6 +95,8 @@
   "contained_over": "Contenu / Épidémie terminée",
   "status_label": "Statut :",
   "confirmed_cases_label": "Cas Confirmés",
+  "province_zone_subtotal": "Cas signalés par les zones de santé",
+  "province_zone_note": "Sous-total partiel ; total provincial indisponible",
   "recorded_deaths_label": "Décès Enregistrés",
   "reported_date_label": "Date de notification :",
   "region_suffix": "Région",

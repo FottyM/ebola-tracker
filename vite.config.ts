@@ -30,7 +30,7 @@ function ebolaPrerenderPlugin(): Plugin {
         )
         .replace(
           /<!--ssr-state-start-->[\s\S]*?<!--ssr-state-end-->|<!--ssr-state-->/,
-          `<!--ssr-state-start-->\n${initialState}\n<!--ssr-state-end-->`,
+          `<!--ssr-state-start-->\n<script id="ssr-state-data" type="application/json">${initialState}</script>\n<!--ssr-state-end-->`,
         );
     },
   };

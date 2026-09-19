@@ -200,10 +200,15 @@ export function executeSnapshotPipeline({
 
   // Determine freshness
   const healthZoneDate = hdxObservations[0]?.timestamps?.sourceUpdatedAt || drcParsed.reportingDate;
+  let provinceDate = "";
+  if (drcParsed.provinces.length > 0) {
+    provinceDate = drcParsed.reportingDate;
+  }
   const freshness = determineSnapshotFreshness({
     nationalDate: drcParsed.reportingDate,
-    provinceDate: drcParsed.reportingDate,
+    provinceDate,
     healthZoneDate,
+    hasNonBlockingConflicts: drcParsed.provinces.length === 0,
   });
 
   const snapshotId = `snapshot-${drcParsed.reportingDate}-${Date.now()}`;
