@@ -163,6 +163,9 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       expect(appHtml).toContain("09/09/2026 12:00");
       expect(appHtml).toContain("Current");
       expect(appHtml).toContain("freshness-current");
+      expect(appHtml).toContain(
+        "Weekly epidemic-curve data are not available in the latest source snapshot.",
+      );
     });
   });
 

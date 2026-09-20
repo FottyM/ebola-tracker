@@ -343,8 +343,10 @@ export function render(data, options = {}) {
     })
     .join("");
 
+  const hasEpiCurve = Array.isArray(epiCurve) && epiCurve.length > 0;
   const sidebarChartSvgHtml = renderEpiChartSvg(epiCurve, 310, 110);
   const timelineModalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 240);
+  const epiCurveUnavailableHtml = `<p class="chart-empty-state" role="status">${m.epidemic_curve_unavailable({}, { locale })}</p>`;
   const ageChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 290, 120);
   const casesModalAgeChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 620, 180);
   const freshness = createFreshnessViewModel(data, locale);
@@ -428,16 +430,24 @@ export function render(data, options = {}) {
     </button>
 
     <!-- ── Interactive Small Epidemic Spread Curve (Click to Enlarge) ── -->
-    <section class="chart-section interactive-chart-card" id="open-timeline-modal" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="timeline-dialog" aria-label="${m.open_timeline_modal_aria({}, { locale })}" data-umami-event="open-timeline-modal">
+    <section class="chart-section ${hasEpiCurve ? "interactive-chart-card" : ""}" ${
+      hasEpiCurve
+        ? `id="open-timeline-modal" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="timeline-dialog" aria-label="${m.open_timeline_modal_aria({}, { locale })}" data-umami-event="open-timeline-modal"`
+        : ""
+    }>
       <div class="chart-header">
-        <h3>${m.spread_curve_title({}, { locale })} <span class="click-hint">${m.enlarge_hint({}, { locale })}</span></h3>
+        <h3>${m.spread_curve_title({}, { locale })}${hasEpiCurve ? ` <span class="click-hint">${m.enlarge_hint({}, { locale })}</span>` : ""}</h3>
         <span class="chart-tag">${m.weekly_cases_fatalities({}, { locale })}</span>
       </div>
-      <div class="chart-legend" style="display: flex; gap: 10px; font-size: 9.5px; color: var(--text-muted); margin-bottom: 6px;">
+      ${
+        hasEpiCurve
+          ? `<div class="chart-legend" style="display: flex; gap: 10px; font-size: 9.5px; color: var(--text-muted); margin-bottom: 6px;">
         <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #f76b15; display: inline-block;"></span> ${m.cases_legend({}, { locale })}</span>
         <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #e5484d; display: inline-block;"></span> ${m.deaths_legend({}, { locale })}</span>
-      </div>
-      <div class="chart-container" id="epi-chart">${sidebarChartSvgHtml}</div>
+      </div>`
+          : ""
+      }
+      <div class="chart-container" id="epi-chart">${hasEpiCurve ? sidebarChartSvgHtml : epiCurveUnavailableHtml}</div>
     </section>
 
     <!-- ── Demographics Breakdown (Sex & Age) ── -->

@@ -401,7 +401,7 @@ export function mapSnapshotToLegacyState(snapshot) {
       lastReportDate: snapshot.summary.lastReportDate,
     },
     locations,
-    epiCurve: snapshot.epiCurve || defaultOutbreakData.epiCurve,
+    epiCurve: Array.isArray(snapshot.epiCurve) ? snapshot.epiCurve : [],
     demographics: snapshot.demographics || defaultOutbreakData.demographics,
     corridors: snapshot.corridors || defaultOutbreakData.corridors,
     sources: {

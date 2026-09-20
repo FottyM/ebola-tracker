@@ -217,6 +217,19 @@ describe("DATA-002: Normalized Observations and Snapshot Contract", () => {
       expect(legacyState.locations[0].center).toEqual([1.56, 30.25]);
     });
 
+    it("does not present the bundled demo curve when a current snapshot has no weekly series", () => {
+      const snapshot = createSnapshotFromObservations({
+        snapshotId: "snapshot-current-without-curve",
+        status: "current",
+        scheduledCadenceMinutes: 30,
+        observations: [],
+      });
+
+      const legacyState = mapSnapshotToLegacyState(snapshot);
+
+      expect(legacyState.epiCurve).toEqual([]);
+    });
+
     it("resolves authentic distinct centroids and preserves international locations and notes", () => {
       const observations = [
         {
