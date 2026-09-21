@@ -41,6 +41,7 @@
   "spread_curve_title": "Epidemic Spread Curve (Epi Week)",
   "enlarge_hint": "↗ Enlarge",
   "weekly_cases_fatalities": "Weekly Cases & Fatalities",
+  "epidemic_curve_unavailable": "Weekly epidemic-curve data are not available in the latest source snapshot.",
   "cases_legend": "Cases",
   "deaths_legend": "Deaths",
   "demographics_title": "Demographics (Sex & Age Cohort)",

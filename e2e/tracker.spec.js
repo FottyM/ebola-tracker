@@ -33,23 +33,32 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
     await expect(page.locator(".freshness-status-pill")).toBeVisible();
   });
 
-  test("2. Epidemic Curve Chart & Timeline Modal Dialog", async ({ page }) => {
-    // TanStack chart SVG container mounted
+  test("2. Epidemic curve presents sourced series or an explicit unavailable state", async ({
+    page,
+  }) => {
+    const unavailable = page.getByText(
+      "Weekly epidemic-curve data are not available in the latest source snapshot.",
+    );
+
+    if (await unavailable.count()) {
+      await expect(unavailable).toBeVisible();
+      await expect(page.locator("#epi-chart svg")).toHaveCount(0);
+      await expect(page.locator("#open-timeline-modal")).toHaveCount(0);
+      return;
+    }
+
     const epiChart = page.locator("#epi-chart svg");
     await expect(epiChart).toBeVisible({ timeout: 5000 });
 
-    // Open Timeline modal by clicking interactive chart card
     const openTimelineBtn = page.locator("#open-timeline-modal");
     await openTimelineBtn.click();
 
     const timelineDialog = page.locator("#timeline-dialog");
     await expect(timelineDialog).toHaveAttribute("open", "");
 
-    // Large enlarged chart inside modal renders
     const modalChart = page.locator("#modal-timeline-chart svg");
     await expect(modalChart).toBeVisible({ timeout: 5000 });
 
-    // Close via close button
     const closeBtn = page.locator("#close-timeline-modal");
     await closeBtn.click();
     await expect(timelineDialog).not.toHaveAttribute("open", "");

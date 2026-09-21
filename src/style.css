@@ -823,6 +823,18 @@ body {
   height: 120px;
 }
 
+.chart-empty-state {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  margin: 0;
+  padding: 0 12px;
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.45;
+  text-align: center;
+}
+
 /* ── Demographics Section ────────────────────────────── */
 .demographics-section {
   background: var(--surface-raised);
