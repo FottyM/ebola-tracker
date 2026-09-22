@@ -1,12 +1,12 @@
 /** @type {import('../../server/etl.js').DynamicOutbreakState} */
 export const defaultOutbreakData = {
   summary: {
-    totalCases: 7495,
-    totalDeaths: 3607,
+    totalCases: 7692,
+    totalDeaths: 3701,
     overallCfr: "48.1%",
     affectedCountriesCount: 2,
-    lastUpdated: "2026-09-21T04:08:31.656Z",
-    lastReportDate: "2026-09-16",
+    lastUpdated: "2026-09-22T04:05:06.526Z",
+    lastReportDate: "2026-09-19",
   },
   locations: [
     {
@@ -625,62 +625,7 @@ export const defaultOutbreakData = {
       note: "Specialized clinical evacuation under biocontainment. Patient recovered.",
     },
   ],
-  epiCurve: [
-    {
-      week: "W20 (May 18)",
-      weeklyCases: 142,
-      cumulativeCases: 142,
-      weeklyDeaths: 68,
-    },
-    {
-      week: "W22 (Jun 1)",
-      weeklyCases: 285,
-      cumulativeCases: 590,
-      weeklyDeaths: 134,
-    },
-    {
-      week: "W24 (Jun 15)",
-      weeklyCases: 410,
-      cumulativeCases: 1320,
-      weeklyDeaths: 195,
-    },
-    {
-      week: "W26 (Jun 29)",
-      weeklyCases: 498,
-      cumulativeCases: 2260,
-      weeklyDeaths: 232,
-    },
-    {
-      week: "W28 (Jul 13)",
-      weeklyCases: 540,
-      cumulativeCases: 3310,
-      weeklyDeaths: 254,
-    },
-    {
-      week: "W30 (Jul 27)",
-      weeklyCases: 565,
-      cumulativeCases: 4420,
-      weeklyDeaths: 268,
-    },
-    {
-      week: "W32 (Aug 10)",
-      weeklyCases: 579,
-      cumulativeCases: 5280,
-      weeklyDeaths: 280,
-    },
-    {
-      week: "W34 (Aug 24)",
-      weeklyCases: 612,
-      cumulativeCases: 6120,
-      weeklyDeaths: 295,
-    },
-    {
-      week: "W36 (Sep 7)",
-      weeklyCases: 540,
-      cumulativeCases: 6843,
-      weeklyDeaths: 262,
-    },
-  ],
+  epiCurve: [],
   demographics: {
     sex: {
       femalePct: 56.8,
@@ -773,7 +718,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-09-16-1789963711656",
+  snapshotId: "snapshot-2026-09-19-1790049906525",
 };
 
 export default defaultOutbreakData;
