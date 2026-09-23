@@ -1,16 +1,16 @@
 {
   "schemaVersion": "2026-09-11",
-  "snapshotId": "snapshot-2026-09-19-1790082835841",
-  "snapshotPath": "snapshots/snapshot-2026-09-19-1790082835841.json",
-  "snapshotUrl": "data/snapshots/snapshot-2026-09-19-1790082835841.json",
-  "contentHash": "1da6ea04c6e826d91231ed0eb683464aa1e434d9d08a8b5c22b55f49c4a3376d",
-  "sourceUpdatedAt": "2026-09-19",
-  "snapshotPublishedAt": "2026-09-19T12:00:00.000Z",
+  "snapshotId": "snapshot-2026-09-09-1790170125873",
+  "snapshotPath": "snapshots/snapshot-2026-09-09-1790170125873.json",
+  "snapshotUrl": "data/snapshots/snapshot-2026-09-09-1790170125873.json",
+  "contentHash": "720925e9a9736c5dbde1e62ddf51bfba9e52c14ad165d5efd014b3a1e70ea070",
+  "sourceUpdatedAt": "2026-09-09",
+  "snapshotPublishedAt": "2026-09-09T12:00:00.000Z",
   "scheduledCadenceMinutes": 240,
-  "status": "partial",
+  "status": "current",
   "summary": {
-    "totalCases": 7692,
-    "totalDeaths": 3701,
+    "totalCases": 6962,
+    "totalDeaths": 3351,
     "affectedCountriesCount": 2
   }
 }
