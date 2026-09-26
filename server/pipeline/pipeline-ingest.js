@@ -33,6 +33,8 @@ export function hasEpidemiologicalContentChanged(snap1, snap2) {
   if (snap1.summary?.affectedCountriesCount !== snap2.summary?.affectedCountriesCount) return true;
   if (snap1.summary?.lastReportDate !== snap2.summary?.lastReportDate) return true;
 
+  if (JSON.stringify(snap1.epiCurve || []) !== JSON.stringify(snap2.epiCurve || [])) return true;
+
   const obs1 = snap1.observations || [];
   const obs2 = snap2.observations || [];
 
@@ -88,6 +90,7 @@ export async function runIngestionPipeline({
   drcParsed,
   hdxObservations = [],
   internationalObservations,
+  epiCurve = [],
   dryRun = false,
 } = {}) {
   if (isRunning) {
@@ -143,6 +146,7 @@ export async function runIngestionPipeline({
       drcParsed: drcData,
       hdxObservations: hdxData,
       ...(internationalObservations ? { internationalObservations } : {}),
+      epiCurve,
       save: false,
     });
 

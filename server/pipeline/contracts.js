@@ -188,7 +188,8 @@ export function validateOutbreakSnapshot(snapshot) {
  *   snapshotId: string,
  *   status?: SnapshotStatus,
  *   scheduledCadenceMinutes?: number,
- *   observations?: NormalizedObservation[]
+ *   observations?: NormalizedObservation[],
+ *   epiCurve?: Array<{ week: string, reportingDate?: string, weeklyCases: number, weeklyDeaths: number, sourceUrl?: string }>
  * }} params
  * @returns {OutbreakSnapshot}
  */
@@ -197,6 +198,7 @@ export function createSnapshotFromObservations({
   status = "current",
   scheduledCadenceMinutes = 240,
   observations = [],
+  epiCurve = [],
 }) {
   let totalCases = 0;
   let totalDeaths = 0;
@@ -268,17 +270,22 @@ export function createSnapshotFromObservations({
       lastReportDate: latestDate || new Date().toISOString().slice(0, 10),
     },
     observations: Object.freeze([...observations]),
+    epiCurve: Object.freeze([...epiCurve]),
     sourceHealth: [
       {
-        sourceId: "hdx-consolidated",
-        status: "Live (200 OK)",
+        sourceId: "drc-insp-sitrep",
+        status: "Live (validated)",
         lastSuccessAt: new Date().toISOString(),
       },
-      {
-        sourceId: "who-acute-event",
-        status: "Live (200 OK)",
-        lastSuccessAt: new Date().toISOString(),
-      },
+      ...(epiCurve.length
+        ? [
+            {
+              sourceId: "who-afro-weekly",
+              status: "Live (validated)",
+              lastSuccessAt: new Date().toISOString(),
+            },
+          ]
+        : []),
     ],
   });
 }
@@ -405,15 +412,16 @@ export function mapSnapshotToLegacyState(snapshot) {
     demographics: snapshot.demographics || defaultOutbreakData.demographics,
     corridors: snapshot.corridors || defaultOutbreakData.corridors,
     sources: {
+      // Keep the legacy `hdx` key until the renderer's source-card contract is migrated.
       hdx: {
-        name: "HDX UN OCHA Outbreak API",
-        url: "https://data.humdata.org",
-        status: "Live (200 OK)",
+        name: "DRC Ministry of Health / INSP SitReps",
+        url: "https://sante.gouv.cd/documents/sitreps",
+        status: "Official validated report",
       },
       who: {
-        name: "WHO Acute Event Table",
-        url: "https://www.who.int",
-        status: "Official Stream",
+        name: "WHO AFRO Weekly External Situation Reports",
+        url: "https://www.afro.who.int/health-topics/disease-outbreaks/ebola-who-african-region",
+        status: "Official weekly series",
       },
       reliefweb: {
         name: "ReliefWeb Reports Portal",
