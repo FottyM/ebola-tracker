@@ -326,12 +326,12 @@ export function render(data, options = {}) {
   };
 
   const locationItemsHtml = locations
-    .map((loc) => {
+    .map((loc, locationIndex) => {
       const countryLabel = localizeCountry(loc.country, locale);
       const regionLabel = loc.region ? `${loc.region} (${countryLabel})` : countryLabel;
       const statusLabel = localizeStatus(loc.status, locale);
       return `
-    <li class="province-item" data-center="${loc.center.join(",")}" data-region="${loc.region || loc.country}" data-country="${loc.countryCode || ""}" data-umami-event="select-location-sidebar" data-umami-event-location="${loc.region ? `${loc.region} (${loc.country})` : loc.country}">
+    <li class="province-item" data-location-index="${locationIndex}" data-center="${loc.center.join(",")}" data-region="${loc.region || loc.country}" data-country="${loc.countryCode || ""}" data-umami-event="select-location-sidebar" data-umami-event-location="${loc.region ? `${loc.region} (${loc.country})` : loc.country}">
       <span class="province-dot" style="background:${getProvinceDotColor(loc)}"></span>
       <div style="flex: 1; display: flex; flex-direction: column;">
         <span class="province-name">${regionLabel}</span>

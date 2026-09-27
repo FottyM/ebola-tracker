@@ -656,7 +656,7 @@ export function initClient() {
 
   const markerMap = new Map();
 
-  locations.forEach((loc) => {
+  locations.forEach((loc, locationIndex) => {
     const sev = getSeverity(loc);
 
     const marker = L.circleMarker(loc.center, {
@@ -670,6 +670,7 @@ export function initClient() {
     }).addTo(map);
 
     const centerKey = loc.center.join(",");
+    markerMap.set(`location:${locationIndex}`, marker);
     markerMap.set(centerKey, marker);
     if (loc.region) {
       markerMap.set(loc.region.toLowerCase(), marker);
@@ -724,6 +725,7 @@ export function initClient() {
         item.querySelector(".province-name")?.textContent?.trim() ||
         "Unknown";
       const country = item.getAttribute("data-country") || "";
+      const locationIndex = item.getAttribute("data-location-index");
       trackEvent("select-location-sidebar", { region, country });
 
       if (centerStr) {
@@ -732,6 +734,7 @@ export function initClient() {
         map.flyTo([lat, lng], zoomLevel, { duration: 0.8 });
 
         const marker =
+          markerMap.get(`location:${locationIndex}`) ||
           markerMap.get(centerStr) ||
           markerMap.get(region.toLowerCase()) ||
           markerMap.get(`${region}, ${country}`.toLowerCase()) ||
@@ -772,9 +775,9 @@ export function initClient() {
 
   // ── LAYER 5: Language Switcher & Localization Controller ──
   function updatePopups(locale) {
-    locations.forEach((loc) => {
+    locations.forEach((loc, locationIndex) => {
       const centerKey = loc.center.join(",");
-      const marker = markerMap.get(centerKey);
+      const marker = markerMap.get(`location:${locationIndex}`) || markerMap.get(centerKey);
       if (marker) {
         marker.setPopupContent(getPopupHtml(loc, locale));
       }
