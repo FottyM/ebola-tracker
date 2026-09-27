@@ -51,6 +51,7 @@ function cleanInt(raw) {
  *     cfr: string
  *   },
  *   provinces: Array<{ name: string, newCases: number, cases: number, deaths: number, cfr: string }>,
+ *   healthZones: Array<{ name: string, province: string, newCases: number, cases: number, deaths: number, cfr: string }>,
  *   hasUnallocatedValues: boolean,
  *   errors: string[]
  * }}
@@ -71,6 +72,7 @@ export function parseMinistrySitrepText(rawText) {
         cfr: "",
       },
       provinces: [],
+      healthZones: [],
       hasUnallocatedValues: false,
       errors: ["Input must be a non-empty string."],
     };
@@ -79,14 +81,18 @@ export function parseMinistrySitrepText(rawText) {
   // Clean common OCR and extraction control artifacts (e.g. \u0007 bell character)
   // eslint-disable-next-line no-control-regex
   const clean = rawText.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "");
+  const normalizedHeader = clean
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
   // Guardrail: Verify official header markers
   const hasHeader =
-    (clean.includes("SITUATION EPIDEMIOLOGIQUE") ||
-      clean.includes("Épidémie de la Maladie à Virus EBOLA") ||
-      clean.includes("Epidemie de la Maladie a Virus EBOLA") ||
-      clean.includes("MVEBDB")) &&
-    (clean.includes("Situation Report N°") || clean.includes("SitRep N°"));
+    (normalizedHeader.includes("situation epidemiologique") ||
+      normalizedHeader.includes("epidemie de la maladie a virus ebola") ||
+      normalizedHeader.includes("mvebdb") ||
+      normalizedHeader.includes("mve-bdbv")) &&
+    /(?:situation report|sitrep)\s*n\s*[°º]?\s*\d+/i.test(clean);
 
   if (!hasHeader) {
     return {
@@ -101,13 +107,14 @@ export function parseMinistrySitrepText(rawText) {
         cfr: "",
       },
       provinces: [],
+      healthZones: [],
       hasUnallocatedValues: false,
       errors: ["Format drift: Missing official DRC Ministry SitRep header markers."],
     };
   }
 
   // Extract Report Number
-  const numMatch = clean.match(/(?:Situation Report|SitRep)\s*N°\s*(\d+)/i);
+  const numMatch = clean.match(/(?:Situation Report|SitRep)\s*N\s*[°º]?\s*(\d+)/i);
   const reportNumber = numMatch ? parseInt(numMatch[1], 10) : 0;
   if (!reportNumber) errors.push("Missing report number.");
 
@@ -130,6 +137,17 @@ export function parseMinistrySitrepText(rawText) {
     errors.push("Missing or unparsable reporting date.");
   }
 
+  const publicationDateMatch = clean.match(
+    /Date de publication\s*:\s*(\d{1,2})\s+([a-zA-Z\u00C0-\u017F]+)\s+(\d{4})/i,
+  );
+  let publicationDate;
+  if (publicationDateMatch) {
+    const month = FRENCH_MONTHS[publicationDateMatch[2].toLowerCase()];
+    if (month) {
+      publicationDate = `${publicationDateMatch[3]}-${month}-${publicationDateMatch[1].padStart(2, "0")}T12:00:00.000Z`;
+    }
+  }
+
   // Extract National Summary Metrics
   const casesMatch = clean.match(/Cumul des cas confirmés\s*:\s*([0-9\s]+)/i);
   const newCasesMatch = clean.match(/Nouveaux cas confirmés\s*:\s*([0-9\s]+)/i);
@@ -145,7 +163,9 @@ export function parseMinistrySitrepText(rawText) {
 
   // Fallback for extracted PDF narrative / table layout
   if (!confirmedCases || !confirmedDeaths) {
-    const narrativeMatch = clean.match(/([\d\s]+)\s+cas confirmés et\s+([\d\s]+)\s+décès/i);
+    const narrativeMatch = clean.match(
+      /(?:cumul[^\d]{0,30}(?:s['’]?établit\s+à\s+)?)?([\d][\d \u00a0]*)\s+cas confirmés et\s+([\d][\d \u00a0]*)\s+décès/i,
+    );
     if (narrativeMatch) {
       confirmedCases = confirmedCases || cleanInt(narrativeMatch[1]);
       confirmedDeaths = confirmedDeaths || cleanInt(narrativeMatch[2]);
@@ -215,10 +235,21 @@ export function parseMinistrySitrepText(rawText) {
 
   // If no pipe-delimited lines found, extract from space-delimited table (e.g. from PDF)
   if (provinces.length === 0) {
+    const normalizedTables = clean.replace(/(Bas|Haut|Nord|Sud)-\s*\n\s*/gi, "$1-");
+    const provinceTableStart = normalizedTables.search(
+      /TABLEAU\s+1[^\n]*RÉPARTITION DES CAS ET DÉCÈS CONFIRMÉS PAR PROVINCE/i,
+    );
+    const provinceTableRemainder =
+      provinceTableStart >= 0 ? normalizedTables.slice(provinceTableStart) : normalizedTables;
+    const provinceTableEnd = provinceTableRemainder.search(/^Total\s+/im);
+    const tableText =
+      provinceTableEnd >= 0
+        ? provinceTableRemainder.slice(0, provinceTableEnd)
+        : provinceTableRemainder;
     const provRegex =
-      /^(Ituri|Nord-Kivu|Haut-U[ée]l[ée]|Tshopo|Bas\s*-?U[ée]l[ée]|Sud-Kivu|Sud\s*-?Ubangi)\s+(\d+)\s+(\d{1,3}(?:\s\d{3})*|\d+)\s+(\d{1,3}(?:\s\d{3})*|\d+)\s+([\d.,]+%)/gim;
+      /^[ \t]*(Ituri|Nord-Kivu|Haut-U[ée]l[ée]|Tshopo|Bas\s*-?U[ée]l[ée]|Sud-Kivu|Sud\s*-?Ubangi)\s+(\d+)\s+(\d{1,3}(?:\s\d{3})*|\d+)\s+(\d{1,3}(?:\s\d{3})*|\d+)\s+([\d.,]+\s*%)/gim;
     let m;
-    while ((m = provRegex.exec(clean)) !== null) {
+    while ((m = provRegex.exec(tableText)) !== null) {
       provinces.push({
         name: m[1]
           .replace("Uélé", "Uele")
@@ -228,7 +259,7 @@ export function parseMinistrySitrepText(rawText) {
         newCases: cleanInt(m[2] || "0"),
         cases: cleanInt(m[3] || "0"),
         deaths: cleanInt(m[4] || "0"),
-        cfr: (m[5] || "").replace(",", "."),
+        cfr: (m[5] || "").replace(",", ".").replace(/\s+/g, ""),
       });
     }
   }
@@ -236,12 +267,57 @@ export function parseMinistrySitrepText(rawText) {
   const hasUnallocatedValues =
     clean.includes("A ventiler") || clean.includes("en cours d'attribution");
 
+  // Extract the detailed province/health-zone table when the PDF exposes it as text.
+  const healthZones = [];
+  const detailedTableText = clean
+    .replace(/(Bas|Haut|Nord|Sud|Makiso)-\s*\n\s*/gi, "$1-")
+    .replace(/\r/g, "");
+  const detailedStart = detailedTableText.search(/Province\s*\/\s*Zone\s+de santé/i);
+  if (detailedStart >= 0) {
+    const detail = detailedTableText.slice(detailedStart);
+    const knownProvinceKeys = new Map([
+      ["ituri", "Ituri"],
+      ["nord-kivu", "Nord-Kivu"],
+      ["haut-uélé", "Haut-Uele"],
+      ["tshopo", "Tshopo"],
+      ["sud-kivu", "Sud-Kivu"],
+      ["bas uélé", "Bas-Uele"],
+      ["bas-uélé", "Bas-Uele"],
+      ["sud ubangi", "Sud-Ubangi"],
+      ["sud-ubangi", "Sud-Ubangi"],
+    ]);
+    let currentProvince = "";
+    const rowRegex =
+      /^[ \t]*([A-Za-zÀ-ſ][A-Za-zÀ-ſ'\-’ ]*?)\s+(\d{1,3}(?:[ \u00a0]\d{3})+|\d+)\s+(\d{1,3}(?:[ \u00a0]\d{3})+|\d+)\s+([\d.,]+)\s*%\s*(\d+)?/gim;
+    let row;
+    while ((row = rowRegex.exec(detail)) !== null) {
+      const rawName = row[1].trim().replace(/\s+/g, " ");
+      const provinceKey = rawName.toLowerCase();
+      if (provinceKey === "total") break;
+      if (knownProvinceKeys.has(provinceKey)) {
+        currentProvince = knownProvinceKeys.get(provinceKey);
+        continue;
+      }
+      if (!currentProvince || /^a ventiler/i.test(rawName)) continue;
+      healthZones.push({
+        name: rawName,
+        province: currentProvince,
+        cases: cleanInt(row[2]),
+        deaths: cleanInt(row[3]),
+        cfr: `${row[4].replace(",", ".")}%`,
+        newCases: cleanInt(row[5] || "0"),
+      });
+    }
+  }
+
   return {
     valid: errors.length === 0,
     reportNumber,
     reportingDate,
+    ...(publicationDate ? { publicationDate } : {}),
     national,
     provinces,
+    healthZones,
     hasUnallocatedValues,
     errors,
   };

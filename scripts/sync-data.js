@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { runIngestionPipeline } from "../server/pipeline/pipeline-ingest.js";
 import { parseMinistrySitrepText } from "../server/pipeline/parsers/sitrep-parser.js";
 import { fetchLatestMinistrySitrepPdf } from "../server/pipeline/adapters/drc-ministry-adapter.js";
+import { fetchWhoWeeklyCurve } from "../server/pipeline/adapters/who-weekly-adapter.js";
 import {
   fetchLatestHdxFeed,
   parseHdxConsolidatedCsv,
@@ -29,7 +30,7 @@ async function resolveDrcSitrep() {
       console.log(
         `✅ [DRC Ministry] Successfully fetched and parsed SitRep #${liveSitrep.reportNumber} (${liveSitrep.reportingDate}) from ${liveSitrep.sourceUrl}`,
       );
-      return liveSitrep;
+      return { ...liveSitrep, sourceMode: "live" };
     }
     console.warn(
       `⚠️ [DRC Ministry] Live SitRep returned invalid payload: ${liveSitrep?.errors?.join("; ")}`,
@@ -48,13 +49,27 @@ async function resolveDrcSitrep() {
     const text = fs.readFileSync(baselineSitrepPath, "utf-8");
     const parsed = parseMinistrySitrepText(text);
     if (parsed.valid) {
-      return parsed;
+      return { ...parsed, sourceMode: "fallback" };
     }
   }
 
   throw new Error(
     "DRC Ministry SitRep could not be resolved from live portal or local baseline cache.",
   );
+}
+
+async function resolveWhoWeeklyCurve() {
+  console.log("📡 [WHO AFRO] Checking authoritative weekly Ebola bulletins...");
+  try {
+    const curve = await fetchWhoWeeklyCurve({ timeoutMs: 25000 });
+    console.log(`✅ [WHO AFRO] Parsed ${curve.length} authoritative weekly curve points.`);
+    return curve;
+  } catch (err) {
+    console.warn(
+      `⚠️ [WHO AFRO] Weekly curve unavailable (${err instanceof Error ? err.message : String(err)}).`,
+    );
+    return [];
+  }
 }
 
 /**
@@ -110,12 +125,29 @@ async function sync() {
   );
 
   const drcParsed = await resolveDrcSitrep();
-  const hdxObservations = await resolveHdxFeed();
+  if (drcParsed.sourceMode === "fallback") {
+    const ageDays = Math.floor(
+      (Date.now() - new Date(`${drcParsed.reportingDate}T00:00:00.000Z`).getTime()) / 86_400_000,
+    );
+    if (ageDays > 3) {
+      throw new Error(
+        `Live Ministry ingestion failed and cached fallback is ${ageDays} days old (${drcParsed.reportingDate}); refusing a false-success deployment.`,
+      );
+    }
+  }
+  const hdxObservations = drcParsed.healthZones?.length ? [] : await resolveHdxFeed();
+  if (drcParsed.healthZones?.length) {
+    console.log(
+      `✅ [DRC Ministry] Parsed ${drcParsed.healthZones.length} current health-zone rows; legacy HDX fallback not needed.`,
+    );
+  }
+  const epiCurve = await resolveWhoWeeklyCurve();
 
   const result = await runIngestionPipeline({
     storageDir,
     drcParsed,
     hdxObservations,
+    epiCurve,
     dryRun: isDryRun,
   });
 

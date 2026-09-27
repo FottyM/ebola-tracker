@@ -100,6 +100,7 @@ export function loadLatestSnapshot(storageDir) {
  *   hdxObservations?: any[],
  *   scheduledCadenceMinutes?: number,
  *   fetchedAt?: string,
+ *   epiCurve?: any[],
  *   save?: boolean
  * }} params
  * @returns {{
@@ -115,6 +116,7 @@ export function executeSnapshotPipeline({
   fetchedAt = new Date().toISOString(),
   internationalObservations = getCanonicalInternationalObservations(fetchedAt),
   scheduledCadenceMinutes = 240,
+  epiCurve = [],
   save = true,
 }) {
   const errors = [];
@@ -153,7 +155,7 @@ export function executeSnapshotPipeline({
     },
     timestamps: {
       sourceUpdatedAt: drcParsed.reportingDate,
-      publishedAt: `${drcParsed.reportingDate}T12:00:00.000Z`,
+      publishedAt: drcParsed.publicationDate || `${drcParsed.reportingDate}T12:00:00.000Z`,
       fetchedAt,
     },
     classification: "affected",
@@ -181,7 +183,7 @@ export function executeSnapshotPipeline({
       },
       timestamps: {
         sourceUpdatedAt: drcParsed.reportingDate,
-        publishedAt: `${drcParsed.reportingDate}T12:00:00.000Z`,
+        publishedAt: drcParsed.publicationDate || `${drcParsed.reportingDate}T12:00:00.000Z`,
         fetchedAt,
       },
       classification: "affected",
@@ -192,6 +194,35 @@ export function executeSnapshotPipeline({
   for (const z of hdxObservations) {
     observations.push(z);
   }
+  if (hdxObservations.length === 0) {
+    for (const zone of drcParsed.healthZones || []) {
+      observations.push({
+        id: `COD:${zone.province}:${zone.name}:${drcParsed.reportingDate}`,
+        geographicPrecision: "health-zone",
+        country: { iso3: "COD", name: "Democratic Republic of the Congo" },
+        province: { name: zone.province },
+        healthZone: { name: zone.name },
+        city: null,
+        metrics: {
+          confirmedCases: zone.cases,
+          confirmedDeaths: zone.deaths,
+          newConfirmedCases: zone.newCases,
+        },
+        provenance: {
+          sourceId: "drc-insp-sitrep",
+          publisher: "Ministère de la Santé Publique / INSP",
+          sourceUrl: drcParsed.sourceUrl || "https://sante.gouv.cd/documents/sitreps",
+          recordIdentifier: `SitRep-${drcParsed.reportNumber}-${zone.province}-${zone.name}`,
+        },
+        timestamps: {
+          sourceUpdatedAt: drcParsed.reportingDate,
+          publishedAt: drcParsed.publicationDate || `${drcParsed.reportingDate}T12:00:00.000Z`,
+          fetchedAt,
+        },
+        classification: "affected",
+      });
+    }
+  }
 
   // International Observations (Uganda, France, Germany)
   for (const intObs of internationalObservations) {
@@ -199,11 +230,13 @@ export function executeSnapshotPipeline({
   }
 
   // Determine freshness
-  const healthZoneDate = hdxObservations[0]?.timestamps?.sourceUpdatedAt || drcParsed.reportingDate;
   let provinceDate = "";
   if (drcParsed.provinces.length > 0) {
     provinceDate = drcParsed.reportingDate;
   }
+  const healthZoneDate =
+    hdxObservations[0]?.timestamps?.sourceUpdatedAt ||
+    (drcParsed.healthZones?.length ? drcParsed.reportingDate : "");
   const freshness = determineSnapshotFreshness({
     nationalDate: drcParsed.reportingDate,
     provinceDate,
@@ -217,6 +250,7 @@ export function executeSnapshotPipeline({
     status: freshness.freshness,
     scheduledCadenceMinutes,
     observations,
+    epiCurve,
   });
 
   if (save) {

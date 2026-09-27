@@ -89,6 +89,20 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(appHtml).toContain('data-umami-event="switch-language" data-umami-event-language="fr"');
   });
 
+  it("renders a stable marker index for every sidebar location", () => {
+    const sharedCenterData = {
+      ...defaultOutbreakData,
+      locations: [
+        { ...defaultOutbreakData.locations[0], region: "Province", center: [1, 2] },
+        { ...defaultOutbreakData.locations[0], region: "Health Zone", center: [1, 2] },
+      ],
+    };
+    const { appHtml } = render(sharedCenterData);
+
+    expect(appHtml).toContain('data-location-index="0" data-center="1,2"');
+    expect(appHtml).toContain('data-location-index="1" data-center="1,2"');
+  });
+
   it("detects locale with source priority across various window configurations", async () => {
     const {
       detectInitialLocaleWithSource,
