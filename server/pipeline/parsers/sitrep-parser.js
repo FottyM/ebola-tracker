@@ -120,7 +120,7 @@ export function parseMinistrySitrepText(rawText) {
 
   // Extract Notification Date (e.g. "Date de notification: 09 Septembre 2026" or "Date de rapportage : 09 septembre 2026")
   const dateMatch = clean.match(
-    /Date de (?:notification|rapportage)\s*:\s*(\d{1,2})\s+([a-zA-Z\u00C0-\u017F]+)\s+(\d{4})/i,
+    /Date (?:de (?:notification|rapportage)|du rapport)\s*:\s*(\d{1,2})\s+([a-zA-Z\u00C0-\u017F]+)\s+(\d{4})/i,
   );
   let reportingDate = "";
   if (dateMatch) {
