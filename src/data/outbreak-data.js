@@ -1,5 +1,6 @@
 /** @type {import('../../server/etl.js').DynamicOutbreakState} */
 export const defaultOutbreakData = {
+  status: "current",
   summary: {
     totalCases: 8191,
     totalDeaths: 3956,
