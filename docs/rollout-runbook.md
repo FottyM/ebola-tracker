@@ -84,6 +84,12 @@ Deployments are governed by `.github/workflows/deploy.yml`:
 
 ---
 
+## Last-known-good retention
+
+The production sync command no longer reads the historical Ministry baseline as a fallback. It uses `public/data/latest-snapshot.json` after validating its structure, DRC national observation, reporting date, and summary consistency. Network failures, unparseable Ministry reports, and older upstream reports retain the existing observations and source timestamps in a distinct `-stale` snapshot; the original archive is not overwritten. The manifest and rendered data expose `stale`, and logs explicitly identify retained data rather than a successful live fetch. A missing or invalid retained snapshot stops ingestion.
+
+`--dry-run` exercises the same decision without writing snapshots, generated modules, or HDX caches. Successful live recovery resumes normal ingestion. Successful production runs on `master` (scheduled, manual, or push-triggered) persist generated data after the quality gates using a `[skip ci]` commit, so the next runner receives the retained snapshot without a self-trigger loop. GitHub Actions cache is not required for this durable state.
+
 ## 4. Emergency Rollback Procedures
 
 If an upstream source published invalid or corrupt data that bypassed checks, or if a manual revert is necessary, follow these steps:

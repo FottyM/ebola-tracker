@@ -71,8 +71,8 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-      - name: Commit updated data snapshot (if changed on scheduled run after CI passes)
-        if: github.event_name == 'schedule'
+      - name: Persist validated data for the next run (after CI passes)
+        if: github.ref == 'refs/heads/master'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

@@ -1,8 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { runIngestionPipeline } from "../server/pipeline/pipeline-ingest.js";
-import { parseMinistrySitrepText } from "../server/pipeline/parsers/sitrep-parser.js";
+import { runOutbreakSync } from "../server/pipeline/sync-outbreak.js";
 import { fetchLatestMinistrySitrepPdf } from "../server/pipeline/adapters/drc-ministry-adapter.js";
 import { fetchWhoWeeklyCurve } from "../server/pipeline/adapters/who-weekly-adapter.js";
 import {
@@ -14,48 +13,17 @@ import { getPrerenderData } from "../server/pipeline/prerender-loader.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const targetFile = path.resolve(__dirname, "../src/data/outbreak-data.js");
 const storageDir = path.resolve(__dirname, "../public/data");
-const baselineSitrepPath = path.resolve(__dirname, "../server/pipeline/data/baseline-sitrep.txt");
 const baselineHdxPath = path.resolve(__dirname, "../server/pipeline/data/baseline-hdx.csv");
 
-/**
- * Resolves DRC Ministry SitRep data via live portal scraping or local production baseline.
- */
+/** Fetch only live Ministry data; fallback is handled at the snapshot boundary. */
 async function resolveDrcSitrep() {
-  console.log(
-    "📡 [DRC Ministry] Checking official portal (https://sante.gouv.cd/documents/sitreps)...",
-  );
-  try {
-    const liveSitrep = await fetchLatestMinistrySitrepPdf({ timeoutMs: 25000 });
-    if (liveSitrep && liveSitrep.valid) {
-      console.log(
-        `✅ [DRC Ministry] Successfully fetched and parsed SitRep #${liveSitrep.reportNumber} (${liveSitrep.reportingDate}) from ${liveSitrep.sourceUrl}`,
-      );
-      return { ...liveSitrep, sourceMode: "live" };
-    }
-    console.warn(
-      `⚠️ [DRC Ministry] Live SitRep returned invalid payload: ${liveSitrep?.errors?.join("; ")}`,
-    );
-  } catch (err) {
-    console.warn(
-      `⚠️ [DRC Ministry] Live SitRep fetch failed (${err instanceof Error ? err.message : String(err)}). Falling back to production baseline.`,
-    );
-  }
-
-  // Fallback to local baseline cache
-  if (fs.existsSync(baselineSitrepPath)) {
+  console.log("📡 [DRC Ministry] Checking official portal...");
+  const report = await fetchLatestMinistrySitrepPdf({ timeoutMs: 25000 });
+  if (report?.valid)
     console.log(
-      "📁 [DRC Ministry] Using cached baseline SitRep from server/pipeline/data/baseline-sitrep.txt",
+      `✅ [DRC Ministry] Parsed SitRep #${report.reportNumber} (${report.reportingDate})`,
     );
-    const text = fs.readFileSync(baselineSitrepPath, "utf-8");
-    const parsed = parseMinistrySitrepText(text);
-    if (parsed.valid) {
-      return { ...parsed, sourceMode: "fallback" };
-    }
-  }
-
-  throw new Error(
-    "DRC Ministry SitRep could not be resolved from live portal or local baseline cache.",
-  );
+  return report;
 }
 
 async function resolveWhoWeeklyCurve() {
@@ -75,7 +43,7 @@ async function resolveWhoWeeklyCurve() {
 /**
  * Resolves UN OCHA HDX consolidated health-zone observations via live download or local cache.
  */
-async function resolveHdxFeed() {
+async function resolveHdxFeed(dryRun = false) {
   console.log("📡 [OCHA HDX] Checking consolidated health-zone feed...");
   try {
     const hdxRes = await fetchLatestHdxFeed({ timeoutMs: 25000, strict: false });
@@ -83,7 +51,7 @@ async function resolveHdxFeed() {
       console.log(
         `✅ [OCHA HDX] Successfully fetched ${hdxRes.parsed.observations.length} health-zone observations (refDate: ${hdxRes.parsed.referenceDate})`,
       );
-      if (hdxRes.csvText) {
+      if (hdxRes.csvText && !dryRun) {
         try {
           fs.writeFileSync(baselineHdxPath, hdxRes.csvText, "utf-8");
         } catch {
@@ -124,32 +92,19 @@ async function sync() {
     `🔄 [Data Ingestion] Running unified ingestion transaction${isDryRun ? " (DRY-RUN MODE)" : ""}...`,
   );
 
-  const drcParsed = await resolveDrcSitrep();
-  if (drcParsed.sourceMode === "fallback") {
-    const ageDays = Math.floor(
-      (Date.now() - new Date(`${drcParsed.reportingDate}T00:00:00.000Z`).getTime()) / 86_400_000,
-    );
-    if (ageDays > 3) {
-      throw new Error(
-        `Live Ministry ingestion failed and cached fallback is ${ageDays} days old (${drcParsed.reportingDate}); refusing a false-success deployment.`,
-      );
-    }
-  }
-  const hdxObservations = drcParsed.healthZones?.length ? [] : await resolveHdxFeed();
-  if (drcParsed.healthZones?.length) {
-    console.log(
-      `✅ [DRC Ministry] Parsed ${drcParsed.healthZones.length} current health-zone rows; legacy HDX fallback not needed.`,
-    );
-  }
-  const epiCurve = await resolveWhoWeeklyCurve();
-
-  const result = await runIngestionPipeline({
+  const result = await runOutbreakSync({
     storageDir,
-    drcParsed,
-    hdxObservations,
-    epiCurve,
+    targetFile,
+    fetchMinistry: resolveDrcSitrep,
+    fetchHdx: () => resolveHdxFeed(isDryRun),
+    fetchCurve: resolveWhoWeeklyCurve,
     dryRun: isDryRun,
   });
+  if (result.sourceMode === "cache") {
+    console.warn(
+      `⚠️ [Data Ingestion] Live source failed: ${result.sourceError}. Retaining validated snapshot ${result.snapshotId} as STALE; source dates unchanged.`,
+    );
+  }
 
   if (result.operationalLogs && result.operationalLogs.length > 0) {
     for (const log of result.operationalLogs) {
@@ -172,8 +127,6 @@ async function sync() {
 
   if (result.changed) {
     const legacyData = getPrerenderData(storageDir);
-    const fileContent = `/** @type {import('../../server/etl.js').DynamicOutbreakState} */\nexport const defaultOutbreakData = ${JSON.stringify(legacyData, null, 2)};\n\nexport default defaultOutbreakData;\n`;
-    fs.writeFileSync(targetFile, fileContent, "utf-8");
     console.log(
       `✅ [Data Ingestion] Published new snapshot (${result.snapshotId}): ${legacyData.summary.totalCases.toLocaleString()} cases, ${legacyData.summary.totalDeaths.toLocaleString()} deaths.`,
     );

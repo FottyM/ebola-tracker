@@ -399,6 +399,7 @@ export function mapSnapshotToLegacyState(snapshot) {
   }
 
   return {
+    status: snapshot.status,
     summary: {
       totalCases: snapshot.summary.totalCases,
       totalDeaths: snapshot.summary.totalDeaths,
