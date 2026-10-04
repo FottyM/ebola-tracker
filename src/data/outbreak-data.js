@@ -1,13 +1,13 @@
 /** @type {import('../../server/etl.js').DynamicOutbreakState} */
 export const defaultOutbreakData = {
-  status: "stale",
+  status: "partial",
   summary: {
-    totalCases: 8396,
-    totalDeaths: 4044,
+    totalCases: 8462,
+    totalDeaths: 4082,
     overallCfr: "48.2%",
     affectedCountriesCount: 2,
-    lastUpdated: "2026-10-03T13:10:35.254Z",
-    lastReportDate: "2026-10-01",
+    lastUpdated: "2026-10-04T13:49:34.618Z",
+    lastReportDate: "2026-10-02",
   },
   locations: [
     {
@@ -16,12 +16,12 @@ export const defaultOutbreakData = {
       region: "Ituri",
       province: "Ituri",
       geographicPrecision: "province",
-      cases: 6342,
-      deaths: 2918,
+      cases: 6370,
+      deaths: 2933,
       cfr: 46,
       status: "Active Epicenter",
       center: [1.7, 29.9],
-      lastReported: "2026-10-01",
+      lastReported: "2026-10-02",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -29,12 +29,12 @@ export const defaultOutbreakData = {
       region: "Nord-Kivu",
       province: "Nord-Kivu",
       geographicPrecision: "province",
-      cases: 1624,
-      deaths: 958,
-      cfr: 59,
+      cases: 1657,
+      deaths: 979,
+      cfr: 59.1,
       status: "Active Epicenter",
       center: [-0.79, 29.05],
-      lastReported: "2026-10-01",
+      lastReported: "2026-10-02",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -42,12 +42,12 @@ export const defaultOutbreakData = {
       region: "Haut-Uele",
       province: "Haut-Uele",
       geographicPrecision: "province",
-      cases: 349,
-      deaths: 144,
-      cfr: 41.3,
+      cases: 352,
+      deaths: 146,
+      cfr: 41.5,
       status: "Active Transmission",
       center: [3.33, 27.99],
-      lastReported: "2026-10-01",
+      lastReported: "2026-10-02",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -55,12 +55,12 @@ export const defaultOutbreakData = {
       region: "Tshopo",
       province: "Tshopo",
       geographicPrecision: "province",
-      cases: 46,
+      cases: 48,
       deaths: 16,
-      cfr: 34.8,
+      cfr: 33.3,
       status: "Cluster Monitored",
       center: [0.52, 25.19],
-      lastReported: "2026-10-01",
+      lastReported: "2026-10-02",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -73,7 +73,7 @@ export const defaultOutbreakData = {
       cfr: 33.3,
       status: "Cluster Monitored",
       center: [-2.51, 28.86],
-      lastReported: "2026-10-01",
+      lastReported: "2026-10-02",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -86,7 +86,7 @@ export const defaultOutbreakData = {
       cfr: 40,
       status: "Cluster Monitored",
       center: [2.8, 24.74],
-      lastReported: "2026-10-01",
+      lastReported: "2026-10-02",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -99,7 +99,7 @@ export const defaultOutbreakData = {
       cfr: 50,
       status: "Cluster Monitored",
       center: [3.25, 19.78],
-      lastReported: "2026-10-01",
+      lastReported: "2026-10-02",
     },
     {
       country: "Uganda",
@@ -308,7 +308,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-10-01-1791033035254-stale",
+  snapshotId: "snapshot-2026-10-02-1791121774618",
 };
 
 export default defaultOutbreakData;
