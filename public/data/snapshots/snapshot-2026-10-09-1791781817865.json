@@ -1,0 +1,446 @@
+{
+  "schemaVersion": "1.0.0",
+  "snapshotId": "snapshot-2026-10-09-1791781817865",
+  "status": "partial",
+  "scheduledCadenceMinutes": 240,
+  "generatedAt": "2026-10-12T05:10:17.865Z",
+  "summary": {
+    "totalCases": 8934,
+    "totalDeaths": 4317,
+    "overallCfr": "48.3%",
+    "affectedCountriesCount": 2,
+    "lastReportDate": "2026-10-09"
+  },
+  "observations": [
+    {
+      "id": "COD:National:2026-10-09",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": null,
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 8914,
+        "confirmedDeaths": 4315,
+        "newConfirmedCases": 69,
+        "recovered": 31
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-2026-10-09"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:2026-10-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 6609,
+        "confirmedDeaths": 3065,
+        "newConfirmedCases": 47
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-Ituri"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:2026-10-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1858,
+        "confirmedDeaths": 1065,
+        "newConfirmedCases": 17
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-Nord-Kivu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:2026-10-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 372,
+        "confirmedDeaths": 157,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-Haut-Uele"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:2026-10-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 57,
+        "confirmedDeaths": 22,
+        "newConfirmedCases": 2
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-Tshopo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Sud-Kivu:2026-10-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Sud-Kivu"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-Sud-Kivu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Bas-Uele:2026-10-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Bas-Uele"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 13,
+        "confirmedDeaths": 4,
+        "newConfirmedCases": 2
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-Bas-Uele"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Sud-Ubangi:2026-10-09",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Sud-Ubangi"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 2,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-148-Sud-Ubangi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-10-09",
+        "publishedAt": "2026-10-10T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "UGA:Bundibugyo:2026-08-25",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "UGA",
+        "name": "Uganda"
+      },
+      "province": {
+        "name": "Bundibugyo District (Border)"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 18,
+        "confirmedDeaths": 2,
+        "recovered": 16
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "Uganda Ministry of Health / WHO AFRO",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "UGA-BUNDIBUGYO-20260825"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-08-25",
+        "publishedAt": "2026-08-25T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected",
+      "representativePoint": [0.71, 30.06],
+      "note": "Index cross-border cluster. Declared officially over by WHO on 25 August 2026 after 42 days with zero new cases."
+    },
+    {
+      "id": "UGA:Entebbe:2026-08-25",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "UGA",
+        "name": "Uganda"
+      },
+      "province": {
+        "name": "Kampala / Entebbe Isolation Unit"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 2,
+        "confirmedDeaths": 0,
+        "recovered": 2
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "Uganda Ministry of Health / WHO AFRO",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "UGA-ENTEBBE-20260825"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-08-25",
+        "publishedAt": "2026-08-25T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "affected",
+      "representativePoint": [0.3136, 32.5811],
+      "note": "Imported contacts isolated at Entebbe National Isolation Facility. Zero tertiary spread."
+    },
+    {
+      "id": "FRA:Paris:2026-06-12",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "FRA",
+        "name": "France"
+      },
+      "province": {
+        "name": "Paris (Military Hospital Bégin)"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 0,
+        "recovered": 1
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "Ministère de la Santé et de la Prévention (France) / WHO",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "FRA-MEDEVAC-BEGIN-20260612"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-06-12",
+        "publishedAt": "2026-06-12T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "medical-evacuation",
+      "representativePoint": [48.8566, 2.3522],
+      "note": "Humanitarian healthcare worker evacuated under high-level biocontainment. No secondary local transmission."
+    },
+    {
+      "id": "DEU:Berlin:2026-07-04",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "DEU",
+        "name": "Germany"
+      },
+      "province": {
+        "name": "Frankfurt / Berlin (Charité)"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 0,
+        "recovered": 1
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "Bundesministerium für Gesundheit / Charité / WHO",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "DEU-MEDEVAC-CHARITE-20260704"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-07-04",
+        "publishedAt": "2026-07-04T12:00:00.000Z",
+        "fetchedAt": "2026-10-12T05:10:17.864Z"
+      },
+      "classification": "medical-evacuation",
+      "representativePoint": [52.52, 13.405],
+      "note": "Specialized clinical evacuation under biocontainment. Patient recovered."
+    }
+  ],
+  "epiCurve": [
+    {
+      "week": "W13",
+      "reportingDate": "2026-08-09",
+      "weeklyCases": 579,
+      "weeklyDeaths": 304,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-2"
+    },
+    {
+      "week": "W14",
+      "reportingDate": "2026-08-16",
+      "weeklyCases": 640,
+      "weeklyDeaths": 367,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-1"
+    },
+    {
+      "week": "W15",
+      "reportingDate": "2026-08-23",
+      "weeklyCases": 563,
+      "weeklyDeaths": 302,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation"
+    },
+    {
+      "week": "W16",
+      "reportingDate": "2026-08-30",
+      "weeklyCases": 516,
+      "weeklyDeaths": 270,
+      "sourceUrl": "https://www.afro.who.int/countries/uganda/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation"
+    },
+    {
+      "week": "W17",
+      "reportingDate": "2026-09-06",
+      "weeklyCases": 586,
+      "weeklyDeaths": 276,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-0"
+    },
+    {
+      "week": "W18",
+      "reportingDate": "2026-09-13",
+      "weeklyCases": 572,
+      "weeklyDeaths": 284,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-3"
+    },
+    {
+      "week": "W19",
+      "reportingDate": "2026-09-20",
+      "weeklyCases": 475,
+      "weeklyDeaths": 222,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-4"
+    }
+  ],
+  "sourceHealth": [
+    {
+      "sourceId": "drc-insp-sitrep",
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-10-12T05:10:17.865Z"
+    },
+    {
+      "sourceId": "who-afro-weekly",
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-10-12T05:10:17.865Z"
+    }
+  ]
+}
