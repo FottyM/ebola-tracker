@@ -1,19 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-10-09-1791781817865",
+  "snapshotId": "snapshot-2026-10-12-1791918263717",
   "status": "partial",
   "scheduledCadenceMinutes": 240,
-  "generatedAt": "2026-10-12T05:10:17.865Z",
+  "generatedAt": "2026-10-13T19:04:23.717Z",
   "summary": {
-    "totalCases": 8934,
-    "totalDeaths": 4317,
-    "overallCfr": "48.3%",
+    "totalCases": 9086,
+    "totalDeaths": 4383,
+    "overallCfr": "48.2%",
     "affectedCountriesCount": 2,
-    "lastReportDate": "2026-10-09"
+    "lastReportDate": "2026-10-12"
   },
   "observations": [
     {
-      "id": "COD:National:2026-10-09",
+      "id": "COD:National:2026-10-12",
       "geographicPrecision": "country",
       "country": {
         "iso3": "COD",
@@ -23,26 +23,26 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 8914,
-        "confirmedDeaths": 4315,
-        "newConfirmedCases": 69,
-        "recovered": 31
+        "confirmedCases": 9066,
+        "confirmedDeaths": 4381,
+        "newConfirmedCases": 88,
+        "recovered": 2389
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-2026-10-09"
+        "recordIdentifier": "SitRep-150-2026-10-12"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:2026-10-09",
+      "id": "COD:Ituri:2026-10-12",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -54,25 +54,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 6609,
-        "confirmedDeaths": 3065,
-        "newConfirmedCases": 47
+        "confirmedCases": 6695,
+        "confirmedDeaths": 3099,
+        "newConfirmedCases": 56
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-Ituri"
+        "recordIdentifier": "SitRep-150-Ituri"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:2026-10-09",
+      "id": "COD:Nord-Kivu:2026-10-12",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -84,25 +84,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 1858,
-        "confirmedDeaths": 1065,
-        "newConfirmedCases": 17
+        "confirmedCases": 1911,
+        "confirmedDeaths": 1092,
+        "newConfirmedCases": 28
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-Nord-Kivu"
+        "recordIdentifier": "SitRep-150-Nord-Kivu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:2026-10-09",
+      "id": "COD:Haut-Uele:2026-10-12",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -114,25 +114,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 372,
-        "confirmedDeaths": 157,
-        "newConfirmedCases": 1
+        "confirmedCases": 383,
+        "confirmedDeaths": 162,
+        "newConfirmedCases": 4
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-Haut-Uele"
+        "recordIdentifier": "SitRep-150-Haut-Uele"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:2026-10-09",
+      "id": "COD:Tshopo:2026-10-12",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -144,25 +144,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 57,
+        "confirmedCases": 59,
         "confirmedDeaths": 22,
-        "newConfirmedCases": 2
+        "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-Tshopo"
+        "recordIdentifier": "SitRep-150-Tshopo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Sud-Kivu:2026-10-09",
+      "id": "COD:Sud-Kivu:2026-10-12",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -182,17 +182,17 @@
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-Sud-Kivu"
+        "recordIdentifier": "SitRep-150-Sud-Kivu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Bas-Uele:2026-10-09",
+      "id": "COD:Bas-Uele:2026-10-12",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -206,23 +206,23 @@
       "metrics": {
         "confirmedCases": 13,
         "confirmedDeaths": 4,
-        "newConfirmedCases": 2
+        "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-Bas-Uele"
+        "recordIdentifier": "SitRep-150-Bas-Uele"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Sud-Ubangi:2026-10-09",
+      "id": "COD:Sud-Ubangi:2026-10-12",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -242,12 +242,12 @@
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-148-Sud-Ubangi"
+        "recordIdentifier": "SitRep-150-Sud-Ubangi"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-10-09",
-        "publishedAt": "2026-10-10T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "sourceUpdatedAt": "2026-10-12",
+        "publishedAt": "2026-10-13T12:00:00.000Z",
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected"
     },
@@ -277,7 +277,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-08-25",
         "publishedAt": "2026-08-25T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected",
       "representativePoint": [0.71, 30.06],
@@ -309,7 +309,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-08-25",
         "publishedAt": "2026-08-25T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "affected",
       "representativePoint": [0.3136, 32.5811],
@@ -341,7 +341,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-06-12",
         "publishedAt": "2026-06-12T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "medical-evacuation",
       "representativePoint": [48.8566, 2.3522],
@@ -373,7 +373,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-04",
         "publishedAt": "2026-07-04T12:00:00.000Z",
-        "fetchedAt": "2026-10-12T05:10:17.864Z"
+        "fetchedAt": "2026-10-13T19:04:23.717Z"
       },
       "classification": "medical-evacuation",
       "representativePoint": [52.52, 13.405],
@@ -435,12 +435,12 @@
     {
       "sourceId": "drc-insp-sitrep",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-10-12T05:10:17.865Z"
+      "lastSuccessAt": "2026-10-13T19:04:23.717Z"
     },
     {
       "sourceId": "who-afro-weekly",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-10-12T05:10:17.865Z"
+      "lastSuccessAt": "2026-10-13T19:04:23.717Z"
     }
   ]
 }
