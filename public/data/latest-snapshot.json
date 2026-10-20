@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-10-17-1792403229382",
-  "status": "partial",
+  "snapshotId": "snapshot-2026-10-17-1792403229382-stale",
+  "status": "stale",
   "scheduledCadenceMinutes": 240,
   "generatedAt": "2026-10-19T09:47:09.382Z",
   "summary": {
@@ -427,12 +427,12 @@
   "sourceHealth": [
     {
       "sourceId": "drc-insp-sitrep",
-      "status": "Live (validated)",
+      "status": "Stale (last-known-good)",
       "lastSuccessAt": "2026-10-19T09:47:09.382Z"
     },
     {
       "sourceId": "who-afro-weekly",
-      "status": "Live (validated)",
+      "status": "Stale (last-known-good)",
       "lastSuccessAt": "2026-10-19T09:47:09.382Z"
     }
   ]
