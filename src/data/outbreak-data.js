@@ -2,12 +2,12 @@
 export const defaultOutbreakData = {
   status: "partial",
   summary: {
-    totalCases: 9984,
-    totalDeaths: 4843,
+    totalCases: 10294,
+    totalDeaths: 4994,
     overallCfr: "48.5%",
     affectedCountriesCount: 2,
-    lastUpdated: "2026-10-27T14:13:12.738Z",
-    lastReportDate: "2026-10-24",
+    lastUpdated: "2026-10-31T14:24:42.467Z",
+    lastReportDate: "2026-10-28",
   },
   locations: [
     {
@@ -16,12 +16,12 @@ export const defaultOutbreakData = {
       region: "Ituri",
       province: "Ituri",
       geographicPrecision: "province",
-      cases: 7179,
-      deaths: 3355,
+      cases: 7318,
+      deaths: 3418,
       cfr: 46.7,
       status: "Active Epicenter",
       center: [1.7, 29.9],
-      lastReported: "2026-10-24",
+      lastReported: "2026-10-28",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -29,12 +29,12 @@ export const defaultOutbreakData = {
       region: "Nord-Kivu",
       province: "Nord-Kivu",
       geographicPrecision: "province",
-      cases: 2251,
-      deaths: 1262,
+      cases: 2391,
+      deaths: 1341,
       cfr: 56.1,
       status: "Active Epicenter",
       center: [-0.79, 29.05],
-      lastReported: "2026-10-24",
+      lastReported: "2026-10-28",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -42,12 +42,12 @@ export const defaultOutbreakData = {
       region: "Haut-Uele",
       province: "Haut-Uele",
       geographicPrecision: "province",
-      cases: 436,
-      deaths: 190,
-      cfr: 43.6,
+      cases: 450,
+      deaths: 199,
+      cfr: 44.2,
       status: "Active Transmission",
       center: [3.33, 27.99],
-      lastReported: "2026-10-24",
+      lastReported: "2026-10-28",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -55,12 +55,12 @@ export const defaultOutbreakData = {
       region: "Tshopo",
       province: "Tshopo",
       geographicPrecision: "province",
-      cases: 77,
+      cases: 91,
       deaths: 27,
-      cfr: 35.1,
+      cfr: 29.7,
       status: "Active Transmission",
       center: [0.52, 25.19],
-      lastReported: "2026-10-24",
+      lastReported: "2026-10-28",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -73,7 +73,7 @@ export const defaultOutbreakData = {
       cfr: 33.3,
       status: "Cluster Monitored",
       center: [-2.51, 28.86],
-      lastReported: "2026-10-24",
+      lastReported: "2026-10-28",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -86,7 +86,7 @@ export const defaultOutbreakData = {
       cfr: 30.8,
       status: "Cluster Monitored",
       center: [2.8, 24.74],
-      lastReported: "2026-10-24",
+      lastReported: "2026-10-28",
     },
     {
       country: "Democratic Republic of the Congo",
@@ -99,7 +99,7 @@ export const defaultOutbreakData = {
       cfr: 50,
       status: "Cluster Monitored",
       center: [3.25, 19.78],
-      lastReported: "2026-10-24",
+      lastReported: "2026-10-28",
     },
     {
       country: "Uganda",
@@ -300,7 +300,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-10-24-1793110392738",
+  snapshotId: "snapshot-2026-10-28-1793456682467",
 };
 
 export default defaultOutbreakData;
