@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-10-29-1793642468633-stale",
-  "status": "stale",
+  "snapshotId": "snapshot-2026-10-29-1793752174445",
+  "status": "partial",
   "scheduledCadenceMinutes": 240,
-  "generatedAt": "2026-11-02T18:01:08.633Z",
+  "generatedAt": "2026-11-04T00:29:34.445Z",
   "summary": {
     "totalCases": 10371,
     "totalDeaths": 5028,
@@ -37,7 +37,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -67,7 +67,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -97,7 +97,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -127,7 +127,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -157,7 +157,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -187,7 +187,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -217,7 +217,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -247,7 +247,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected"
     },
@@ -277,7 +277,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-08-25",
         "publishedAt": "2026-08-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected",
       "representativePoint": [0.71, 30.06],
@@ -309,7 +309,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-08-25",
         "publishedAt": "2026-08-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "affected",
       "representativePoint": [0.3136, 32.5811],
@@ -341,7 +341,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-06-12",
         "publishedAt": "2026-06-12T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "medical-evacuation",
       "representativePoint": [48.8566, 2.3522],
@@ -373,7 +373,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-04",
         "publishedAt": "2026-07-04T12:00:00.000Z",
-        "fetchedAt": "2026-11-02T18:01:08.633Z"
+        "fetchedAt": "2026-11-04T00:29:34.444Z"
       },
       "classification": "medical-evacuation",
       "representativePoint": [52.52, 13.405],
@@ -427,13 +427,13 @@
   "sourceHealth": [
     {
       "sourceId": "drc-insp-sitrep",
-      "status": "Stale (last-known-good)",
-      "lastSuccessAt": "2026-11-02T18:01:08.633Z"
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-11-04T00:29:34.445Z"
     },
     {
       "sourceId": "who-afro-weekly",
-      "status": "Stale (last-known-good)",
-      "lastSuccessAt": "2026-11-02T18:01:08.633Z"
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-11-04T00:29:34.445Z"
     }
   ]
 }
