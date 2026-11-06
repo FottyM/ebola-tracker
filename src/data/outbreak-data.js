@@ -6,7 +6,7 @@ export const defaultOutbreakData = {
     totalDeaths: 5028,
     overallCfr: "48.5%",
     affectedCountriesCount: 2,
-    lastUpdated: "2026-11-06T11:56:09.261Z",
+    lastUpdated: "2026-11-06T19:09:20.694Z",
     lastReportDate: "2026-10-29",
   },
   locations: [
@@ -158,7 +158,56 @@ export const defaultOutbreakData = {
       note: "Specialized clinical evacuation under biocontainment. Patient recovered.",
     },
   ],
-  epiCurve: [],
+  epiCurve: [
+    {
+      week: "W14",
+      reportingDate: "2026-08-16",
+      weeklyCases: 640,
+      weeklyDeaths: 367,
+      sourceUrl:
+        "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-1",
+    },
+    {
+      week: "W16",
+      reportingDate: "2026-08-30",
+      weeklyCases: 516,
+      weeklyDeaths: 270,
+      sourceUrl:
+        "https://www.afro.who.int/countries/uganda/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation",
+    },
+    {
+      week: "W17",
+      reportingDate: "2026-09-06",
+      weeklyCases: 586,
+      weeklyDeaths: 276,
+      sourceUrl:
+        "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-0",
+    },
+    {
+      week: "W18",
+      reportingDate: "2026-09-13",
+      weeklyCases: 572,
+      weeklyDeaths: 284,
+      sourceUrl:
+        "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-3",
+    },
+    {
+      week: "W19",
+      reportingDate: "2026-09-20",
+      weeklyCases: 475,
+      weeklyDeaths: 222,
+      sourceUrl:
+        "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-4",
+    },
+    {
+      week: "W23",
+      reportingDate: "2026-10-19",
+      weeklyCases: 572,
+      weeklyDeaths: 265,
+      sourceUrl:
+        "https://www.afro.who.int/countries/nigeria/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation",
+    },
+  ],
   demographics: {
     sex: {
       femalePct: 56.8,
@@ -251,7 +300,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-10-29-1793966169261",
+  snapshotId: "snapshot-2026-10-29-1793992160694",
 };
 
 export default defaultOutbreakData;
