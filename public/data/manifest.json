@@ -1,9 +1,9 @@
 {
   "schemaVersion": "2026-09-11",
-  "snapshotId": "snapshot-2026-10-29-1793992160694",
-  "snapshotPath": "snapshots/snapshot-2026-10-29-1793992160694.json",
-  "snapshotUrl": "data/snapshots/snapshot-2026-10-29-1793992160694.json",
-  "contentHash": "1be9e1a9e626a2dcc9be80178e699ff33da059c8453fe268004170905552f48c",
+  "snapshotId": "snapshot-2026-10-29-1794009611583",
+  "snapshotPath": "snapshots/snapshot-2026-10-29-1794009611583.json",
+  "snapshotUrl": "data/snapshots/snapshot-2026-10-29-1794009611583.json",
+  "contentHash": "04338f647a8f601fbd8e39327beb17c9517ff99c4ec6abb0e34da1b5a65b8f4b",
   "sourceUpdatedAt": "2026-10-29",
   "snapshotPublishedAt": "2026-10-30T12:00:00.000Z",
   "scheduledCadenceMinutes": 240,

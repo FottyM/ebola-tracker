@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-10-29-1793992160694",
+  "snapshotId": "snapshot-2026-10-29-1794009611583",
   "status": "partial",
   "scheduledCadenceMinutes": 240,
-  "generatedAt": "2026-11-06T19:09:20.694Z",
+  "generatedAt": "2026-11-07T00:00:11.583Z",
   "summary": {
     "totalCases": 10371,
     "totalDeaths": 5028,
@@ -37,7 +37,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -67,7 +67,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -97,7 +97,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -127,7 +127,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -157,7 +157,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -187,7 +187,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -217,7 +217,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -247,7 +247,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-10-29",
         "publishedAt": "2026-10-30T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected"
     },
@@ -277,7 +277,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-08-25",
         "publishedAt": "2026-08-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected",
       "representativePoint": [0.71, 30.06],
@@ -309,7 +309,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-08-25",
         "publishedAt": "2026-08-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "affected",
       "representativePoint": [0.3136, 32.5811],
@@ -341,7 +341,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-06-12",
         "publishedAt": "2026-06-12T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "medical-evacuation",
       "representativePoint": [48.8566, 2.3522],
@@ -373,7 +373,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-04",
         "publishedAt": "2026-07-04T12:00:00.000Z",
-        "fetchedAt": "2026-11-06T19:09:20.694Z"
+        "fetchedAt": "2026-11-07T00:00:11.583Z"
       },
       "classification": "medical-evacuation",
       "representativePoint": [52.52, 13.405],
@@ -381,13 +381,6 @@
     }
   ],
   "epiCurve": [
-    {
-      "week": "W14",
-      "reportingDate": "2026-08-16",
-      "weeklyCases": 640,
-      "weeklyDeaths": 367,
-      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-1"
-    },
     {
       "week": "W16",
       "reportingDate": "2026-08-30",
@@ -422,18 +415,25 @@
       "weeklyCases": 572,
       "weeklyDeaths": 265,
       "sourceUrl": "https://www.afro.who.int/countries/nigeria/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation"
+    },
+    {
+      "week": "W24",
+      "reportingDate": "2026-11-01",
+      "weeklyCases": 895,
+      "weeklyDeaths": 480,
+      "sourceUrl": "https://www.afro.who.int/countries/nigeria/publication/bundibugyo-virus-disease-outbreak-democratic-republic-congo-kenya-nigeria-weekly-external-situation"
     }
   ],
   "sourceHealth": [
     {
       "sourceId": "drc-insp-sitrep",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-06T19:09:20.694Z"
+      "lastSuccessAt": "2026-11-07T00:00:11.583Z"
     },
     {
       "sourceId": "who-afro-weekly",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-06T19:09:20.694Z"
+      "lastSuccessAt": "2026-11-07T00:00:11.583Z"
     }
   ]
 }

@@ -6,7 +6,7 @@ export const defaultOutbreakData = {
     totalDeaths: 5028,
     overallCfr: "48.5%",
     affectedCountriesCount: 2,
-    lastUpdated: "2026-11-06T19:09:20.694Z",
+    lastUpdated: "2026-11-07T00:00:11.583Z",
     lastReportDate: "2026-10-29",
   },
   locations: [
@@ -160,14 +160,6 @@ export const defaultOutbreakData = {
   ],
   epiCurve: [
     {
-      week: "W14",
-      reportingDate: "2026-08-16",
-      weeklyCases: 640,
-      weeklyDeaths: 367,
-      sourceUrl:
-        "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-1",
-    },
-    {
       week: "W16",
       reportingDate: "2026-08-30",
       weeklyCases: 516,
@@ -206,6 +198,14 @@ export const defaultOutbreakData = {
       weeklyDeaths: 265,
       sourceUrl:
         "https://www.afro.who.int/countries/nigeria/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation",
+    },
+    {
+      week: "W24",
+      reportingDate: "2026-11-01",
+      weeklyCases: 895,
+      weeklyDeaths: 480,
+      sourceUrl:
+        "https://www.afro.who.int/countries/nigeria/publication/bundibugyo-virus-disease-outbreak-democratic-republic-congo-kenya-nigeria-weekly-external-situation",
     },
   ],
   demographics: {
@@ -300,7 +300,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-10-29-1793992160694",
+  snapshotId: "snapshot-2026-10-29-1794009611583",
 };
 
 export default defaultOutbreakData;
