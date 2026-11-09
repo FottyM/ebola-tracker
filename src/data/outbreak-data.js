@@ -1,6 +1,6 @@
 /** @type {import('../../server/etl.js').DynamicOutbreakState} */
 export const defaultOutbreakData = {
-  status: "partial",
+  status: "stale",
   summary: {
     totalCases: 10371,
     totalDeaths: 5028,
@@ -300,7 +300,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-10-29-1794009611583",
+  snapshotId: "snapshot-2026-10-29-1794009611583-stale",
 };
 
 export default defaultOutbreakData;
