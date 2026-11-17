@@ -1,0 +1,194 @@
+1
+Rapport de Situation de la 17e Épidémie de la maladie à Virus EBOLA /RDC
+SitRep N°182/MVE-BDBV/11/11/2026
+Date de rapportage : 12 novembre 2026 Date de publication : 13 novembre 2026
+Provinces touchées et zones de santé touchées
+Résumé des points clés au cours des dernières 24 heures
+Pour la journée du 12 novembre 2026, cinquante-sept (57) nouveaux cas confirmés de
+maladie à virus Ebola (MVE) ont été notifiés dans Quatre provinces : l’Ituri (25 cas), le Nord-
+Kivu (26 cas), Tshopo (2cas) et le Haut-Uélé (4 cas), soit une diminution de 15,3 % par
+rapport à la veille. Parmi ces cas, 19 décès communautaires ont été rapportés (5 en Ituri, 13
+au Nord-Kivu et 1 au Haut-Uélé). En outre, 15 décès confirmés ont été enregistrés dans les
+CTE (12 en Ituri et 3 au Nord-Kivu), portant à 34 le nombre total de décès confirmés notifiés
+au cours de la période.
+Par ailleurs, 9 patients (2 au Nord-Kivu et 7 en Ituri) ont été déclarés guéris après avoir
+obtenu deux résultats négatifs au test de contrôle à la MVE.
+Depuis le début de l'épidémie, la RDC a enregistré 11 254 cas confirmés, dont 5 506 décès,
+soit une létalité globale de 48,9 %. L'Ituri demeure l'épicentre de l'épidémie, concentrant 69,3
+% des cas confirmés cumulés et 44,6 % des nouveaux cas notifiés, tandis que le Nord-Kivu
+représente 49,4 % des nouveaux cas et présente une létalité de 55,2 %, supérieure à la
+moyenne nationale.
+Aucune nouvelle zone de santé n’a été touchée au cours des dernières 24 heures
+Ainsi, 68 zones de santé sur 178 (38,2 %), réparties dans huit provinces, ont été touchées
+depuis le début de l'épidémie à savoir : Ituri, Nord-Kivu, Haut-Uélé, Tshopo, Sud-Kivu, Bas-
+Uélé, Sud-Ubangi et Nord-Ubangi. 16 ZS ont atteint au moins 42 jours sans nouveau cas
+confirmé et 7 ZS se retrouvent entre 22 et 42 jours sans nouveau cas confirmé.
+Cependant, 271 PPL ont été touchés par la MVE BDB_17. La répartition des PPL
+sont répartis de la manière suivante : Bas-Uele (1), Haut-Uele (31), Ituri (180),
+Nord-Kivu (47) et Tshopo (12).
+8 Provinces touchées
+Haut-Uélé, Ituri, Nord-Kivu,
+Sud-Kivu, Tshopo, Bas-Uélé,
+Sud Ubangi, et Nord Ubangi
+68 Zones de santé
+touchées sur 178
+(38,2 %)
+248 Aires de santé
+touchées
+Sur 3104 (8,0%)
+CUMUL DES
+CAS
+11254
+CUMUL DES
+DÉCÈS CONFIRMÉS
+5505
+CUMUL DES
+GUÉRIS
+3054
+TAUX DE SUIVI DES
+CONTACTS
+(Du Jour)
+82,6%
+LETALITE
+48,9%
+PATIENTS EN
+ISOLEMENT/CTE
+1538
+Ministère de la Santé Publique, Hygiène et Prévoyance Sociale
+TASK FORCE PRÉSIDENTIELLE EBOLA 17
+Système de gestion de l’incident MVE17
+FAITS SAILLANTS (dernières 24h)
+• Aucune nouvelle zone de santé touchée au cours des dernières 24 heures.
+• Au 12 novembre 2026, il y a eu une notification de 59 cas confirmés dont 34 décès (19 communautaires et 15 intra-CTE)
+• Un travail sur l’harmonisation et la conciliation des données est en cours de réalisation entre l’équipe du pilier Gestion
+des Données et la province de l’Ituri. Une réunion d’harmonisation avec les parties prenantes sera tenue pour validation.
+
+-- 1 of 12 --
+
+2
+Province Nouveaux cas
+confirmés(24h)
+Cas
+confirmés
+Décès
+(confirmés) Létalité
+Zones de
+santé
+touchées
+Ituri 25 7790 3 684 47,3% 28/36 (77,8 %)
+Nord-Kivu 26 2828 1 563 55,3% 17/34 (50,0 %)
+Haut-Uélé 4 508 219 43,1% 8/13 (61,5 %)
+Tshopo 2 100 32 32,0% 7/23 (30,4 %)
+Sud-Kivu 0 3 1 33,3% 1/34 (2,9 %)
+Bas-Uélé 0 13 4 30,8% 4/11 (36,4 %)
+Sud Ubangi 0 2 1 50,0% 1/16 (6,3 %)
+Nord Ubangi 0 10 1 10,0% 2/11 (18,2 %)
+Total 57 11 254 5 505 48,9% 68/178 (38,2 %)
+Province /
+Zone de
+santé
+Nombre cumulatif Situation du jour (24h)
+Cas (n) Décès (n) Létalité Nouv.
+Cas
+Décès
+communautaires
+(Swab+)
+Décès
+confirmés
+intra-CTE
+Total
+décès
+confirmés
+Ituri 7790 3684 47,3% 25 5 12 17
+Adja 11 1 9,1% 0
+Aru 25 7 28,0% 0
+Ariwara 8 2 25,0% 0
+Aungba 12 5 41,7% 0
+Bambu 220 50 22,7% 0
+Boga 2 2 100,0% 0
+Bunia 2078 744 35,8% 5 1 2 3
+Damas 41 10 24,4% 0
+Drodro 16 8 50,0% 0
+Fataki 86 31 36,0% 0
+Gethy 11 7 63,6% 0
+Kambala 3 1 33,3% 1 1 1
+Kilo 43 16 37,2% 0
+Komanda 195 121 62,1% 2 2 0 2
+Lita 345 171 49,6% 0
+Logo 14 10 71,4% 0
+Lolwa 37 11 29,7% 0
+Mahagi 6 1 16,7% 0
+Mambasa 149 80 53,7% 2 0 3 3
+Mandima 609 309 50,7% 6 0 0 0
+Mangala 441 180 40,8% 3 0 0 0
+Mongbwalu 736 363 49,3% 1 0 3 3
+Nia-Nia 346 205 59,2% 1 1
+Nizi 871 324 37,2% 3 0 2 2
+Tableau 1. Répartition des cas et décès confirmés par province touchée, au 12 novembre 2026.
+Tableau 2. Répartition des cas et décès confirmés par province et zone au 12 novembre 2026
+
+-- 2 of 12 --
+
+3
+Nyankunde 142 46 32,4% 0
+Rimba 29 7 24,1% 0
+Rwampara 1228 452 36,8% 2 1 1 2
+Tchomia 86 27 31,4% 0
+A ventiler 0 493 #DIV/0! 0
+Nord-Kivu 2828 1563 55,3% 26 13 3 16
+Beni 862 562 65,2% 9 7 1 8
+Biena 28 11 39,3% 0
+Butembo 352 210 59,7% 0 0 2 2
+Goma 1 0 0,0% 0
+Kalunguta 119 53 44,5% 4 1 0 1
+Katwa 695 431 62,0% 3 1 0 1
+Kayna 3 2 66,7% 0
+Kyondo 49 22 44,9% 0
+Lubero 45 17 37,8% 0
+Mabalako 130 42 32,3% 0
+Alimbongo 6 4 66,7% 0
+Manguredjipa 16 5 31,3% 0
+Masereka 54 15 27,8% 0
+Musienene 169 86 50,9% 1 1 0 1
+Mutwanga 114 28 24,6% 2 0
+Oicha 121 53 43,8% 6 3 0 3
+Vuhovi 64 22 34,4% 1 0
+Haut-Uélé 508 219 43,1% 4 1 0 1
+Boma
+Mangbetu 50 20 40,0% 2 0 0 0
+Dungu 1 1 100,0% 0
+Gombari 3 1 33,3% 0
+Isiro 127 59 46,5% 0
+Watsa 2 2 100,0%
+Pawa 130 69 53,1% 0
+Rungu 11 5 45,5% 0
+Wamba 184 62 33,7% 2 1 0 1
+Tshopo 100 32 32,0% 2 0 0 0
+Bafwasende 19 3 15,8% 1 0 0 0
+Kabondo 25 5 20,0% 1 0 0 0
+Lubunga 1 0 0,0% 0
+Makiso-
+Kisangani 38 15 39,5% 0
+Mangobo 11 8 72,7% 0
+Tshopo 5 0 0,0% 0
+Wanie-
+Rukula 1 1 100,0% 0
+Sud-Kivu 3 1 33,3% 0 0 0 0
+Miti-Murhesa 3 1 33,3% 0
+Bas Uélé 13 4 30,8% 0 0 0 0
+Buta 1 1 100,0% 0
+Viadana 6 1 16,7% 0
+Dakwa 1 0 0,0% 0
+Ganga 5 2 40,0% 0
+Sud Ubangi 2 1 50,0% 0 0 0 0
+
+-- 3 of 12 --
+
+4
+Bulu 2 1 50,0% 0
+Nord Ubangi 10 1 10,0% 0 0 0 0
+Wapinda 6 1 16,7% 0
+Yakoma 4 0 0,0% 0
+Total 11254 5505 48,9% 57 19 15 34
+*Il s’agit des décès confirmés survenus dans les différents CTE de la province qui sont en cours de ventilation pour être classifiés par zone de santé.
+NA : Non Applicable.

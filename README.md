@@ -71,6 +71,8 @@ The tracker is engineered to adapt smoothly to smartphones, tablets, and desktop
 
 The platform uses a scheduled, fail-closed automated ingestion pipeline running both locally and on GitHub Actions every 4 hours. It dynamically ingests official health bulletins, reconciles hierarchical boundaries, detects genuine epidemiological changes, and publishes versioned snapshots:
 
+Each sync first validates and archives every published Ministry report newer than the active snapshot, in reporting-date order, before refreshing the current data. Historical snapshots live in `public/data/snapshots/`; missing publication dates are left as gaps. `node scripts/sync-data.js --dry-run` validates the same backfill without writing files. A live-source failure retains the last validated snapshot but exits unsuccessfully so GitHub Actions reports the refresh failure.
+
 ```mermaid
 flowchart TD
     subgraph Trigger ["⏰ 1. Pipeline Triggers (Every 4 Hours)"]

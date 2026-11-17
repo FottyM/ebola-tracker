@@ -1,3 +1,4 @@
+import { backfillMinistryReports } from "../server/pipeline/backfill-ministry.js";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -92,6 +93,8 @@ async function sync() {
     `🔄 [Data Ingestion] Running unified ingestion transaction${isDryRun ? " (DRY-RUN MODE)" : ""}...`,
   );
 
+  await backfillMinistryReports({ storageDir, dryRun: isDryRun });
+
   const result = await runOutbreakSync({
     storageDir,
     targetFile,
@@ -114,6 +117,10 @@ async function sync() {
 
   if (!result.success) {
     throw new Error(result.error || "Ingestion pipeline failed");
+  }
+
+  if (result.sourceMode === "cache") {
+    throw new Error(`Live ingestion failed; retained stale data: ${result.sourceError}`);
   }
 
   if (isDryRun) {

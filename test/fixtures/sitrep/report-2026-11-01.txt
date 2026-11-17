@@ -1,0 +1,221 @@
+1
+Rapport de Situation de la 17e Épidémie de la maladie à Virus EBOLA /RDC
+SitRep N°171/MVE-BDBV/01/11/2026
+Date de rapportage : 1er novembre 2026 Date de publication : 2 novembre 2026
+Provinces touchées et zones de santé touchées
+Résumé des points clés au cours des dernières 24 heures
+Au 1er novembre 2026, la riposte contre la MVE-17 enregistre des progrès
+encourageants dans la réduction de la mortalité, avec 23 décès contre 32 la veille
+(−28,1 %) et 46 le 25 octobre (−50,0 %). Les décès communautaires diminuent à
+20 contre 23 la veille (−13,0 %) et 31 le 25 octobre (−35,5 %). Les décès intra-CTE
+reculent également à 3 contre 9 la veille (−66,7 %) et 15 le 25 octobre (−80,0 %).
+Aucune nouvelle zone de santé n’a été touchée, maintenant à 67 sur 178 (37,6 %)
+le nombre de zones historiquement affectées, réparties dans huit provinces.
+Toutefois, 65 nouveaux cas confirmés ont été notifiés contre 63 la veille (+3,2 %)
+et 60 le 25 octobre (+8,3 %), répartis entre le Nord-Kivu (39), l’Ituri (19) et le Haut-
+Uélé (7). La positivité s’établit à 14,0 %, contre 14,4 % la veille et 13,3 % le 25
+octobre. Par ailleurs, 10 nouvelles guérisons ont été enregistrées, dont 4 en Ituri, 4
+au Nord-Kivu et 2 à la Tshopo.
+Le cumul national atteint 10 532 cas confirmés et 5 126 décès, soit une létalité de
+48,7 %. L’Ituri demeure l’épicentre de l’épidémie, concentrant 70,6 % des cas
+cumulés, tandis que le Nord-Kivu représente 60,0 % des nouveaux cas et affiche
+une létalité de 55,4 %.
+Il sied de signaler que 10 ZS ont atteint au moins 42 jours sans nouveau cas
+confirmé et 6 ZS se retrouvent entre 22 et 42 jours sans nouveau cas confirmé.
+Cependant, 270 PPL ont été touchés par la MVE BDB_17. La répartition des PPL
+sont répartis de la manière suivante : Bas-Uele (1), Haut-Uele (31), Ituri (180),
+Nord-Kivu (46) et Tshopo (12).
+8 Provinces touchées
+Haut-Uélé, Ituri, Nord-Kivu,
+Sud-Kivu, Tshopo, Bas-Uélé,
+Sud Ubangi, et Nord Ubangi
+67 Zones de santé
+touchées sur 178
+(37,6%)
+246 Aires de santé
+touchées
+Sur 3104 (7,9%)
+CUMUL DES
+CAS
+10532
+CUMUL DES
+DÉCÈS CONFIRMÉS
+5126
+CUMUL DES
+GUÉRIS
+2 834
+TAUX DE SUIVI DES
+CONTACTS
+(Du Jour)
+84,0%
+LETALITE
+48,7%
+PATIENTS EN
+ISOLEMENT/CTE
+961
+TASK FORCE PRÉSIDENTIELLE EBOLA 17
+Ministère de la Santé Publique, Hygiène et Prévoyance Sociale
+Système de gestion de l’incident MVE17
+FAITS SAILLANTS (dernières 24h)
+Au 1er novembre 2026, il y a eu une notification de 65 cas confirmés dont 23 décès (20 communautaires
+et 3 intra-CTE)
+L’analyse, l’harmonisation et la conciliation des données est en cours de réalisation entre l’équipe du
+pilier Gestion des Données et les provinces de l’Ituri et de la Tshopo. Une réunion d’harmonisation avec
+les parties prenantes sera tenue pour validation.
+
+-- 1 of 14 --
+
+2
+TABLEAU 1. RÉPARTITION DES CAS ET DÉCÈS CONFIRMÉS PAR PROVINCE ET SITUATION DES
+ZONES DE SANTÉ, AU 1er NOVEMBRE 2026
+Province
+Nouveaux
+cas
+(24 h)
+Cas
+confirmés
+cumulés
+Décès
+confirmés
+cumulés
+Létalité
+ZS
+historiquement
+touchées
+ZS actuellement
+affectées*
+Ituri 19 7 431 3 492 47,0 % 28/36 (77,8 %) 25/36 (69,4 %)
+Nord-Kivu 39 2 518 1 395 55,4 % 17/34 (50,0 %) 15/34 (44,1 %)
+Haut-Uélé 7 467 205 43,9 % 7/13 (53,8 %) 7/13 (53,8 %)
+Tshopo 0 92 27 29,3 % 7/23 (30,4 %) 5/23 (21,7 %)
+Sud-Kivu 0 3 1 33,3 % 1/34 (2,9 %) 0/34 (0,0 %)
+Bas-Uélé 0 13 4 30,8 % 4/11 (36,4 %) 4/11 (36,4 %)
+Sud-Ubangi 0 2 1 50,0 % 1/16 (6,3 %) 1/16 (6,3 %)
+Nord-Ubangi 0 6 1 16,7 % 2/11 (18,2 %) 1/11 (9,1 %)
+TOTAL 65 10 532 5 126 48,7 % 67/178 (37,6 %) 58/178 (32,6 %)
+Commentaire succinct. Au 1er novembre, 65 nouveaux cas sont rapportés, dont 39 au Nord-Kivu
+(60,0 %). Aucune nouvelle zone de santé n’est touchée. Le cumul transmis est de 10 532 cas et 5 126
+décès (létalité : 48,7 %). Les 67 ZS historiquement touchées représentent 37,6 % des 178 ZS concernées.
+Province /
+Zone de
+santé
+Nombre cumulatif Situation du jour (24h)
+Cas
+(n)
+Décè
+s (n)
+Létalit
+é
+Nouv.
+Cas
+Décès
+communautaire
+s (Swab+)
+Décès
+confirmé
+s intra-
+CTE
+Total décès confirmés
+Ituri 7431 3492 47,0% 19 8 1 9
+Adja 11 1 9,1% 0
+Aru 25 7 28,0% 0
+Ariwara 8 2 25,0% 0
+Aungba 12 5 41,7% 0
+Bambu 220 49 22,3% 0
+Boga 2 2 100,0
+% 0
+Bunia 2012 701 34,8% 5 1 1 2
+Damas 41 10 24,4% 0
+Drodro 15 7 46,7% 0
+Fataki 84 31 36,9% 0 0
+Gethy 11 7 63,6% 0
+Kambala 2 0 0,0% 0
+Kilo 40 13 32,5% 0
+Komanda 193 118 61,1% 0
+Lita 331 165 49,8% 2 0 0 0
+Logo 14 9 64,3% 0
+Lolwa 37 11 29,7% 0
+Mahagi 5 1 20,0% 0
+Mambasa 105 57 54,3% 4 4 0 4
+Mandima 491 264 53,8% 3 2 0 2
+Mangala 398 172 43,2% 0
+Tableau 2. Répartition des cas et décès confirmés par province et zone au 1er novembre 2026
+
+-- 2 of 14 --
+
+3
+Mongbwalu 722 348 48,2% 0
+Nia-Nia 343 198 57,7% 2 1 0 1
+Nizi 855 312 36,5% 2 0 0 0
+Nyankunde 139 43 30,9% 0
+Rimba 25 6 24,0% 0
+Rwampara 1204 433 36,0% 1 0 0 0
+Tchomia 86 27 31,4% 0
+A ventiler NA 493 NA 0
+Nord-Kivu 2518 1395 55,4% 39 11 2 13
+Beni 720 476 66,1% 17 9 0 9
+Biena 26 9 34,6% 0
+Butembo 344 201 58,4% 1 1 0 1
+Goma 1 0 0,0% 0
+Kalunguta 99 44 44,4% 2 0 0 0
+Katwa 678 416 61,4% 1 0 1 1
+Kayna 3 2 66,7% 0
+Kyondo 46 22 47,8% 0
+Lubero 43 15 34,9% 0
+Mabalako 116 39 33,6% 0
+Alimbongo 6 4 66,7% 0
+Manguredjip
+a 16 5 31,3% 0
+Masereka 43 13 30,2% 2 0 0 0
+Musienene 162 77 47,5% 1 0 0 0
+Mutwanga 66 15 22,7% 11 1 0 1
+Oicha 93 38 40,9% 4 0 0 0
+Vuhovi 56 19 33,9% 0 0 1 1
+Haut-Uélé 467 205 43,9% 7 1 0 1
+Boma
+Mangbetu 46 19 41,3% 0
+Dungu 1 1 100,0
+% 0
+Gombari 3 1 33,3% 0
+Isiro 115 53 46,1% 1 0 0 0
+Pawa 116 65 56,0% 3 0 0 0
+Rungu 9 5 55,6% 2 1 0 1
+Wamba 177 61 34,5% 1 0 0 0
+Tshopo 92 27 29,3% 0 0 0 0
+Bafwasende 18 3 16,7% 0
+Kabondo 20 2 10,0% 0
+Lubunga 1 0 0,0% 0
+Makiso-
+Kisangani 37 14 37,8% 0
+Mangobo 10 7 70,0% 0
+
+-- 3 of 14 --
+
+4
+Tshopo 5 0 0,0% 0
+Wanie-
+Rukula 1 1 100,0
+% 0
+Sud-Kivu 3 1 33,3% 0 0 0 0
+Miti-
+Murhesa 3 1 33,3% 0
+Bas Uélé 13 4 30,8% 0 0 0 0
+Buta 1 1 100,0
+% 0
+Viadana 6 1 16,7% 0
+Dakwa 1 0 0,0% 0
+Ganga 5 2 40,0% 0
+Sud Ubangi 2 1 50,0% 0 0 0 0
+Bulu 2 1 50,0% 0
+Nord
+Ubangi 6 1 16,7% 0 0 0 0
+Wapinda 3 1 33,3% 0
+Yakoma 3 0 0,0% 0
+Total 1053
+2 5126 48,7% 65 20 3 23
+Au 1er novembre 2026, la riposte contre la MVE-17 enregistre des progrès encourageants, avec une baisse
+des décès de 28,1 % par rapport à la veille (23 contre 32) et de 50,0 % par rapport au 25 octobre (46
+décès). Aucune nouvelle zone de santé n’a été touchée. Toutefois, 65 nouveaux cas sont rapportés contre
+63 la veille (+3,2 %), dont 60,0 % au Nord-Kivu. Les décès communautaires représentent encore 87,0 %
+des décès du jour. Le cumul national atteint 10 532 cas et 5 126 décès (létalité : 48,7 %), sous réserve de
+la conciliation des données dans les provinces de l’Ituri et de Tshopo.

@@ -33,8 +33,8 @@ const FRENCH_MONTHS = {
  * @param {string} baseUrl
  * @returns {{ url: string, reportNumber: number, reportingDate: string, title: string } | null}
  */
-export function discoverLatestSitrep(indexHtml, baseUrl = "https://sante.gouv.cd") {
-  if (!indexHtml || typeof indexHtml !== "string") return null;
+export function discoverMinistrySitreps(indexHtml, baseUrl = "https://sante.gouv.cd") {
+  if (!indexHtml || typeof indexHtml !== "string") return [];
 
   const candidates = [];
   const linkRegex = /<a[^>]+href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
@@ -62,7 +62,7 @@ export function discoverLatestSitrep(indexHtml, baseUrl = "https://sante.gouv.cd
     }
 
     // Extract Report Number
-    const numMatch = combined.match(/sitrep[_\s-]*n?°?\s*(\d+)/i);
+    const numMatch = combined.match(/sitrep[_\s-]*(?:mvebdb[_-])?n?°?\s*(\d+)/i);
     const reportNumber = numMatch ? parseInt(numMatch[1], 10) : 0;
 
     // Extract Date (e.g. "09 Septembre 2026")
@@ -104,33 +104,38 @@ export function discoverLatestSitrep(indexHtml, baseUrl = "https://sante.gouv.cd
     }
   }
 
-  // Also scan for direct SitRep PDF URLs in HTML (e.g. Next.js / React Server Components payloads)
-  const directPdfRegex =
-    /https?:\/\/[^\s"'<>]+\/SitRep_MVEBDB_(\d+)_(\d{1,2})_(\d{1,2})_(\d{4})\.pdf/gi;
-  let directMatch;
-  while ((directMatch = directPdfRegex.exec(indexHtml)) !== null) {
-    const url = directMatch[0];
-    const reportNumber = parseInt(directMatch[1], 10);
-    const day = directMatch[2].padStart(2, "0");
-    const month = directMatch[3].padStart(2, "0");
-    const year = directMatch[4];
-    const reportingDate = `${year}-${month}-${day}`;
-
-    if (!candidates.some((c) => c.url === url)) {
+  // Server-rendered payloads include historical links beyond the visible page.
+  // Ministry filenames use multiple prefixes, separators, and two-digit years.
+  const directPdfRegex = /https?:\/\/[^\s"'<>\\]+sitrep[^\s"'<>\\]*\.pdf/gi;
+  for (const match of indexHtml.matchAll(directPdfRegex)) {
+    const url = match[0];
+    const identity = url.match(
+      /(?:N[_-]?)?(\d+)[_-](\d{1,2})[_-](\d{1,2})[_-](\d{4}|\d{2})(?=[_.-])/i,
+    );
+    if (!identity) continue;
+    const [, number, day, month, rawYear] = identity;
+    const year = rawYear.length === 2 ? `20${rawYear}` : rawYear;
+    const reportingDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    const existing = candidates.find((candidate) => candidate.url === url);
+    if (existing) existing.reportNumber = Number(number);
+    else
       candidates.push({
         url,
-        reportNumber,
+        reportNumber: Number(number),
         reportingDate,
-        title: `SitRep N°${reportNumber} (${reportingDate})`,
+        title: `SitRep N°${number} (${reportingDate})`,
       });
-    }
   }
 
-  if (candidates.length === 0) return null;
+  if (candidates.length === 0) return [];
 
   // Strict sorting: Newest reporting date first
   candidates.sort((a, b) => b.reportingDate.localeCompare(a.reportingDate));
-  return candidates[0];
+  return candidates;
+}
+
+export function discoverLatestSitrep(indexHtml, baseUrl = "https://sante.gouv.cd") {
+  return discoverMinistrySitreps(indexHtml, baseUrl)[0] || null;
 }
 
 import path from "node:path";
@@ -177,12 +182,26 @@ export async function fetchLatestMinistrySitrepPdf({
   }
 
   const arrayBuffer = await pdfRes.arrayBuffer();
-  const parser = new PDFParse(new Uint8Array(arrayBuffer));
-  const data = await parser.getText();
+  const parser = new PDFParse({ data: new Uint8Array(arrayBuffer) });
+  let data;
+  try {
+    data = await parser.getText();
+  } finally {
+    await parser.destroy();
+  }
 
   const parsed = parseMinistrySitrepText(data.text);
+  const reconciliation = reconcileNationalWithProvinces(parsed.national, parsed.provinces);
+  const errors = [
+    ...parsed.errors,
+    ...reconciliation.conflicts
+      .filter((conflict) => conflict.severity === "blocking")
+      .map((conflict) => conflict.message),
+  ];
   return {
     ...parsed,
+    valid: errors.length === 0,
+    errors,
     sourceUrl: targetUrl,
   };
 }
