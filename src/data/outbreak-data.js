@@ -6,8 +6,8 @@ export const defaultOutbreakData = {
     totalDeaths: 5597,
     overallCfr: "48.8%",
     affectedCountriesCount: 5,
-    lastUpdated: "2026-11-18T00:18:01.264Z",
-    lastReportDate: "2026-11-15",
+    lastUpdated: "2026-11-18T17:02:34.904Z",
+    lastReportDate: "2026-11-17",
   },
   locations: [
     {
@@ -1336,8 +1336,8 @@ export const defaultOutbreakData = {
       center: [0.1764, 37.8877],
       classification: "affected",
       sourceUrl: "https://www.who.int/emergencies/alert-and-response",
-      lastReported: "2026-11-11",
-      note: "WHO country report as of 2026-11-11. Country totals; subnational locations are not reported by this source.",
+      lastReported: "2026-11-17",
+      note: "WHO country report as of 2026-11-17. Country totals; subnational locations are not reported by this source.",
     },
     {
       country: "Nigeria",
@@ -1397,7 +1397,7 @@ export const defaultOutbreakData = {
         "https://www.afro.who.int/countries/nigeria/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation",
     },
     {
-      week: "W24",
+      week: "W25",
       reportingDate: "2026-11-01",
       weeklyCases: 895,
       weeklyDeaths: 480,
@@ -1405,7 +1405,7 @@ export const defaultOutbreakData = {
         "https://www.afro.who.int/countries/nigeria/publication/bundibugyo-virus-disease-outbreak-democratic-republic-congo-kenya-nigeria-weekly-external-situation",
     },
     {
-      week: "W25",
+      week: "W26",
       reportingDate: "2026-11-07",
       weeklyCases: 388,
       weeklyDeaths: 197,
@@ -1432,7 +1432,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-11-15-1794961081264",
+  snapshotId: "snapshot-2026-11-15-1795021354904",
 };
 
 export default defaultOutbreakData;
