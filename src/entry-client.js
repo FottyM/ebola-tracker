@@ -263,7 +263,11 @@ function initModalControllers(epiCurve, ageGroups) {
     timelineDialog?.showModal();
     document.body.style.overflow = "hidden";
     if (timelineModalContainer && epiCurve) {
-      renderTanstackChart(timelineModalContainer, epiCurve, 240);
+      renderTanstackChart(
+        timelineModalContainer,
+        window.__INITIAL_DATA__?.epiCurve || epiCurve,
+        240,
+      );
     }
   }
 
@@ -304,8 +308,11 @@ function initModalControllers(epiCurve, ageGroups) {
     trackEvent("open-cases-modal", { source });
     casesDialog?.showModal();
     document.body.style.overflow = "hidden";
-    if (modalAgeContainer && ageGroups) {
-      renderAgeChart(modalAgeContainer, ageGroups, 180);
+    const currentAgeGroups = window.__INITIAL_DATA__
+      ? window.__INITIAL_DATA__.demographics?.ageGroups
+      : ageGroups;
+    if (modalAgeContainer && currentAgeGroups) {
+      renderAgeChart(modalAgeContainer, currentAgeGroups, 180);
     }
   }
 
@@ -421,7 +428,7 @@ export function initClient() {
     document.body.insertAdjacentHTML("afterbegin", appHtml);
   }
 
-  const { locations, corridors, epiCurve, demographics } = data;
+  let { locations, corridors, epiCurve, demographics } = data;
 
   // 1. Mount sidebar charts & Modal Controllers
   if (epiCurve) {
@@ -514,53 +521,55 @@ export function initClient() {
     return `<strong>${provData.region} ${regionSuffix}</strong><br/>${casesLabel}: ${provData.cases.toLocaleString()}<br/>${deathsLabel}: ${provData.deaths.toLocaleString()}${cfr}${note}`;
   }
 
+  let worldCountriesLayer = null;
+  const countryStyle = (feature) => {
+    const name = (feature?.properties?.name || "").toLowerCase();
+    const admin = (feature?.properties?.admin || "").toLowerCase();
+    const sov = (feature?.properties?.sovereignt || "").toLowerCase();
+    const adm0_a3 = (
+      feature?.properties?.["ISO3166-1-Alpha-3"] ||
+      feature?.properties?.adm0_a3 ||
+      ""
+    ).toUpperCase();
+    const adm0_a2 = (feature?.properties?.["ISO3166-1-Alpha-2"] || "").toUpperCase();
+    const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
+
+    const matched =
+      affectedCountryLookup.get(adm0_a3) ||
+      affectedCountryLookup.get(adm0_a2) ||
+      affectedCountryLookup.get(sov_a3) ||
+      affectedCountryLookup.get(name) ||
+      affectedCountryLookup.get(admin) ||
+      affectedCountryLookup.get(sov);
+
+    if (matched) {
+      const isContained = matched.status.includes("Over") || matched.status.includes("Contained");
+      return {
+        color: isContained ? "#30a46c" : "#e5484d",
+        weight: 2,
+        opacity: 0.95,
+        fillColor: isContained ? "#30a46c" : "#e5484d",
+        fillOpacity: isContained ? 0.1 : 0.06,
+      };
+    }
+
+    return {
+      color: "#475569",
+      weight: 1.2,
+      opacity: 0.55,
+      fillColor: "#0f172a",
+      fillOpacity: 0.03,
+    };
+  };
+
   // ── LAYER 1: Global World Countries (Loaded Dynamically) ──
   import("./data/world-countries.json")
     .then((mod) => {
       const worldCountriesGeo = mod.default;
-      L.geoJSON(/** @type {any} */ (worldCountriesGeo), {
+      worldCountriesLayer = L.geoJSON(/** @type {any} */ (worldCountriesGeo), {
         pane: "worldCountriesPane",
         interactive: false,
-        style: (feature) => {
-          const name = (feature?.properties?.name || "").toLowerCase();
-          const admin = (feature?.properties?.admin || "").toLowerCase();
-          const sov = (feature?.properties?.sovereignt || "").toLowerCase();
-          const adm0_a3 = (
-            feature?.properties?.["ISO3166-1-Alpha-3"] ||
-            feature?.properties?.adm0_a3 ||
-            ""
-          ).toUpperCase();
-          const adm0_a2 = (feature?.properties?.["ISO3166-1-Alpha-2"] || "").toUpperCase();
-          const sov_a3 = (feature?.properties?.sov_a3 || "").toUpperCase();
-
-          const matched =
-            affectedCountryLookup.get(adm0_a3) ||
-            affectedCountryLookup.get(adm0_a2) ||
-            affectedCountryLookup.get(sov_a3) ||
-            affectedCountryLookup.get(name) ||
-            affectedCountryLookup.get(admin) ||
-            affectedCountryLookup.get(sov);
-
-          if (matched) {
-            const isContained =
-              matched.status.includes("Over") || matched.status.includes("Contained");
-            return {
-              color: isContained ? "#30a46c" : "#e5484d",
-              weight: 2,
-              opacity: 0.95,
-              fillColor: isContained ? "#30a46c" : "#e5484d",
-              fillOpacity: isContained ? 0.1 : 0.06,
-            };
-          }
-
-          return {
-            color: "#475569",
-            weight: 1.2,
-            opacity: 0.55,
-            fillColor: "#0f172a",
-            fillOpacity: 0.03,
-          };
-        },
+        style: countryStyle,
       }).addTo(map);
     })
     .catch((err) => {
@@ -641,109 +650,117 @@ export function initClient() {
       console.warn("Failed to load DRC provinces dynamically:", err);
     });
 
-  // ── LAYER 3: Outbreak Location Markers & Flight Corridors ──
-  if (corridors) {
-    corridors.forEach((c) => {
-      L.polyline([c.from, c.to], {
-        pane: "corridorsPane",
-        color: "rgba(64, 196, 170, 0.55)",
-        weight: 2,
-        dashArray: "6 5",
-        interactive: false,
-      }).addTo(map);
-    });
-  }
-
   const markerMap = new Map();
-
-  locations.forEach((loc, locationIndex) => {
-    const sev = getSeverity(loc);
-
-    const marker = L.circleMarker(loc.center, {
-      pane: "bubblesPane",
-      radius: sev.radius,
-      color: sev.color,
-      weight: 2.5,
-      fillColor: sev.fill,
-      fillOpacity: 1,
-      opacity: 0.95,
-    }).addTo(map);
-
-    const centerKey = loc.center.join(",");
-    markerMap.set(`location:${locationIndex}`, marker);
-    markerMap.set(centerKey, marker);
-    if (loc.region) {
-      markerMap.set(loc.region.toLowerCase(), marker);
-      markerMap.set(`${loc.region}, ${loc.country}`.toLowerCase(), marker);
-    }
-    markerMap.set(loc.country.toLowerCase(), marker);
-
-    marker.on("click", () => {
-      trackEvent("click-map-marker", {
-        region: loc.region || loc.country,
-        country: loc.countryCode,
-        cases: loc.cases,
-        deaths: loc.deaths,
-        status: loc.status,
+  const outbreakLayers = L.layerGroup().addTo(map);
+  const pulseFrames = new Map();
+  function redrawLocations() {
+    pulseFrames.forEach((frame) => cancelAnimationFrame(frame));
+    pulseFrames.clear();
+    outbreakLayers.clearLayers();
+    markerMap.clear();
+    // ── LAYER 3: Outbreak Location Markers & Flight Corridors ──
+    if (corridors) {
+      corridors.forEach((c) => {
+        L.polyline([c.from, c.to], {
+          pane: "corridorsPane",
+          color: "rgba(64, 196, 170, 0.55)",
+          weight: 2,
+          dashArray: "6 5",
+          interactive: false,
+        }).addTo(outbreakLayers);
       });
-    });
+    }
 
-    marker.bindPopup(getPopupHtml(loc, currentLocale), { maxWidth: 280, closeButton: false });
+    locations.forEach((loc, locationIndex) => {
+      const sev = getSeverity(loc);
 
-    if (loc.cases > 500 && !loc.status.includes("Over")) {
-      const pulse = L.circleMarker(loc.center, {
+      const marker = L.circleMarker(loc.center, {
         pane: "bubblesPane",
         radius: sev.radius,
-        color: "#e5484d",
-        weight: 1.5,
-        fillColor: "transparent",
-        opacity: 0,
-        interactive: false,
-      }).addTo(map);
+        color: sev.color,
+        weight: 2.5,
+        fillColor: sev.fill,
+        fillOpacity: 1,
+        opacity: 0.95,
+      }).addTo(outbreakLayers);
 
-      let r = sev.radius;
-      const maxR = sev.radius + 20;
-
-      function animate() {
-        r += 0.15;
-        const t = (r - sev.radius) / (maxR - sev.radius);
-        pulse.setRadius(r);
-        pulse.setStyle({ opacity: Math.max(0, 0.65 * (1 - t)) });
-        if (r >= maxR) r = sev.radius;
-        requestAnimationFrame(animate);
+      const centerKey = loc.center.join(",");
+      markerMap.set(`location:${locationIndex}`, marker);
+      markerMap.set(centerKey, marker);
+      if (loc.region) {
+        markerMap.set(loc.region.toLowerCase(), marker);
+        markerMap.set(`${loc.region}, ${loc.country}`.toLowerCase(), marker);
       }
-      animate();
-    }
-  });
+      markerMap.set(loc.country.toLowerCase(), marker);
 
-  // ── LAYER 4: Sidebar Click-to-Zoom Navigation ──
-  document.querySelectorAll(".province-item").forEach((item) => {
-    item.addEventListener("click", () => {
-      const centerStr = item.getAttribute("data-center");
-      const region =
-        item.getAttribute("data-region") ||
-        item.querySelector(".province-name")?.textContent?.trim() ||
-        "Unknown";
-      const country = item.getAttribute("data-country") || "";
-      const locationIndex = item.getAttribute("data-location-index");
-      trackEvent("select-location-sidebar", { region, country });
+      marker.on("click", () => {
+        trackEvent("click-map-marker", {
+          region: loc.region || loc.country,
+          country: loc.countryCode,
+          cases: loc.cases,
+          deaths: loc.deaths,
+          status: loc.status,
+        });
+      });
 
-      if (centerStr) {
-        const [lat, lng] = centerStr.split(",").map(Number);
-        const zoomLevel = lat > 30 ? 6 : 8;
-        map.flyTo([lat, lng], zoomLevel, { duration: 0.8 });
+      marker.bindPopup(getPopupHtml(loc, currentLocale), { maxWidth: 280, closeButton: false });
 
-        const marker =
-          markerMap.get(`location:${locationIndex}`) ||
-          markerMap.get(centerStr) ||
-          markerMap.get(region.toLowerCase()) ||
-          markerMap.get(`${region}, ${country}`.toLowerCase()) ||
-          markerMap.get(country.toLowerCase());
-        if (marker) {
-          marker.openPopup();
+      if (loc.cases > 500 && loc.newCases > 0) {
+        const pulse = L.circleMarker(loc.center, {
+          pane: "bubblesPane",
+          radius: sev.radius,
+          color: "#e5484d",
+          weight: 1.5,
+          fillColor: "transparent",
+          opacity: 0,
+          interactive: false,
+        }).addTo(outbreakLayers);
+
+        let r = sev.radius;
+        const maxR = sev.radius + 20;
+
+        function animate() {
+          r += 0.15;
+          const t = (r - sev.radius) / (maxR - sev.radius);
+          pulse.setRadius(r);
+          pulse.setStyle({ opacity: Math.max(0, 0.65 * (1 - t)) });
+          if (r >= maxR) r = sev.radius;
+          pulseFrames.set(pulse, requestAnimationFrame(animate));
         }
+        animate();
       }
     });
+  }
+  redrawLocations();
+
+  // ── LAYER 4: Sidebar Click-to-Zoom Navigation ──
+  document.getElementById("location-list")?.addEventListener("click", (event) => {
+    const item = /** @type {Element} */ (event.target).closest(".province-item");
+    if (!item) return;
+    const centerStr = item.getAttribute("data-center");
+    const region =
+      item.getAttribute("data-region") ||
+      item.querySelector(".province-name")?.textContent?.trim() ||
+      "Unknown";
+    const country = item.getAttribute("data-country") || "";
+    const locationIndex = item.getAttribute("data-location-index");
+    trackEvent("select-location-sidebar", { region, country });
+
+    if (centerStr) {
+      const [lat, lng] = centerStr.split(",").map(Number);
+      const zoomLevel = lat > 30 ? 6 : 8;
+      map.flyTo([lat, lng], zoomLevel, { duration: 0.8 });
+
+      const marker =
+        markerMap.get(`location:${locationIndex}`) ||
+        markerMap.get(centerStr) ||
+        markerMap.get(region.toLowerCase()) ||
+        markerMap.get(`${region}, ${country}`.toLowerCase()) ||
+        markerMap.get(country.toLowerCase());
+      if (marker) {
+        marker.openPopup();
+      }
+    }
   });
 
   // Mobile Bottom-Sheet Toggle
@@ -897,7 +914,10 @@ export function initClient() {
     }
     const casesSub = document.querySelector(".stat-card.cases .sub");
     if (casesSub) {
-      casesSub.textContent = m.across_zones({ count: locations.length }, { locale: newLocale });
+      casesSub.textContent = m.across_zones(
+        { count: data.summary.affectedCountriesCount },
+        { locale: newLocale },
+      );
     }
 
     const deathsLabel = document.querySelector(".stat-card.deaths .label");
@@ -988,7 +1008,10 @@ export function initClient() {
       const loc = locations.find((l) => l.center.join(",") === centerStr);
       if (loc) {
         const countryLabel = localizeCountry(loc.country, newLocale);
-        const regionLabel = loc.region ? `${loc.region} (${countryLabel})` : countryLabel;
+        const regionLabel =
+          loc.region && loc.region !== loc.country
+            ? `${loc.region} (${countryLabel})`
+            : countryLabel;
         const statusLabel = localizeStatus(loc.status, newLocale);
         const nameEl = item.querySelector(".province-name");
         if (nameEl) nameEl.textContent = regionLabel;
@@ -1110,17 +1133,33 @@ export function initClient() {
       cKpiLabels[0].textContent = m.cumulative_confirmed({}, { locale: newLocale });
       cKpiLabels[1].textContent = m.sex_distribution({}, { locale: newLocale });
       cKpiLabels[2].textContent = m.primary_epicenter({}, { locale: newLocale });
-      cKpiLabels[3].textContent = m.cross_border_status({}, { locale: newLocale });
+      cKpiLabels[3].textContent = m.affected_nations({}, { locale: newLocale });
     }
     const cKpiSubs = document.querySelectorAll("#cases-dialog .kpi-sub");
     if (cKpiSubs.length >= 4) {
-      cKpiSubs[0].textContent = m.across_nations({}, { locale: newLocale });
-      cKpiSubs[2].textContent = m.cases_count({ count: "3,912" }, { locale: newLocale });
-      cKpiSubs[3].textContent = m.cross_border_countries({}, { locale: newLocale });
+      cKpiSubs[0].textContent = m.across_nations(
+        { count: data.summary.affectedCountriesCount },
+        { locale: newLocale },
+      );
+      const epicenter = locations
+        .filter((loc) => loc.countryCode === "COD" && loc.geographicPrecision === "province")
+        .sort((a, b) => b.cases - a.cases)[0];
+      cKpiSubs[2].textContent = epicenter
+        ? m.cases_count({ count: epicenter.cases.toLocaleString() }, { locale: newLocale })
+        : "";
+      cKpiSubs[3].textContent = m.source_country_coverage({}, { locale: newLocale });
     }
     const cContained = document.querySelector("#cases-dialog .kpi-number.contained");
     if (cContained) cContained.textContent = m.contained({}, { locale: newLocale });
 
+    const missingData = document.querySelectorAll("#cases-dialog .chart-empty-state");
+    missingData.forEach((node) => {
+      node.textContent = m.source_data_unavailable({}, { locale: newLocale });
+    });
+    if (!demographics?.sex) {
+      const missingSex = document.querySelectorAll("#cases-dialog .kpi-number")[1];
+      if (missingSex) missingSex.textContent = m.source_data_unavailable({}, { locale: newLocale });
+    }
     const cChartH3 = document.querySelector("#cases-dialog .dialog-chart-wrapper .chart-header h3");
     if (cChartH3) cChartH3.textContent = m.age_cohort_dist_title({}, { locale: newLocale });
     const cChartTag = document.querySelector(
@@ -1217,6 +1256,35 @@ export function initClient() {
         });
         applyUpdatedSnapshot(newSnapshot, document, window);
         data = win.__INITIAL_DATA__ || data;
+        ({ locations, corridors, epiCurve, demographics } = data);
+        affectedCountryLookup.clear();
+        locations.forEach((loc) => {
+          affectedCountryLookup.set(loc.countryCode.toUpperCase(), loc);
+          affectedCountryLookup.set(loc.country.toLowerCase(), loc);
+        });
+        worldCountriesLayer?.setStyle(countryStyle);
+        redrawLocations();
+        // Reuse the SSR renderer so sidebar, dialogs, and charts use the same snapshot.
+        const template = document.createElement("template");
+        const rendered = render(data, { locale: currentLocale });
+        template.innerHTML = rendered.appHtml;
+        const jsonLd = document.querySelector('script[type="application/ld+json"]');
+        if (jsonLd) jsonLd.textContent = rendered.jsonLd;
+        for (const selector of [
+          "#location-list",
+          ".stat-card.cases .sub",
+          ".stat-card.zones .value",
+          "#epi-chart",
+          "#timeline-dialog .dialog-stats-summary",
+          "#cases-dialog .dialog-stats-summary",
+          "#modal-cases-age-chart",
+        ]) {
+          const target = document.querySelector(selector);
+          const next = template.content.querySelector(selector);
+          if (target && next) target.innerHTML = next.innerHTML;
+        }
+        const stateElement = document.getElementById("ssr-state-data");
+        if (stateElement) stateElement.textContent = JSON.stringify(data);
         affectedRegionLookup = buildProvinceLookup(data.locations);
         provincesLayer?.eachLayer((layer) => {
           const province = affectedRegionLookup.get(

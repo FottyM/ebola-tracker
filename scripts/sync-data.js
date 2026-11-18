@@ -1,3 +1,4 @@
+import { fetchWhoCountryObservations } from "../server/pipeline/adapters/international-adapters.js";
 import { backfillMinistryReports } from "../server/pipeline/backfill-ministry.js";
 import fs from "node:fs";
 import path from "node:path";
@@ -99,6 +100,13 @@ async function sync() {
     storageDir,
     targetFile,
     fetchMinistry: resolveDrcSitrep,
+    fetchInternational: async () => {
+      const rows = await fetchWhoCountryObservations();
+      console.log(
+        `[WHO Countries] Validated ${rows.length} source-reported countries: ${rows.map((row) => `${row.country.name} (${row.timestamps.sourceUpdatedAt})`).join(", ")}`,
+      );
+      return rows;
+    },
     fetchHdx: () => resolveHdxFeed(isDryRun),
     fetchCurve: resolveWhoWeeklyCurve,
     dryRun: isDryRun,

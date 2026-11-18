@@ -279,6 +279,7 @@ describe("DATA-002: Normalized Observations and Snapshot Contract", () => {
           provenance: validProvenance,
           timestamps: validTimestamps,
           classification: "affected",
+          outbreakStatus: "declared-over",
           representativePoint: [0.71, 30.06],
           note: "Index cross-border cluster. Declared officially over by WHO on 25 August 2026.",
         },

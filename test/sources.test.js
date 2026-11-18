@@ -66,23 +66,15 @@ describe("DATA-001: Authoritative Sources and Geographic Coverage", () => {
 
   describe("Country Classification: Affected vs Medical Evacuation", () => {
     it("correctly classifies endemic/affected countries vs evacuation destinations", () => {
-      const drc = classifyCountryStatus("COD");
-      expect(drc.type).toBe("affected");
-      expect(drc.includedInEpidemicTotal).toBe(true);
-
-      const uganda = classifyCountryStatus("UGA");
-      expect(uganda.type).toBe("affected");
-      expect(uganda.includedInEpidemicTotal).toBe(true);
-
-      const france = classifyCountryStatus("FRA");
-      expect(france.type).toBe("medical-evacuation");
-      expect(france.includedInEpidemicTotal).toBe(false);
-      expect(france.note).toContain("evacuated");
-
-      const germany = classifyCountryStatus("DEU");
-      expect(germany.type).toBe("medical-evacuation");
-      expect(germany.includedInEpidemicTotal).toBe(false);
-      expect(germany.note).toContain("counted in DRC");
+      for (const iso3 of ["COD", "UGA", "FRA", "KEN", "NGA", "BEN"]) {
+        const result = classifyCountryStatus(iso3, { status: "affected", cases: 1 });
+        expect(result.type).toBe("affected");
+        expect(result.includedInEpidemicTotal).toBe(true);
+      }
+      const treatment = classifyCountryStatus("DEU", { status: "Medical Evacuation" });
+      expect(treatment.type).toBe("medical-evacuation");
+      expect(treatment.includedInEpidemicTotal).toBe(false);
+      expect(classifyCountryStatus("KEN").type).toBe("monitoring");
     });
   });
 

@@ -8,7 +8,7 @@
 [![Charts](https://img.shields.io/badge/Charts-@tanstack/charts-e5484d?style=flat-square)](https://tanstack.com/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg?style=flat-square)](LICENSE)
 
-An operational-grade, real-time epidemiological surveillance map and situation dashboard tracking the **2026 Bundibugyo ebolavirus outbreak** across the Democratic Republic of the Congo (DRC), Uganda border districts, and international medical evacuation routes.
+A source-driven surveillance map and situation dashboard tracking the **2026 Bundibugyo ebolavirus outbreak**. The country list, counts, and reporting dates come from the live WHO country table; DRC provincial and health-zone data come from Ministry reports.
 
 🔗 **Live Deployment:** [https://fottym.github.io/ebola-tracker/](https://fottym.github.io/ebola-tracker/)
 
@@ -50,14 +50,14 @@ The tracker is engineered to adapt smoothly to smartphones, tablets, and desktop
    - **Global Sovereign Nations:** All 258 world countries (`world-countries.json`) dynamically loaded to eliminate main thread blocking, with ISO3 matching and dynamic status styling.
    - **Sub-national Provincial Boundaries:** DRC 26 provinces (`drc-provinces.json`) code-split and asynchronously loaded, featuring caseload fill styling and hover telemetry.
 
-3. **Dynamic Outbreak Telemetry & Medevac Corridors:**
+3. **Dynamic Outbreak Telemetry:**
    - Color-coded severity beacons with dynamic sizing based on caseload.
    - Active epicenter pulsing beacon over the primary transmission cluster (Bunia / Ituri).
-   - Cross-border transport routes and long-distance biocontainment flight corridors (quarantining international medical evacuations in France and Germany from national DRC statistics).
+   - Countries are discovered from WHO’s live affected-country table; imported cases count in the reporting country. Treatment destinations are not added as duplicate cases.
 
 4. **Official TanStack Charts Visualization:**
    - High-resolution **Epidemic Spread Curve** (weekly confirmed cases vs. fatalities).
-   - **Age Cohort Distribution** bar chart highlighting vulnerable demographic groups.
+   - Age and sex breakdowns appear only when supplied by the active snapshot; otherwise they are marked unavailable.
    - Interactive crosshairs, tooltips, and deep-dive modals.
 
 5. **Truthful Freshness & Provenance Telemetry:**
@@ -149,16 +149,18 @@ flowchart TD
 1. **Dynamic DRC Ministry PDF Scraping (`drc-ministry-adapter.js`)**:
    - Instead of reading static mock files or importing test fixtures, the pipeline scrapes `https://sante.gouv.cd/documents/sitreps` to discover the newest daily situation report (e.g., `SitRep_MVEBDB_119_10_09_2026.pdf`).
    - It streams the PDF into memory and parses the digital text using `pdf-parse` in ~500ms without external Python runtime dependencies.
-   - Extracts national confirmed cases, new cases, confirmed deaths, recoveries, overall CFR, and the 6 affected provinces (Ituri, Nord-Kivu, Haut-Uélé, Tshopo, Bas-Uélé, Sud-Kivu).
+   - Extracts national confirmed cases, new cases, deaths, recoveries, provincial totals, and health-zone rows from the report.
 
 2. **Live UN OCHA HDX Consolidated Feed (`hdx-adapter.js`)**:
    - Fetches `drc_ebola_cases_consolidated.csv` directly from the UN OCHA Humanitarian Data Exchange.
    - Normalizes operational health zones using the canonical crosswalk, aligning historical names with standard pcodes and DHIS2 IDs.
    - Aggregates latest cumulative caseloads for 43+ active health zones with zero duplicate entries.
 
-3. **Offline Baseline Fallback (`server/pipeline/data/baseline-sitrep.txt`)**:
-   - Production code is strictly decoupled from the `test/` directory.
-   - If the government portal or HDX is temporarily unreachable (e.g. during maintenance or network failure), the pipeline gracefully falls back to the server-side baseline cache without failing closed or breaking the build.
+3. **Live WHO Country Discovery (`international-adapters.js`)**:
+   - Fetches the Bundibugyo affected-country table from WHO Alert and Response on every sync. Every row is discovered dynamically and reconciled against WHO's confirmed case and death totals.
+   - Preserves each country's own reporting cutoff; Ministry figures take precedence for DRC. Imported cases are included where WHO reports them, without adding treatment destinations again.
+   - Unknown countries, missing rows, invalid totals, and source failures retain the last validated snapshot as stale and cause the sync command to fail visibly. Country centroids and ISO codes are geographic metadata, not an outbreak whitelist.
+   - WHO does not publish a per-row publication timestamp; this remains null rather than being invented. Historical DRC report archives do not invent historical international totals.
 
 4. **Idempotent Change Detection & Atomic Snapshots (`pipeline-ingest.js`)**:
    - Compares the candidate snapshot against `public/data/latest-snapshot.json`.

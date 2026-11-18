@@ -21,7 +21,13 @@ const parsed = {
 const unavailable = async () => {
   throw new Error("network unavailable");
 };
-const options = (extra = {}) => ({ storageDir, targetFile, fetchMinistry: unavailable, ...extra });
+const options = (extra = {}) => ({
+  storageDir,
+  targetFile,
+  fetchMinistry: unavailable,
+  fetchInternational: async () => [],
+  ...extra,
+});
 function seed() {
   return executeSnapshotPipeline({ storageDir, drcParsed: parsed, internationalObservations: [] })
     .snapshot;
@@ -134,4 +140,74 @@ it("retains observations and timestamps on network failure, publishing a distinc
   const before = files();
   expect((await runOutbreakSync(options())).changed).toBe(false);
   expect(files()).toEqual(before);
+});
+
+function whoCountry(iso3, name, cases, deaths, date = "2026-10-01") {
+  return {
+    id: `${iso3}:National:${date}`,
+    geographicPrecision: "country",
+    country: { iso3, name },
+    province: null,
+    healthZone: null,
+    city: null,
+    metrics: { confirmedCases: cases, confirmedDeaths: deaths },
+    classification: "affected",
+    provenance: {
+      sourceId: "who-acute-event",
+      publisher: "WHO",
+      sourceUrl: "https://www.who.int/emergencies/alert-and-response",
+    },
+    timestamps: { sourceUpdatedAt: date, publishedAt: date, fetchedAt: "2026-10-02T00:00:00Z" },
+  };
+}
+
+it("updates newly discovered countries and keeps DRC source dates independent", async () => {
+  seed();
+  const countries = [
+    whoCountry("KEN", "Kenya", 9, 2),
+    whoCountry("NGA", "Nigeria", 1, 0),
+    whoCountry("FRA", "France", 1, 0),
+  ];
+  const fetchInternational = async () => countries;
+  const result = await runOutbreakSync(
+    options({ fetchMinistry: async () => parsed, fetchInternational }),
+  );
+  expect(result.sourceMode).toBe("live");
+  expect(result.snapshot.summary).toMatchObject({
+    totalCases: 111,
+    totalDeaths: 22,
+    affectedCountriesCount: 4,
+  });
+  const legacy = mapSnapshotToLegacyState(result.snapshot);
+  expect(legacy.locations.find((row) => row.countryCode === "KEN").sourceUrl).toContain("who.int");
+  expect(legacy.demographics).toBeNull();
+  expect(legacy.corridors).toEqual([]);
+  const repeat = await runOutbreakSync(
+    options({ fetchMinistry: async () => parsed, fetchInternational }),
+  );
+  expect(repeat.sourceMode).toBe("live");
+  expect(repeat.changed).toBe(false);
+});
+
+it("retains validated international figures when WHO fails, loses a country, or regresses dates", async () => {
+  seed();
+  const original = await runOutbreakSync(
+    options({
+      fetchMinistry: async () => parsed,
+      fetchInternational: async () => [whoCountry("KEN", "Kenya", 9, 2)],
+    }),
+  );
+  for (const fetchInternational of [
+    unavailable,
+    async () => [],
+    async () => [whoCountry("KEN", "Kenya", 9, 2, "2026-09-30")],
+  ]) {
+    const result = await runOutbreakSync(
+      options({ dryRun: true, fetchMinistry: async () => parsed, fetchInternational }),
+    );
+    expect(result.sourceMode).toBe("cache");
+    expect(result.snapshot.status).toBe("stale");
+    expect(result.snapshot.observations).toEqual(original.snapshot.observations);
+    expect(result.snapshot.summary).toEqual(original.snapshot.summary);
+  }
 });

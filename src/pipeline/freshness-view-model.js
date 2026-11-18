@@ -177,15 +177,11 @@ export function createFreshnessViewModel(dataOrSnapshot, locale = "en") {
       ? String(dataOrSnapshot.summary.lastUpdated).slice(0, 10)
       : new Date().toISOString().slice(0, 10));
 
-  const rawTimeOrPublishedAt =
-    dataOrSnapshot.freshness?.publishedAt ||
-    nationalObs?.timestamps?.publishedAt ||
-    dataOrSnapshot.publishedAt ||
-    dataOrSnapshot.summary?.lastUpdated ||
-    dataOrSnapshot.generatedAt ||
-    null;
-
-  const reportingDate = formatEuropeanDateTime(rawReportingDate, rawTimeOrPublishedAt);
+  // A day-only reporting cutoff has no known reporting time. Publication and
+  // fetch timestamps must not be combined with a different reporting day.
+  const reportingDate = String(rawReportingDate).includes("T")
+    ? formatEuropeanDateTime(rawReportingDate)
+    : formatEuropeanDate(rawReportingDate);
 
   // 2. Identify Section-Specific Dates
   const rawNationalDate =

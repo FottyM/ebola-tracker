@@ -45,14 +45,11 @@ export function hasEpidemiologicalContentChanged(snap1, snap2) {
     const o1 = obsMap1.get(o2.id);
     if (!o1) return true;
 
-    if (
-      o1.metrics?.confirmedCases !== o2.metrics?.confirmedCases ||
-      o1.metrics?.confirmedDeaths !== o2.metrics?.confirmedDeaths ||
-      o1.metrics?.newConfirmedCases !== o2.metrics?.newConfirmedCases ||
-      o1.timestamps?.sourceUpdatedAt !== o2.timestamps?.sourceUpdatedAt
-    ) {
-      return true;
-    }
+    const stable = (row) => {
+      const { fetchedAt: _fetchedAt, ...timestamps } = row.timestamps || {};
+      return { ...row, timestamps };
+    };
+    if (JSON.stringify(stable(o1)) !== JSON.stringify(stable(o2))) return true;
   }
 
   return false;
