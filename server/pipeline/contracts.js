@@ -4,9 +4,9 @@
  * geographic precision rules, snapshot aggregation, and legacy UI mapping.
  */
 
-import { isGeographicLevelSupported, classifyCountryStatus } from "./sources.js";
+import { isGeographicLevelSupported } from "./sources.js";
 import { resolveHealthZone } from "./geography/health-zone-crosswalk.js";
-import defaultOutbreakData from "../../src/data/outbreak-data.js";
+import countryGeography from "../../src/data/country-geography.json" with { type: "json" };
 
 /**
  * @typedef {"current" | "partial" | "unchanged" | "stale" | "failed"} SnapshotStatus
@@ -20,7 +20,7 @@ import defaultOutbreakData from "../../src/data/outbreak-data.js";
  *
  * @typedef {Object} Timestamps
  * @property {string} sourceUpdatedAt - Date or timestamp of upstream data reporting cutoff.
- * @property {string} publishedAt - Date or timestamp when report was made publicly available.
+ * @property {string | null} publishedAt - Publication date, or null when the source does not provide one.
  * @property {string} fetchedAt - Exact UTC timestamp when data was ingested by our pipeline.
  *
  * @typedef {Object} NormalizedObservation
@@ -97,7 +97,7 @@ export function validateNormalizedObservation(obs) {
       errors.push("metrics.confirmedDeaths must be a non-negative integer.");
     }
     if (
-      obs.metrics.recovered !== undefined &&
+      obs.metrics?.recovered !== undefined &&
       (typeof obs.metrics.recovered !== "number" || obs.metrics.recovered < 0)
     ) {
       errors.push("metrics.recovered must be a non-negative integer.");
@@ -119,7 +119,7 @@ export function validateNormalizedObservation(obs) {
   } else {
     if (
       !obs.timestamps.sourceUpdatedAt ||
-      !obs.timestamps.publishedAt ||
+      !("publishedAt" in obs.timestamps) ||
       !obs.timestamps.fetchedAt
     ) {
       errors.push("timestamps requires sourceUpdatedAt, publishedAt, and fetchedAt.");
@@ -213,8 +213,7 @@ export function createSnapshotFromObservations({
       latestDate = obs.timestamps.sourceUpdatedAt;
     }
 
-    const classification = classifyCountryStatus(obs.country.iso3);
-    if (!classification.includedInEpidemicTotal || obs.classification === "medical-evacuation") {
+    if (obs.classification !== "affected") {
       continue;
     }
 
@@ -277,6 +276,15 @@ export function createSnapshotFromObservations({
         status: "Live (validated)",
         lastSuccessAt: new Date().toISOString(),
       },
+      ...(observations.some((row) => row.provenance?.sourceId === "who-acute-event")
+        ? [
+            {
+              sourceId: "who-acute-event",
+              status: "Live (validated)",
+              lastSuccessAt: new Date().toISOString(),
+            },
+          ]
+        : []),
       ...(epiCurve.length
         ? [
             {
@@ -307,12 +315,11 @@ export const CANONICAL_PROVINCE_CENTROIDS = Object.freeze({
   "sud-ubangi": [3.25, 19.78],
 });
 
-export const CANONICAL_COUNTRY_CENTROIDS = Object.freeze({
-  UGA: [0.71, 30.06],
-  FRA: [48.8566, 2.3522],
-  DEU: [52.52, 13.405],
-  COD: [1.56, 30.25],
-});
+export const CANONICAL_COUNTRY_CENTROIDS = Object.freeze(
+  Object.fromEntries(
+    Object.entries(countryGeography).map(([iso3, country]) => [iso3, country.center]),
+  ),
+);
 
 /**
  * Maps a modern normalized OutbreakSnapshot to the legacy DynamicOutbreakState structure
@@ -336,14 +343,19 @@ export function mapSnapshotToLegacyState(snapshot) {
     const countryName = obs.country?.name || "Democratic Republic of the Congo";
     const countryIso3 = obs.country?.iso3 || "COD";
     const regionName = obs.healthZone?.name || obs.province?.name || countryName;
-    const isOver = countryIso3 === "UGA";
+    const isOver = obs.outbreakStatus === "declared-over";
     const isMedevac = obs.classification === "medical-evacuation";
 
-    let status = "Active Transmission";
+    let status = "Confirmed cases reported";
     if (isOver) status = "Contained / Outbreak Over";
     else if (isMedevac) status = "Medical Evacuation (Contained)";
-    else if ((obs.metrics?.confirmedCases ?? 0) >= 500) status = "Active Epicenter";
-    else if ((obs.metrics?.confirmedCases ?? 0) < 50) status = "Cluster Monitored";
+    else if (
+      obs.geographicPrecision === "country" &&
+      obs.metrics?.recovered !== undefined &&
+      obs.metrics.recovered + obs.metrics.confirmedDeaths === obs.metrics.confirmedCases
+    )
+      status = "No patients under treatment (reported)";
+    else if ((obs.metrics?.newConfirmedCases ?? 0) > 0) status = "New cases reported";
 
     const confirmedCases = obs.metrics?.confirmedCases ?? 0;
     const confirmedDeaths = obs.metrics?.confirmedDeaths ?? 0;
@@ -376,7 +388,7 @@ export function mapSnapshotToLegacyState(snapshot) {
       center = CANONICAL_PROVINCE_CENTROIDS[pKey];
     }
     if (!center && countryIso3) {
-      center = CANONICAL_COUNTRY_CENTROIDS[countryIso3];
+      center = countryGeography[countryIso3]?.center || CANONICAL_COUNTRY_CENTROIDS[countryIso3];
     }
     if (!center) {
       center = [1.56, 30.25];
@@ -389,10 +401,15 @@ export function mapSnapshotToLegacyState(snapshot) {
       province: obs.province?.name,
       geographicPrecision: obs.geographicPrecision,
       cases: confirmedCases,
+      ...(obs.metrics?.newConfirmedCases !== undefined
+        ? { newCases: obs.metrics.newConfirmedCases }
+        : {}),
       deaths: confirmedDeaths,
       cfr: confirmedCases > 0 ? Number(((confirmedDeaths / confirmedCases) * 100).toFixed(1)) : 0,
       status,
       center,
+      classification: obs.classification,
+      sourceUrl: obs.provenance?.sourceUrl,
       lastReported: obs.timestamps?.sourceUpdatedAt || snapshot.summary?.lastReportDate || "",
       ...(obs.note ? { note: obs.note } : {}),
     });
@@ -410,8 +427,8 @@ export function mapSnapshotToLegacyState(snapshot) {
     },
     locations,
     epiCurve: Array.isArray(snapshot.epiCurve) ? snapshot.epiCurve : [],
-    demographics: snapshot.demographics || defaultOutbreakData.demographics,
-    corridors: snapshot.corridors || defaultOutbreakData.corridors,
+    demographics: snapshot.demographics || null,
+    corridors: snapshot.corridors || [],
     sources: {
       // Keep the legacy `hdx` key until the renderer's source-card contract is migrated.
       hdx: {
@@ -420,9 +437,9 @@ export function mapSnapshotToLegacyState(snapshot) {
         status: "Official validated report",
       },
       who: {
-        name: "WHO AFRO Weekly External Situation Reports",
-        url: "https://www.afro.who.int/health-topics/disease-outbreaks/ebola-who-african-region",
-        status: "Official weekly series",
+        name: "WHO Country Reports & AFRO Weekly Situation Reports",
+        url: "https://www.who.int/emergencies/alert-and-response",
+        status: "Country totals and weekly series",
       },
       reliefweb: {
         name: "ReliefWeb Reports Portal",

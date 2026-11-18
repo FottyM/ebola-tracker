@@ -15,7 +15,10 @@ export async function backfillMinistryReports({
   fetchReport = fetchLatestMinistrySitrepPdf,
 }) {
   const latest = loadLatestSnapshot(storageDir);
-  const since = latest?.summary?.lastReportDate;
+  const since =
+    latest?.observations?.find(
+      (row) => row.country.iso3 === "COD" && row.geographicPrecision === "country",
+    )?.timestamps.sourceUpdatedAt || latest?.summary?.lastReportDate;
   if (!since) return [];
   const response = await fetchFn("https://sante.gouv.cd/documents/sitreps", {
     signal: AbortSignal.timeout(25000),

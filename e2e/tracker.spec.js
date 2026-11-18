@@ -72,18 +72,20 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
     const casesDialog = page.locator("#cases-dialog");
     await expect(casesDialog).toHaveAttribute("open", "");
 
-    // Age distribution chart in modal
+    // Missing source demographics must not resurrect historical fixture charts.
+    const embedded = JSON.parse(await page.locator("#ssr-state-data").textContent());
     const modalAgeChart = page.locator("#modal-cases-age-chart svg");
-    await expect(modalAgeChart).toBeVisible({ timeout: 5000 });
+    if (embedded.demographics?.ageGroups?.length) {
+      await expect(modalAgeChart).toBeVisible();
+    } else {
+      await expect(modalAgeChart).toHaveCount(0);
+      await expect(page.locator("#modal-cases-age-chart [role=status]")).toBeVisible();
+    }
 
-    // Dismiss using Done button
-    const doneBtn = page.locator("#cases-done-btn");
-    await doneBtn.click();
+    // Dismiss and reopen through the total cases card.
+    await page.locator("#cases-done-btn").click();
     await expect(casesDialog).not.toHaveAttribute("open", "");
-
-    // Open via Demographics section card
-    const openDemoBtn = page.locator("#open-demographics-modal");
-    await openDemoBtn.click();
+    await openCasesBtn.click();
     await expect(casesDialog).toHaveAttribute("open", "");
 
     // Close via modal close button
@@ -141,33 +143,25 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
   test("6. Clicking Sidebar Location Pans Map AND Automatically Displays Stats Popup", async ({
     page,
   }) => {
-    // Find Germany / Charité item in sidebar
-    const chariteItem = page.locator(".province-item", { hasText: "Charité" });
-    await expect(chariteItem).toBeVisible();
-
-    // Click it
-    await chariteItem.click();
-
-    // Verify Leaflet popup card appears automatically with Charité details
+    // Country entries come from source-reported national rows, with no invented hospitals.
+    const franceItem = page.locator('.province-item[data-country="FRA"]');
+    await expect(franceItem).toBeVisible();
+    await franceItem.click();
     const popup = page.locator(".leaflet-popup").last();
     await expect(popup).toBeVisible({ timeout: 6000 });
-    await expect(popup.locator(".popup-content h3")).toContainText(/Germany/i);
-    await expect(popup.locator(".popup-content .pop-province")).toContainText(
-      /Medical Evacuation/i,
-    );
+    await expect(popup.locator(".popup-content h3")).toContainText("France");
     await expect(popup.locator(".popup-content .pop-note").first()).toContainText(
-      /biocontainment/i,
+      "WHO country report",
     );
-
-    // Now click Uganda / Bundibugyo in sidebar
-    const bundibugyoItem = page.locator(".province-item", { hasText: "Bundibugyo" });
-    await bundibugyoItem.click();
-
-    // Verify latest popup switches to Bundibugyo details
+    await expect(popup.locator(".popup-content .pop-province")).not.toContainText(
+      "Medical Evacuation",
+    );
+    const ugandaItem = page.locator('.province-item[data-country="UGA"]');
+    await ugandaItem.click();
     const activePopup = page.locator(".leaflet-popup").last();
-    await expect(activePopup.locator(".popup-content h3")).toContainText(/Bundibugyo/i);
-    await expect(activePopup.locator(".popup-content .pop-province")).toContainText(
-      /Contained \/ Outbreak Over/i,
+    await expect(activePopup.locator(".popup-content h3")).toContainText("Uganda");
+    await expect(activePopup.locator(".popup-content .pop-province")).not.toContainText(
+      "Outbreak Over",
     );
 
     // The scheduled ingestion job can legitimately change which DRC regions are
@@ -243,7 +237,9 @@ test.describe("Ebola Outbreak Tracker — E2E Behavioral Suite", () => {
     await expect(page.locator(".stat-card.cases .label")).toContainText(/Cas confirmés cumulés/i);
     await expect(page.locator(".stat-card.deaths .label")).toContainText(/Décès cumulés/i);
     await expect(page.locator(".stat-card.cfr .label")).toContainText(/Pays Affectés/i);
-    await expect(page.locator(".stat-card.zones .label")).toContainText(/Foyers Actifs/i);
+    await expect(page.locator(".stat-card.zones .label")).toContainText(
+      /Zones de santé déclarées/i,
+    );
     await expect(page.locator(".pheic-badge")).toContainText(/Surveillance Active/i);
     await expect(frBtn).toHaveClass(/active/);
     await expect(enBtn).not.toHaveClass(/active/);

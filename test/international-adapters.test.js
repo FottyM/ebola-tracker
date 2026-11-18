@@ -1,68 +1,87 @@
 import { describe, it, expect } from "vite-plus/test";
+import fs from "node:fs";
 import {
+  parseWhoCountryHtml,
+  fetchWhoCountryObservations,
   parseWhoAcuteEventTable,
-  parseUgandaOutbreakStatus,
-  parseFranceEvacuationStatus,
-  parseGermanyEvacuationStatus,
 } from "../server/pipeline/adapters/international-adapters.js";
+import {
+  createSnapshotFromObservations,
+  mapSnapshotToLegacyState,
+} from "../server/pipeline/contracts.js";
+const html = fs.readFileSync(new URL("./fixtures/who-country-table.html", import.meta.url), "utf8");
+const fetchFn = async () => ({ ok: true, text: async () => html });
 
-describe("DATA-005: International & National Authority Adapters", () => {
-  describe("WHO Acute Event Table Adapter", () => {
-    it("parses WHO table and extracts official cross-country status and reporting date", () => {
-      const sampleWhoData = {
-        eventName: "Ebola disease (Bundibugyo ebolavirus) - DRC & Regional",
-        referenceDate: "2026-09-09",
-        countries: [
-          { iso3: "COD", cases: 6942, deaths: 3349, status: "Active Epicenter" },
-          { iso3: "UGA", cases: 20, deaths: 2, status: "Declared Over" },
-          { iso3: "FRA", cases: 1, deaths: 0, status: "Medical Evacuation" },
-        ],
-      };
-
-      const result = parseWhoAcuteEventTable(sampleWhoData);
-      expect(result.valid).toBe(true);
-      expect(result.countries).toHaveLength(3);
-      expect(result.affectedCountries).toHaveLength(2); // COD, UGA only
-      expect(result.evacuations).toHaveLength(1); // FRA
+describe("Live WHO country table", () => {
+  it("discovers all reported countries, preserving per-row dates and counting France", async () => {
+    const report = parseWhoCountryHtml(html);
+    expect(report.affectedCountries).toEqual(["COD", "UGA", "FRA", "KEN", "NGA"]);
+    expect(report.countries.find((row) => row.iso3 === "UGA").reportingDate).toBe("2026-07-21");
+    const observations = await fetchWhoCountryObservations({ fetchFn });
+    const snapshot = createSnapshotFromObservations({ snapshotId: "live-who", observations });
+    expect(snapshot.summary).toMatchObject({
+      totalCases: 11407,
+      totalDeaths: 5572,
+      affectedCountriesCount: 5,
+    });
+    const locations = mapSnapshotToLegacyState(snapshot).locations;
+    expect(locations.find((row) => row.countryCode === "KEN").center).not.toEqual([1.56, 30.25]);
+    expect(locations.find((row) => row.countryCode === "UGA").status).not.toContain("Over");
+    expect(locations.find((row) => row.countryCode === "FRA").classification).toBe("affected");
+    expect(observations.every((row) => row.provenance.sourceUrl.includes("who.int"))).toBe(true);
+  });
+  it("automatically includes a newly reported country with no outbreak-code changes", () => {
+    const row =
+      "<tr><td>Benin</td><td>-</td><td>4</td><td>1</td><td>-</td><td>-</td><td>25%</td><td>0</td></tr>";
+    const extra = html
+      .replace("<!-- Total -->", row + "<!-- Total -->")
+      .replace("11 407", "11 411")
+      .replace("5 572", "5 573");
+    const report = parseWhoCountryHtml(extra);
+    expect(report.countries.find((row) => row.iso3 === "BEN")).toMatchObject({
+      cases: 4,
+      deaths: 1,
+      classification: "affected",
     });
   });
-
-  describe("Uganda National Authority Adapter", () => {
-    it("verifies Uganda containment status and 42-day milestone declaration", () => {
-      const sampleUgandaHtml = `
-        <div class="evd-status">
-          <h1>Ebola Response Update</h1>
-          <p class="declaration">Outbreak officially declared over on 25 August 2026 following 42 consecutive days with zero transmission.</p>
-          <span class="stat">Cumulative Cases: 20</span>
-          <span class="stat">Confirmed Fatalities: 2</span>
-        </div>
-      `;
-
-      const result = parseUgandaOutbreakStatus(sampleUgandaHtml);
-      expect(result.valid).toBe(true);
-      expect(result.cases).toBe(20);
-      expect(result.deaths).toBe(2);
-      expect(result.isDeclaredOver).toBe(true);
-      expect(result.declarationDate).toBe("2026-08-25");
-    });
+  it("rejects missing, duplicate, malformed, unknown, and inconsistent country rows", () => {
+    expect(() => parseWhoCountryHtml("no source table")).toThrow();
+    expect(() => parseWhoCountryHtml(html.replace(/Nigeria/g, "Unknownland"))).toThrow(/country/);
+    expect(() => parseWhoCountryHtml(html.replace(/Nigeria/g, "Kenya"))).toThrow(/Duplicate/);
+    expect(() => parseWhoCountryHtml(html.replace("11 407", "11 408"))).toThrow(/reconcile/);
+    expect(() => parseWhoCountryHtml(html.replace(">9</span>", ">N/A</span>"))).toThrow(/count/);
+    expect(() =>
+      parseWhoCountryHtml(html.replace("Data as of 14 November 2026", "Date missing")),
+    ).toThrow(/date|column/);
   });
-
-  describe("France & Germany Evacuation Adapters", () => {
-    it("verifies France medical evacuation and confirms zero secondary cases", () => {
-      const sampleFranceHtml = `<p>Un travailleur humanitaire évacué d'Ituri a été pris en charge à l'Hôpital militaire Bégin. Aucun cas secondaire.</p>`;
-      const result = parseFranceEvacuationStatus(sampleFranceHtml);
-      expect(result.valid).toBe(true);
-      expect(result.cases).toBe(1);
-      expect(result.hospital).toBe("Hôpital militaire Bégin");
-      expect(result.secondaryCases).toBe(0);
+  it("classifies evacuation destinations from evidence, irrespective of ISO code", () => {
+    const report = parseWhoAcuteEventTable({
+      countries: [
+        { iso3: "FRA", cases: 1, deaths: 0, status: "affected" },
+        { iso3: "KEN", cases: 1, deaths: 0, status: "medical-evacuation" },
+      ],
     });
-
-    it("verifies Germany clinical care and confirms case origin belongs to DRC", () => {
-      const sampleGermanyText =
-        "Two medical workers evacuated under high-level biocontainment to Charité Berlin. Cases are attributed to DRC origin.";
-      const result = parseGermanyEvacuationStatus(sampleGermanyText);
-      expect(result.valid).toBe(true);
-      expect(result.casesCountedInOrigin).toBe(true);
-    });
+    expect(report.affectedCountries).toEqual(["FRA"]);
+    expect(report.evacuations).toEqual(["KEN"]);
   });
+  it("fails visibly when WHO is unavailable", async () => {
+    await expect(
+      fetchWhoCountryObservations({ fetchFn: async () => ({ ok: false, status: 503 }) }),
+    ).rejects.toThrow("503");
+  });
+});
+
+it("does not infer active transmission or an outbreak declaration from cumulative counts", async () => {
+  const observations = await fetchWhoCountryObservations({ fetchFn });
+  const latest = createSnapshotFromObservations({ snapshotId: "statuses", observations });
+  const countries = mapSnapshotToLegacyState(latest).locations;
+  expect(countries.find((row) => row.countryCode === "COD").status).toBe(
+    "Confirmed cases reported",
+  );
+  expect(
+    countries.every(
+      (row) => !row.status.includes("Outbreak Over") && !row.status.includes("Active Transmission"),
+    ),
+  ).toBe(true);
+  expect(observations.every((row) => row.timestamps.publishedAt === null)).toBe(true);
 });

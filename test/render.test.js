@@ -207,3 +207,16 @@ describe("Outbreak Data and SSR Generator", () => {
     expect(mockUmami.identifies.some((i) => i.language === "en")).toBe(true);
   });
 });
+
+it("counts reporting health zones separately from countries and province aggregates", () => {
+  const data = { ...defaultOutbreakData, demographics: null };
+  const html = render(data).appHtml;
+  const zoneCount = data.locations.filter(
+    (row) => row.geographicPrecision === "health-zone",
+  ).length;
+  expect(html).toContain(`across ${data.summary.affectedCountriesCount} reporting countries`);
+  expect(html).toContain(`<div class="value">${zoneCount}</div>`);
+  expect(html).not.toContain("confirmed transmission");
+  expect(html).not.toContain("56.4% ♀");
+  expect(html).not.toContain("Ituri (83.5%)");
+});

@@ -1,3 +1,4 @@
+import countryGeography from "./data/country-geography.json" with { type: "json" };
 /**
  * @fileoverview Dynamic SSR Generator.
  * Renders universal country/regional listings, interactive chart sections,
@@ -28,6 +29,10 @@ import { getSeoMetadata } from "./seo-metadata.js";
  */
 export function localizeStatus(status, locale = "en") {
   if (locale !== "fr") return status;
+  if (status === "New cases reported") return "Nouveaux cas déclarés";
+  if (status === "Confirmed cases reported") return "Cas confirmés déclarés";
+  if (status === "No patients under treatment (reported)")
+    return "Aucun patient en traitement selon le rapport";
   if (status.includes("Contained") || status.includes("Over")) return "Contenu / Épidémie terminée";
   if (status.includes("Medical Evacuation"))
     return status.replace("Medical Evacuation", "Évacuation médicale");
@@ -47,9 +52,9 @@ export function localizeStatus(status, locale = "en") {
 export function localizeCountry(country, locale = "en") {
   if (locale !== "fr") return country;
   if (country === "Democratic Republic of the Congo" || country === "DRC") return "RDC";
-  if (country === "Uganda") return "Ouganda";
-  if (country === "France") return "France";
-  if (country === "Germany") return "Allemagne";
+  const metadata = Object.values(countryGeography).find((entry) => entry.name === country);
+  if (metadata)
+    return new Intl.DisplayNames([locale], { type: "region" }).of(metadata.iso2) || country;
   return country;
 }
 
@@ -193,6 +198,19 @@ export function render(data, options = {}) {
   const seo = getSeoMetadata(locale);
   const { summary, locations, sources, epiCurve, demographics } = data;
 
+  const unavailable = m.source_data_unavailable({}, { locale });
+  const affectedCountryCount = new Set(
+    locations.filter((loc) => loc.classification === "affected").map((loc) => loc.countryCode),
+  ).size;
+  const provinceLocations = locations.filter(
+    (loc) => loc.countryCode === "COD" && loc.geographicPrecision === "province",
+  );
+  const epicenter = provinceLocations.reduce(
+    (largest, loc) => (!largest || loc.cases > largest.cases ? loc : largest),
+    null,
+  );
+  const drcCases = provinceLocations.reduce((total, loc) => total + loc.cases, 0);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -214,16 +232,14 @@ export function render(data, options = {}) {
         dateModified: summary.lastUpdated || new Date().toISOString(),
         category: "https://www.wikidata.org/wiki/Q5199",
         spatialCoverage: [
-          {
-            "@type": "Country",
-            name: "Democratic Republic of the Congo",
-            identifier: "COD",
-          },
-          {
-            "@type": "Country",
-            name: "Uganda",
-            identifier: "UGA",
-          },
+          ...new Map(
+            locations
+              .filter((loc) => loc.classification === "affected")
+              .map((loc) => [
+                loc.countryCode,
+                { "@type": "Country", name: loc.country, identifier: loc.countryCode },
+              ]),
+          ).values(),
         ],
         diseaseSpreadStatistics: [
           {
@@ -278,21 +294,22 @@ export function render(data, options = {}) {
           url: "https://github.com/FottyM",
         },
         temporalCoverage: "2026-05/..",
-        spatialCoverage: {
-          "@type": "Place",
-          name: "Democratic Republic of the Congo",
-          geo: {
-            "@type": "GeoCoordinates",
-            latitude: -4.0383,
-            longitude: 21.7587,
-          },
-        },
+        spatialCoverage: [
+          ...new Map(
+            locations
+              .filter((loc) => loc.classification === "affected")
+              .map((loc) => [
+                loc.countryCode,
+                { "@type": "Country", name: loc.country, identifier: loc.countryCode },
+              ]),
+          ).values(),
+        ],
         variableMeasured: [
           m.schema_metric_cases({}, { locale }),
           m.schema_metric_deaths({}, { locale }),
           m.schema_metric_cfr({}, { locale }),
           m.schema_metric_weekly({}, { locale }),
-          m.schema_metric_age({}, { locale }),
+          ...(demographics?.ageGroups?.length ? [m.schema_metric_age({}, { locale })] : []),
         ],
       },
       {
@@ -328,7 +345,8 @@ export function render(data, options = {}) {
   const locationItemsHtml = locations
     .map((loc, locationIndex) => {
       const countryLabel = localizeCountry(loc.country, locale);
-      const regionLabel = loc.region ? `${loc.region} (${countryLabel})` : countryLabel;
+      const regionLabel =
+        loc.region && loc.region !== loc.country ? `${loc.region} (${countryLabel})` : countryLabel;
       const statusLabel = localizeStatus(loc.status, locale);
       return `
     <li class="province-item" data-location-index="${locationIndex}" data-center="${loc.center.join(",")}" data-region="${loc.region || loc.country}" data-country="${loc.countryCode || ""}" data-umami-event="select-location-sidebar" data-umami-event-location="${loc.region ? `${loc.region} (${loc.country})` : loc.country}">
@@ -348,7 +366,9 @@ export function render(data, options = {}) {
   const timelineModalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 240);
   const epiCurveUnavailableHtml = `<p class="chart-empty-state" role="status">${m.epidemic_curve_unavailable({}, { locale })}</p>`;
   const ageChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 290, 120);
-  const casesModalAgeChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 620, 180);
+  const casesModalAgeChartSvgHtml = demographics?.ageGroups?.length
+    ? renderAgeChartSvg(demographics.ageGroups, 620, 180)
+    : `<p class="chart-empty-state" role="status">${unavailable}</p>`;
   const freshness = createFreshnessViewModel(data, locale);
   const freshnessHtml = freshness.renderHtml();
 
@@ -400,7 +420,7 @@ export function render(data, options = {}) {
       <button class="stat-card cases interactive" id="open-cases-modal" aria-haspopup="dialog" aria-controls="cases-dialog" data-umami-event="open-cases-modal">
         <div class="label">${m.total_cases({}, { locale })} <span class="click-hint">${m.breakdown_hint({}, { locale })}</span></div>
         <div class="value">${summary.totalCases.toLocaleString()}</div>
-        <div class="sub">${m.across_zones({ count: locations.length }, { locale })}</div>
+        <div class="sub">${m.across_zones({ count: summary.affectedCountriesCount }, { locale })}</div>
       </button>
 
       <article class="stat-card deaths">
@@ -415,7 +435,7 @@ export function render(data, options = {}) {
       </article>
       <article class="stat-card zones">
         <div class="label">${m.active_hotspots({}, { locale })}</div>
-        <div class="value">${locations.filter((l) => !l.status.includes("Over") && !l.status.includes("Contained")).length}</div>
+        <div class="value">${locations.filter((l) => l.geographicPrecision === "health-zone").length}</div>
         <div class="sub">${m.confirmed_transmission({}, { locale })}</div>
       </article>
     </section>
@@ -584,22 +604,22 @@ export function render(data, options = {}) {
         <div class="dialog-kpi">
           <span class="kpi-label">${m.cumulative_confirmed({}, { locale })}</span>
           <span class="kpi-number cases">${summary.totalCases.toLocaleString()}</span>
-          <span class="kpi-sub">${m.across_nations({}, { locale })}</span>
+          <span class="kpi-sub">${m.across_nations({ count: summary.affectedCountriesCount }, { locale })}</span>
         </div>
         <div class="dialog-kpi">
           <span class="kpi-label">${m.sex_distribution({}, { locale })}</span>
-          <span class="kpi-number" style="color: #ff75c3;">56.4% ♀</span>
-          <span class="kpi-sub">43.6% ♂</span>
+          <span class="kpi-number" style="color: #ff75c3;">${demographics?.sex ? `${demographics.sex.femalePct}% ♀` : unavailable}</span>
+          <span class="kpi-sub">${demographics?.sex ? `${demographics.sex.malePct}% ♂` : ""}</span>
         </div>
         <div class="dialog-kpi">
           <span class="kpi-label">${m.primary_epicenter({}, { locale })}</span>
-          <span class="kpi-number" style="color: #f76b15;">Ituri (83.5%)</span>
-          <span class="kpi-sub">${m.cases_count({ count: "3,912" }, { locale })}</span>
+          <span class="kpi-number" style="color: #f76b15;">${epicenter ? `${epicenter.region} (${((epicenter.cases / drcCases) * 100).toFixed(1)}%)` : unavailable}</span>
+          <span class="kpi-sub">${epicenter ? m.cases_count({ count: epicenter.cases.toLocaleString() }, { locale }) : ""}</span>
         </div>
         <div class="dialog-kpi">
-          <span class="kpi-label">${m.cross_border_status({}, { locale })}</span>
-          <span class="kpi-number contained">${m.contained({}, { locale })}</span>
-          <span class="kpi-sub">${m.cross_border_countries({}, { locale })}</span>
+          <span class="kpi-label">${m.affected_nations({}, { locale })}</span>
+          <span class="kpi-number">${affectedCountryCount}</span>
+          <span class="kpi-sub">${m.source_country_coverage({}, { locale })}</span>
         </div>
       </div>
 

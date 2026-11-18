@@ -190,3 +190,26 @@ describe("DATA-009: Schedule safe 30-minute ingestion & Concurrency", () => {
     });
   });
 });
+
+it("detects recovery and classification updates even when headline totals stay unchanged", () => {
+  const row = {
+    id: "KEN:National:2026-11-11",
+    country: { iso3: "KEN", name: "Kenya" },
+    metrics: { confirmedCases: 9, confirmedDeaths: 2, recovered: 6 },
+    classification: "affected",
+    timestamps: { sourceUpdatedAt: "2026-11-11", fetchedAt: "2026-11-12T00:00:00Z" },
+  };
+  const baseline = { status: "current", summary: {}, observations: [row] };
+  expect(
+    hasEpidemiologicalContentChanged(baseline, {
+      ...baseline,
+      observations: [{ ...row, metrics: { ...row.metrics, recovered: 7 } }],
+    }),
+  ).toBe(true);
+  expect(
+    hasEpidemiologicalContentChanged(baseline, {
+      ...baseline,
+      observations: [{ ...row, classification: "medical-evacuation" }],
+    }),
+  ).toBe(true);
+});

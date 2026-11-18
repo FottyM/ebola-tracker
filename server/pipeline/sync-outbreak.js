@@ -1,3 +1,4 @@
+import { fetchWhoCountryObservations } from "./adapters/international-adapters.js";
 import fs from "node:fs";
 import { loadLatestSnapshot, saveSnapshotAtomically } from "./snapshot-store.js";
 import {
@@ -37,19 +38,40 @@ export async function runOutbreakSync({
   storageDir,
   targetFile,
   fetchMinistry,
+  fetchInternational = fetchWhoCountryObservations,
   fetchHdx = async () => [],
   fetchCurve = async () => [],
   dryRun = false,
 }) {
   const existing = loadLatestSnapshot(storageDir);
   let drcParsed;
+  let internationalObservations;
   let sourceError;
   try {
     drcParsed = await fetchMinistry();
     if (!drcParsed?.valid)
       throw new Error(drcParsed?.errors?.join("; ") || "Invalid Ministry report");
-    if (validCache(existing) && drcParsed.reportingDate < existing.summary.lastReportDate)
+    const previousDrcDate = existing?.observations?.find(
+      (row) => row.country.iso3 === "COD" && row.geographicPrecision === "country",
+    )?.timestamps.sourceUpdatedAt;
+    if (previousDrcDate && drcParsed.reportingDate < previousDrcDate)
       throw new Error("Ministry report is older than retained snapshot");
+    const countryRows = await fetchInternational();
+    if (!Array.isArray(countryRows)) throw new Error("WHO country observations missing");
+    internationalObservations = countryRows.filter((row) => row.country.iso3 !== "COD");
+    for (const previous of existing?.observations || []) {
+      if (previous.country.iso3 === "COD" || previous.classification !== "affected") continue;
+      const next = internationalObservations.find(
+        (row) => row.country.iso3 === previous.country.iso3,
+      );
+      if (!next)
+        throw new Error(`WHO table dropped previously reported country ${previous.country.iso3}`);
+      if (
+        previous.geographicPrecision === "country" &&
+        next.timestamps.sourceUpdatedAt < previous.timestamps.sourceUpdatedAt
+      )
+        throw new Error(`WHO reporting date regressed for ${previous.country.iso3}`);
+    }
   } catch (error) {
     sourceError = error instanceof Error ? error.message : String(error);
   }
@@ -88,6 +110,7 @@ export async function runOutbreakSync({
     storageDir,
     drcParsed,
     hdxObservations,
+    internationalObservations,
     epiCurve,
     dryRun,
   });

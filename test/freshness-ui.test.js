@@ -18,7 +18,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
   });
 
   describe("Freshness View Model", () => {
-    it("derives reporting date and status accurately from validated snapshot in European notation with time", () => {
+    it("preserves a day-only source cutoff without borrowing the publication or fetch time", () => {
       const snapshot = {
         snapshotId: "snapshot-2026-09-09-001",
         status: "current",
@@ -48,7 +48,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       };
 
       const vm = createFreshnessViewModel(snapshot);
-      expect(vm.reportingDate).toBe("09/09/2026 12:00");
+      expect(vm.reportingDate).toBe("09/09/2026");
       expect(vm.status).toBe("current");
       expect(vm.statusText).toBe("Current");
       expect(vm.statusBadgeClass).toBe("freshness-current");
@@ -81,16 +81,14 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       expect(vm.hasMixedDates).toBe(true);
       expect(vm.sectionDates.national).toBe("09/09/2026");
       expect(vm.sectionDates.healthZones).toBe("08/09/2026");
-      expect(vm.renderHtml()).toContain(
-        'aria-label="Surveillance Freshness: Updated 09/09/2026 12:00"',
-      );
+      expect(vm.renderHtml()).toContain('aria-label="Surveillance Freshness: Updated 09/09/2026"');
       expect(vm.renderHtml()).toContain("National: 09/09/2026 • Health Zones: 08/09/2026");
 
       const frenchVm = createFreshnessViewModel(mixedSnapshot, "fr");
       expect(frenchVm.statusText).toBe("Mise à jour partielle");
       expect(frenchVm.checkCadence).toBe("Vérifié toutes les 30 min");
       expect(frenchVm.renderHtml()).toContain(
-        'aria-label="Fraîcheur de la surveillance : Mis à jour 09/09/2026 12:00"',
+        'aria-label="Fraîcheur de la surveillance : Mis à jour 09/09/2026"',
       );
       expect(frenchVm.renderHtml()).toContain(
         "National : 09/09/2026 • Zones de santé : 08/09/2026",
@@ -160,7 +158,7 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
       const { appHtml } = render(testData);
 
       expect(appHtml).toContain("freshness-bar");
-      expect(appHtml).toContain("09/09/2026 12:00");
+      expect(appHtml).toContain("09/09/2026");
       expect(appHtml).toContain("Current");
       expect(appHtml).toContain("freshness-current");
       expect(appHtml).toContain(
@@ -210,9 +208,18 @@ describe("DATA-008: Present Truthful Freshness and Provenance", () => {
 
       applyUpdatedSnapshot(updatedSnapshot, mockDoc);
 
-      expect(mockElements.dateEl.textContent).toBe("10/09/2026 12:00");
+      expect(mockElements.dateEl.textContent).toBe("10/09/2026");
       expect(mockElements.statusPill.textContent).toBe("Partial Update");
       expect(mockElements.indicator.className).toContain("freshness-partial");
     });
   });
+});
+
+it("does not manufacture a reporting time from a later publication or refresh", () => {
+  const model = createFreshnessViewModel({
+    status: "current",
+    summary: { lastReportDate: "2026-11-15", lastUpdated: "2026-11-18T00:18:00Z" },
+    publishedAt: "2026-11-16T12:00:00Z",
+  });
+  expect(model.reportingDate).toBe("15/11/2026");
 });

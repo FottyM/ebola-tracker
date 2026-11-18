@@ -167,47 +167,28 @@ export function isGeographicLevelSupported(level) {
 
 /**
  * Classifies an ISO3 country as an affected outbreak country vs a medical evacuation destination.
- * Medical evacuation cases are diagnosed in DRC and counted in DRC totals;
- * they MUST NOT be summed into global totals as separate affected countries.
+ * Source evidence determines attribution. A country in the WHO affected-country
+ * table counts even when its case was imported. Treatment destinations already
+ * counted in another country must not add a second case.
  * @param {string} iso3
+ * @param {{ classification?: string, status?: string, cases?: number, confirmedCases?: number }} [evidence]
  * @returns {{ type: CountryClassificationType, role: string, includedInEpidemicTotal: boolean, note?: string }}
  */
-export function classifyCountryStatus(iso3) {
-  switch (iso3) {
-    case "COD":
-      return {
-        type: "affected",
-        role: "epicenter",
-        includedInEpidemicTotal: true,
-      };
-    case "UGA":
-      return {
-        type: "affected",
-        role: "cross-border-contained",
-        includedInEpidemicTotal: true,
-        note: "Declared outbreak over on 25 August 2026 after 42 days without cases.",
-      };
-    case "FRA":
-      return {
-        type: "medical-evacuation",
-        role: "isolated-clinical-care",
-        includedInEpidemicTotal: false,
-        note: "Healthcare worker evacuated from DRC under biocontainment. Case is counted in DRC totals.",
-      };
-    case "DEU":
-      return {
-        type: "medical-evacuation",
-        role: "isolated-clinical-care",
-        includedInEpidemicTotal: false,
-        note: "Patients treated in Germany were diagnosed in DRC and are counted in DRC confirmed figures. Germany must not be counted as a separate affected nation.",
-      };
-    default:
-      return {
-        type: "monitoring",
-        role: "regional-preparedness",
-        includedInEpidemicTotal: false,
-      };
-  }
+export function classifyCountryStatus(iso3, evidence = {}) {
+  const status = String(evidence.classification || evidence.status || "").toLowerCase();
+  const evacuation = status.includes("medical-evacuation") || status.includes("medical evacuation");
+  const affected =
+    !evacuation &&
+    (status === "affected" ||
+      status.includes("active") ||
+      status.includes("declared over") ||
+      evidence.cases > 0 ||
+      evidence.confirmedCases > 0);
+  return {
+    type: evacuation ? "medical-evacuation" : affected ? "affected" : "monitoring",
+    role: evacuation ? "treatment-destination" : affected ? "reported-cases" : "unverified",
+    includedInEpidemicTotal: affected,
+  };
 }
 
 /**

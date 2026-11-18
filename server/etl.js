@@ -15,11 +15,14 @@
  * @property {string} [province] - Parent province for a health-zone observation.
  * @property {"country" | "province" | "health-zone"} [geographicPrecision]
  * @property {number} cases - Confirmed case count.
+ * @property {number} [newCases] - Source-reported new cases for the reporting period.
  * @property {number} deaths - Confirmed fatalities.
  * @property {number} cfr - Case fatality rate (%).
  * @property {string} status - Epidemic status.
  * @property {[number, number]} center - [Latitude, Longitude] centroid.
  * @property {string} lastReported - Date of latest update.
+ * @property {string} [classification] - Source-based country classification.
+ * @property {string} [sourceUrl] - Source of the observation.
  * @property {string} [note] - Epidemiological or clinical note.
  */
 
@@ -49,7 +52,7 @@
  * }} summary
  * @property {GeoLocation[]} locations - Dynamically discovered affected territories.
  * @property {EpiCurvePoint[]} epiCurve - Weekly epidemiological curve data points.
- * @property {Demographics} demographics - Disaggregated sex and age distribution data.
+ * @property {Demographics | null} demographics - Disaggregated sex and age distribution data.
  * @property {Array<{ from: [number, number], to: [number, number], label: string }>} corridors
  * @property {Record<string, { name: string, url: string, status: string }>} sources
  */
