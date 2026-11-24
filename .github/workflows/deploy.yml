@@ -19,10 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  ingest-build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  ingest-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -90,6 +87,14 @@ jobs:
         with:
           path: dist
 
+  deploy:
+    needs: ingest-and-build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

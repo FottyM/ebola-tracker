@@ -187,6 +187,10 @@ describe("DATA-009: Schedule safe 30-minute ingestion & Concurrency", () => {
 
       // pnpm devEngine alignment
       expect(content).toMatch(/version:\s*(12|12\.3\.4)/);
+
+      // Separate deploy job to avoid same-job artifact propagation race conditions
+      expect(content).toContain("ingest-and-build:");
+      expect(content).toMatch(/deploy:\s*\n\s*needs:\s*ingest-and-build/);
     });
   });
 });
