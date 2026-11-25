@@ -6,8 +6,8 @@ export const defaultOutbreakData = {
     totalDeaths: 5814,
     overallCfr: "49.1%",
     affectedCountriesCount: 5,
-    lastUpdated: "2026-11-24T02:48:34.487Z",
-    lastReportDate: "2026-11-22",
+    lastUpdated: "2026-11-25T14:00:28.518Z",
+    lastReportDate: "2026-11-24",
   },
   locations: [
     {
@@ -1336,8 +1336,8 @@ export const defaultOutbreakData = {
       center: [0.1764, 37.8877],
       classification: "affected",
       sourceUrl: "https://www.who.int/emergencies/alert-and-response",
-      lastReported: "2026-11-22",
-      note: "WHO country report as of 2026-11-22. Country totals; subnational locations are not reported by this source.",
+      lastReported: "2026-11-24",
+      note: "WHO country report as of 2026-11-24. Country totals; subnational locations are not reported by this source.",
     },
     {
       country: "Nigeria",
@@ -1432,7 +1432,7 @@ export const defaultOutbreakData = {
       status: "Active Portal",
     },
   },
-  snapshotId: "snapshot-2026-11-21-1795488514487",
+  snapshotId: "snapshot-2026-11-21-1795615228517",
 };
 
 export default defaultOutbreakData;
