@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-11-24-1795858270650",
-  "status": "current",
+  "snapshotId": "snapshot-2026-11-24-1795858360770-partial",
+  "status": "partial",
   "scheduledCadenceMinutes": 240,
-  "generatedAt": "2026-11-28T09:31:10.650Z",
+  "generatedAt": "2026-11-28T09:32:40.771Z",
   "summary": {
     "totalCases": 12052,
     "totalDeaths": 5908,
@@ -2513,7 +2513,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-21",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:31:10.138Z"
+        "fetchedAt": "2026-11-28T09:32:39.814Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-07-21. Country totals; subnational locations are not reported by this source."
@@ -2542,7 +2542,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-06",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:31:10.138Z"
+        "fetchedAt": "2026-11-28T09:32:39.814Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-07-06. Country totals; subnational locations are not reported by this source."
@@ -2571,7 +2571,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-26",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:31:10.138Z"
+        "fetchedAt": "2026-11-28T09:32:39.814Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-11-26. Country totals; subnational locations are not reported by this source."
@@ -2600,7 +2600,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-12",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:31:10.138Z"
+        "fetchedAt": "2026-11-28T09:32:39.814Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-11-12. Country totals; subnational locations are not reported by this source."
@@ -2660,18 +2660,18 @@
   "sourceHealth": [
     {
       "sourceId": "drc-insp-sitrep",
-      "status": "Live (validated)",
+      "status": "Stale (last-known-good)",
       "lastSuccessAt": "2026-11-28T09:31:10.650Z"
     },
     {
       "sourceId": "who-acute-event",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-28T09:31:10.651Z"
+      "lastSuccessAt": "2026-11-28T09:32:40.771Z"
     },
     {
       "sourceId": "who-afro-weekly",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-28T09:31:10.651Z"
+      "lastSuccessAt": "2026-11-28T09:32:40.771Z"
     }
   ]
 }
