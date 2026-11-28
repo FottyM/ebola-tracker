@@ -266,7 +266,7 @@ function initModalControllers(epiCurve, ageGroups) {
       renderTanstackChart(
         timelineModalContainer,
         window.__INITIAL_DATA__?.epiCurve || epiCurve,
-        240,
+        290,
       );
     }
   }
@@ -312,7 +312,7 @@ function initModalControllers(epiCurve, ageGroups) {
       ? window.__INITIAL_DATA__.demographics?.ageGroups
       : ageGroups;
     if (modalAgeContainer && currentAgeGroups) {
-      renderAgeChart(modalAgeContainer, currentAgeGroups, 180);
+      renderAgeChart(modalAgeContainer, currentAgeGroups, 220);
     }
   }
 
@@ -383,11 +383,13 @@ function getPopupHtml(loc, locale) {
     <div class="popup-content">
       <h3>${region}</h3>
       <div class="pop-province">${m.status_label({}, { locale })} ${status}</div>
-      <div class="pop-row"><span class="pop-label">${m.confirmed_cases_label({}, { locale })}</span><span class="pop-val cases">${loc.cases.toLocaleString()}</span></div>
-      <div class="pop-row"><span class="pop-label">${m.recorded_deaths_label({}, { locale })}</span><span class="pop-val deaths">${loc.deaths.toLocaleString()}</span></div>
-      <div class="pop-row"><span class="pop-label">${m.case_fatality({ rate: "" }, { locale }).trim()}</span><span class="pop-val cfr">${loc.cfr}%</span></div>
+      <div class="pop-metrics">
+        <div class="pop-row"><span class="pop-val cases">${loc.cases.toLocaleString()}</span><span class="pop-label">${m.confirmed_cases_label({}, { locale })}</span></div>
+        <div class="pop-row"><span class="pop-val deaths">${loc.deaths.toLocaleString()}</span><span class="pop-label">${m.recorded_deaths_label({}, { locale })}</span></div>
+        <div class="pop-row"><span class="pop-val cfr">${loc.cfr}%</span><span class="pop-label">${m.case_fatality({ rate: "" }, { locale }).replace(/:\s*$/, "").trim()}</span></div>
+      </div>
       ${loc.note ? `<div class="pop-note">${loc.note}</div>` : ""}
-      <div class="pop-note" style="margin-top:4px;">${m.reported_date_label({}, { locale })} ${loc.lastReported}</div>
+      <div class="pop-note pop-date">${m.reported_date_label({}, { locale })} ${loc.lastReported}</div>
     </div>
   `;
 }
@@ -435,7 +437,7 @@ export function initClient() {
     const sidebarChartEl = document.getElementById("epi-chart");
     if (sidebarChartEl) {
       try {
-        renderTanstackChart(sidebarChartEl, epiCurve, 110);
+        renderTanstackChart(sidebarChartEl, epiCurve, 145);
       } catch (e) {
         console.warn("Client Spread Chart hydration:", e);
       }
@@ -443,7 +445,7 @@ export function initClient() {
     const sidebarAgeEl = document.getElementById("age-chart");
     if (sidebarAgeEl && demographics?.ageGroups) {
       try {
-        renderAgeChart(sidebarAgeEl, demographics.ageGroups, 120);
+        renderAgeChart(sidebarAgeEl, demographics.ageGroups, 140);
       } catch (e) {
         console.warn("Client Age Chart hydration:", e);
       }

@@ -50,8 +50,10 @@ export function localizeStatus(status, locale = "en") {
  * @returns {string}
  */
 export function localizeCountry(country, locale = "en") {
+  if (country === "Democratic Republic of the Congo" || country === "DRC") {
+    return locale === "fr" ? "RDC" : "DRC";
+  }
   if (locale !== "fr") return country;
-  if (country === "Democratic Republic of the Congo" || country === "DRC") return "RDC";
   const metadata = Object.values(countryGeography).find((entry) => entry.name === country);
   if (metadata)
     return new Intl.DisplayNames([locale], { type: "region" }).of(metadata.iso2) || country;
@@ -342,18 +344,21 @@ export function render(data, options = {}) {
     ],
   };
 
+  const maxLocationCases = Math.max(1, ...locations.map((loc) => loc.cases || 0));
   const locationItemsHtml = locations
     .map((loc, locationIndex) => {
       const countryLabel = localizeCountry(loc.country, locale);
       const regionLabel =
         loc.region && loc.region !== loc.country ? `${loc.region} (${countryLabel})` : countryLabel;
       const statusLabel = localizeStatus(loc.status, locale);
+      const barPct =
+        loc.cases > 0 ? Math.max(3, Math.round((loc.cases / maxLocationCases) * 100)) : 0;
       return `
-    <li class="province-item" data-location-index="${locationIndex}" data-center="${loc.center.join(",")}" data-region="${loc.region || loc.country}" data-country="${loc.countryCode || ""}" data-umami-event="select-location-sidebar" data-umami-event-location="${loc.region ? `${loc.region} (${loc.country})` : loc.country}">
+    <li class="province-item" data-location-index="${locationIndex}" data-center="${loc.center.join(",")}" data-region="${loc.region || loc.country}" data-country="${loc.countryCode || ""}" data-precision="${loc.geographicPrecision || ""}" style="--case-share:${barPct}%;" data-umami-event="select-location-sidebar" data-umami-event-location="${loc.region ? `${loc.region} (${loc.country})` : loc.country}">
       <span class="province-dot" style="background:${getProvinceDotColor(loc)}"></span>
-      <div style="flex: 1; display: flex; flex-direction: column;">
+      <div class="province-meta">
         <span class="province-name">${regionLabel}</span>
-        <span style="font-size: 10px; color: var(--text-muted);">${statusLabel}</span>
+        <span class="province-status">${statusLabel}</span>
       </div>
       <span class="province-cases">${loc.cases.toLocaleString()}</span>
     </li>
@@ -362,12 +367,12 @@ export function render(data, options = {}) {
     .join("");
 
   const hasEpiCurve = Array.isArray(epiCurve) && epiCurve.length > 0;
-  const sidebarChartSvgHtml = renderEpiChartSvg(epiCurve, 310, 110);
-  const timelineModalChartSvgHtml = renderEpiChartSvg(epiCurve, 620, 240);
+  const sidebarChartSvgHtml = renderEpiChartSvg(epiCurve, 326, 145);
+  const timelineModalChartSvgHtml = renderEpiChartSvg(epiCurve, 740, 290);
   const epiCurveUnavailableHtml = `<p class="chart-empty-state" role="status">${m.epidemic_curve_unavailable({}, { locale })}</p>`;
-  const ageChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 290, 120);
+  const ageChartSvgHtml = renderAgeChartSvg(demographics?.ageGroups, 310, 140);
   const casesModalAgeChartSvgHtml = demographics?.ageGroups?.length
-    ? renderAgeChartSvg(demographics.ageGroups, 620, 180)
+    ? renderAgeChartSvg(demographics.ageGroups, 740, 220)
     : `<p class="chart-empty-state" role="status">${unavailable}</p>`;
   const freshness = createFreshnessViewModel(data, locale);
   const freshnessHtml = freshness.renderHtml();
@@ -397,7 +402,11 @@ export function render(data, options = {}) {
       <div class="panel-grab-handle"></div>
     </div>
     <header class="panel-header">
-      <div class="icon" aria-hidden="true">🦠</div>
+      <div class="icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 7-4-14-3 7H2"/>
+        </svg>
+      </div>
       <div class="header-titles">
         <h1>
           ${m.app_title({}, { locale })}
@@ -461,9 +470,9 @@ export function render(data, options = {}) {
       </div>
       ${
         hasEpiCurve
-          ? `<div class="chart-legend" style="display: flex; gap: 10px; font-size: 9.5px; color: var(--text-muted); margin-bottom: 6px;">
-        <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #f76b15; display: inline-block;"></span> ${m.cases_legend({}, { locale })}</span>
-        <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #e5484d; display: inline-block;"></span> ${m.deaths_legend({}, { locale })}</span>
+          ? `<div class="chart-legend">
+        <span class="chart-legend-item"><span class="chart-legend-swatch cases"></span> ${m.cases_legend({}, { locale })}</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch deaths"></span> ${m.deaths_legend({}, { locale })}</span>
       </div>`
           : ""
       }
@@ -573,11 +582,11 @@ export function render(data, options = {}) {
           <h3>${m.full_curve_timeline({}, { locale })}</h3>
           <span class="chart-tag">${m.epi_weeks_range({ start: startWeekTag, end: endWeekTag }, { locale })}</span>
         </div>
-        <div class="chart-legend" style="display: flex; gap: 14px; font-size: 11px; color: var(--text-muted); margin: 6px 0 10px;">
-          <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #f76b15; display: inline-block;"></span> ${m.weekly_confirmed_cases_legend({}, { locale })}</span>
-          <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #e5484d; display: inline-block;"></span> ${m.weekly_fatalities_legend({}, { locale })}</span>
+        <div class="chart-legend chart-legend-modal">
+          <span class="chart-legend-item"><span class="chart-legend-swatch cases"></span> ${m.weekly_confirmed_cases_legend({}, { locale })}</span>
+          <span class="chart-legend-item"><span class="chart-legend-swatch deaths"></span> ${m.weekly_fatalities_legend({}, { locale })}</span>
         </div>
-        <div class="modal-chart-container" style="height: 240px;" id="modal-timeline-chart">
+        <div class="modal-chart-container modal-chart-timeline" id="modal-timeline-chart">
           ${timelineModalChartSvgHtml}
         </div>
       </div>
@@ -629,7 +638,7 @@ export function render(data, options = {}) {
           <h3>${m.age_cohort_dist_title({}, { locale })}</h3>
           <span class="chart-tag" style="color: var(--amber); border-color: rgba(245,166,35,0.3); background: rgba(245,166,35,0.1);">${m.demographics_tag({}, { locale })}</span>
         </div>
-        <div class="modal-chart-container" style="height: 180px;" id="modal-cases-age-chart">
+        <div class="modal-chart-container modal-chart-age" id="modal-cases-age-chart">
           ${casesModalAgeChartSvgHtml}
         </div>
       </div>
@@ -663,7 +672,7 @@ export function render(data, options = {}) {
       <div class="legend-circle" style="width:10px;height:10px;background:rgba(239,201,64,0.40);border:2px solid #efc940;"></div>
       <span class="legend-label">${m.range_1_9({}, { locale })}</span>
     </div>
-    <div class="legend-row" style="margin-top:6px;padding-top:6px;border-top:1px solid #252a36;">
+    <div class="legend-row legend-row-divider">
       <div class="legend-circle" style="width:10px;height:10px;background:rgba(48,164,108,0.35);border:2px solid #30a46c;"></div>
       <span class="legend-label">${m.contained_over({}, { locale })}</span>
     </div>
