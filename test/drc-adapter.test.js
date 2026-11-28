@@ -4,7 +4,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   discoverLatestSitrep,
+  discoverLiveMinistrySitreps,
   discoverMinistrySitreps,
+  discoverMinistrySitrepsFromWpMedia,
   ingestMinistrySitrep,
 } from "../server/pipeline/adapters/drc-ministry-adapter.js";
 
@@ -76,6 +78,69 @@ describe("DATA-004: DRC Ministry Authoritative Source Adapter", () => {
         reportNumber: 192,
         reportingDate: "2026-11-22",
       });
+    });
+
+    it("discovers SitReps from WordPress media JSON and corrects future filename typos using upload dates", () => {
+      const reports = discoverMinistrySitrepsFromWpMedia([
+        {
+          date: "2026-11-26T16:34:35",
+          mime_type: "application/pdf",
+          title: { rendered: "SitRep_MVEBDB_194_24_11_2026" },
+          link: "https://administration.sante.gouv.cd/document/rapport-ebola-rdc-24-11-2026/sitrep_194/",
+          source_url:
+            "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        },
+        {
+          date: "2026-11-25T21:41:12",
+          mime_type: "application/pdf",
+          title: { rendered: "SitRep_MVEBDB_192_22_12_2026" },
+          link: "https://administration.sante.gouv.cd/document/rapport-ebola-rdc-22-11-2026/sitrep_192/",
+          source_url:
+            "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_192_22_12_2026.pdf",
+        },
+        {
+          date: "2026-11-23T16:37:16",
+          mime_type: "application/pdf",
+          title: { rendered: "SitRep_MVEBDB_191_21_11_2026" },
+          link: "https://administration.sante.gouv.cd/document/rapport-ebola-rdc-19-11-2026/sitrep_191/",
+          source_url:
+            "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
+        },
+      ]);
+      expect(reports.map((r) => [r.reportNumber, r.reportingDate])).toEqual([
+        [194, "2026-11-24"],
+        [192, "2026-11-22"],
+        [191, "2026-11-21"],
+      ]);
+    });
+
+    it("falls back to WordPress media API when the portal HTML returns zero SitReps", async () => {
+      const urlsCalled = [];
+      const reports = await discoverLiveMinistrySitreps({
+        fetchFn: async (url) => {
+          urlsCalled.push(url);
+          if (url.includes("/documents/sitreps")) {
+            return { ok: true, status: 200, text: async () => "<html><title>Empty</title></html>" };
+          }
+          return {
+            ok: true,
+            status: 200,
+            json: async () => [
+              {
+                date: "2026-11-26T16:34:35",
+                mime_type: "application/pdf",
+                title: { rendered: "SitRep_MVEBDB_194_24_11_2026" },
+                link: "https://administration.sante.gouv.cd/document/rapport-24-11-2026/",
+                source_url:
+                  "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+              },
+            ],
+          };
+        },
+      });
+      expect(urlsCalled).toHaveLength(2);
+      expect(reports).toHaveLength(1);
+      expect(reports[0]).toMatchObject({ reportNumber: 194, reportingDate: "2026-11-24" });
     });
   });
 

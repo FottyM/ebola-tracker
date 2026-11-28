@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import {
-  discoverMinistrySitreps,
+  discoverLiveMinistrySitreps,
   fetchLatestMinistrySitrepPdf,
 } from "./adapters/drc-ministry-adapter.js";
 import { executeSnapshotPipeline, loadLatestSnapshot } from "./snapshot-store.js";
@@ -20,11 +20,8 @@ export async function backfillMinistryReports({
       (row) => row.country.iso3 === "COD" && row.geographicPrecision === "country",
     )?.timestamps.sourceUpdatedAt || latest?.summary?.lastReportDate;
   if (!since) return [];
-  const response = await fetchFn("https://sante.gouv.cd/documents/sitreps", {
-    signal: AbortSignal.timeout(25000),
-  });
-  if (!response.ok) throw new Error(`Ministry backfill index returned HTTP ${response.status}`);
-  const reports = discoverMinistrySitreps(await response.text())
+  const discovered = await discoverLiveMinistrySitreps({ timeoutMs: 25000, fetchFn });
+  const reports = discovered
     .filter((report) => report.reportingDate > since)
     .sort((a, b) => a.reportingDate.localeCompare(b.reportingDate));
   const archive = path.join(storageDir, "snapshots");

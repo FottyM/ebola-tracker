@@ -254,6 +254,106 @@ export function discoverLatestSitrep(indexHtml, baseUrl = "https://sante.gouv.cd
   return discoverMinistrySitreps(indexHtml, baseUrl)[0] || null;
 }
 
+const DEFAULT_WP_MEDIA_API_URL =
+  "https://administration.sante.gouv.cd/wp-json/wp/v2/media?search=SitRep&per_page=100&orderby=date&order=desc";
+
+/**
+ * Discovers Ebola SitReps from the Ministry's official WordPress media REST API.
+ * Guarded against mistyped future filenames by validating against each item's upload date.
+ * @param {Array<any>} items
+ * @returns {Array<{ url: string, reportNumber: number, reportingDate: string, title: string }>}
+ */
+export function discoverMinistrySitrepsFromWpMedia(items) {
+  if (!Array.isArray(items)) return [];
+  const byDate = new Map();
+  for (const item of items) {
+    const url = item?.source_url;
+    if (!url || typeof url !== "string" || !url.toLowerCase().endsWith(".pdf")) continue;
+    if (item?.mime_type && item.mime_type !== "application/pdf") continue;
+    const rawTitle = item?.title?.rendered || "";
+    const link = item?.link || "";
+    if (!isEbolaSitrep(`${rawTitle} ${url} ${link}`)) continue;
+    const urlIdentity = extractIdentityFromUrl(url);
+    const uploadDate =
+      typeof item?.date === "string" && /^\d{4}-\d{2}-\d{2}/.test(item.date)
+        ? item.date.slice(0, 10)
+        : "";
+    let reportingDate = urlIdentity.reportingDate;
+    if (!reportingDate || (uploadDate && reportingDate > uploadDate)) {
+      const linkDate = extractDateFromText(link);
+      if (linkDate && (!uploadDate || linkDate <= uploadDate)) {
+        reportingDate = linkDate;
+      }
+    }
+    if (!reportingDate) continue;
+    if (!byDate.has(reportingDate)) {
+      byDate.set(reportingDate, {
+        url,
+        reportNumber: urlIdentity.reportNumber,
+        reportingDate,
+        title: rawTitle || `SitRep N°${urlIdentity.reportNumber} (${reportingDate})`,
+      });
+    }
+  }
+  return [...byDate.values()].sort(
+    (a, b) => b.reportingDate.localeCompare(a.reportingDate) || b.reportNumber - a.reportNumber,
+  );
+}
+
+/**
+ * Fetches the Ministry SitRep index, falling back to the official WordPress media API
+ * if the Next.js portal intermittently returns an empty document list or fails.
+ */
+export async function discoverLiveMinistrySitreps({
+  baseUrl = "https://sante.gouv.cd",
+  wpApiUrl = DEFAULT_WP_MEDIA_API_URL,
+  timeoutMs = 15000,
+  fetchFn = fetch,
+} = {}) {
+  const headers = { "User-Agent": "EbolaTracker/1.0 (Public Health Surveillance)" };
+  let primaryError = "";
+
+  try {
+    const indexRes = await fetchFn(`${baseUrl}/documents/sitreps`, {
+      signal: AbortSignal.timeout(timeoutMs),
+      headers,
+    });
+    if (!indexRes.ok) {
+      primaryError = `Ministry index portal returned HTTP ${indexRes.status}`;
+    } else {
+      const html = await indexRes.text();
+      const reports = discoverMinistrySitreps(html, baseUrl);
+      if (reports.length > 0) return reports;
+      const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+      const pageTitle = titleMatch ? titleMatch[1].replace(/\s+/g, " ").trim().slice(0, 80) : "";
+      primaryError = `No Ebola SitRep PDF discovered on Ministry portal (HTTP ${indexRes.status}, ${html.length} bytes${pageTitle ? `, title="${pageTitle}"` : ""})`;
+    }
+  } catch (err) {
+    primaryError = err instanceof Error ? err.message : String(err);
+  }
+
+  console.warn(
+    `⚠️ [DRC Ministry] ${primaryError}; falling back to official WordPress media API...`,
+  );
+
+  if (wpApiUrl) {
+    try {
+      const wpRes = await fetchFn(wpApiUrl, {
+        signal: AbortSignal.timeout(timeoutMs),
+        headers: { ...headers, Accept: "application/json" },
+      });
+      if (wpRes.ok && typeof wpRes.json === "function") {
+        const wpReports = discoverMinistrySitrepsFromWpMedia(await wpRes.json());
+        if (wpReports.length > 0) return wpReports;
+      }
+    } catch {
+      // Surface the primary portal error below when both endpoints fail.
+    }
+  }
+
+  throw new Error(primaryError || "No Ebola SitRep PDF discovered on Ministry portal");
+}
+
 import path from "node:path";
 import { PDFParse } from "pdf-parse";
 
@@ -273,15 +373,8 @@ export async function fetchLatestMinistrySitrepPdf({
   let targetUrl = directPdfUrl;
 
   if (!targetUrl) {
-    const indexRes = await fetch(`${baseUrl}/documents/sitreps`, {
-      signal: AbortSignal.timeout(timeoutMs),
-      headers: { "User-Agent": "EbolaTracker/1.0 (Public Health Surveillance)" },
-    });
-    if (!indexRes.ok) {
-      throw new Error(`Ministry index portal returned HTTP ${indexRes.status}`);
-    }
-    const html = await indexRes.text();
-    const discovered = discoverLatestSitrep(html, baseUrl);
+    const reports = await discoverLiveMinistrySitreps({ baseUrl, timeoutMs });
+    const discovered = reports[0];
     if (!discovered) {
       throw new Error("No Ebola SitRep PDF discovered on Ministry portal");
     }
