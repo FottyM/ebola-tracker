@@ -1,19 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-11-21-1795615228517",
+  "snapshotId": "snapshot-2026-11-24-1795856891859",
   "status": "current",
   "scheduledCadenceMinutes": 240,
-  "generatedAt": "2026-11-25T14:00:28.518Z",
+  "generatedAt": "2026-11-28T09:08:11.859Z",
   "summary": {
-    "totalCases": 11852,
-    "totalDeaths": 5814,
-    "overallCfr": "49.1%",
+    "totalCases": 12052,
+    "totalDeaths": 5908,
+    "overallCfr": "49.0%",
     "affectedCountriesCount": 5,
-    "lastReportDate": "2026-11-24"
+    "lastReportDate": "2026-11-26"
   },
   "observations": [
     {
-      "id": "COD:National:2026-11-21",
+      "id": "COD:National:2026-11-24",
       "geographicPrecision": "country",
       "country": {
         "iso3": "COD",
@@ -23,26 +23,26 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 11821,
-        "confirmedDeaths": 5810,
-        "newConfirmedCases": 59,
-        "recovered": 3265
+        "confirmedCases": 12021,
+        "confirmedDeaths": 5904,
+        "newConfirmedCases": 66,
+        "recovered": 3232
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-2026-11-21"
+        "recordIdentifier": "SitRep-194-2026-11-24"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:2026-11-21",
+      "id": "COD:Ituri:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -54,25 +54,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 8052,
-        "confirmedDeaths": 3804,
-        "newConfirmedCases": 24
+        "confirmedCases": 8140,
+        "confirmedDeaths": 3843,
+        "newConfirmedCases": 26
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Ituri"
+        "recordIdentifier": "SitRep-194-Ituri"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:2026-11-21",
+      "id": "COD:Nord-Kivu:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -84,25 +84,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 3087,
-        "confirmedDeaths": 1729,
-        "newConfirmedCases": 32
+        "confirmedCases": 3181,
+        "confirmedDeaths": 1779,
+        "newConfirmedCases": 31
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Nord-Kivu"
+        "recordIdentifier": "SitRep-194-Nord-Kivu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:2026-11-21",
+      "id": "COD:Haut-Uele:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -114,25 +114,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 545,
-        "confirmedDeaths": 235,
-        "newConfirmedCases": 3
+        "confirmedCases": 561,
+        "confirmedDeaths": 240,
+        "newConfirmedCases": 7
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Haut-Uele"
+        "recordIdentifier": "SitRep-194-Haut-Uele"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:2026-11-21",
+      "id": "COD:Tshopo:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -144,25 +144,25 @@
       "healthZone": null,
       "city": null,
       "metrics": {
-        "confirmedCases": 109,
+        "confirmedCases": 111,
         "confirmedDeaths": 35,
-        "newConfirmedCases": 0
+        "newConfirmedCases": 2
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Tshopo"
+        "recordIdentifier": "SitRep-194-Tshopo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Sud-Kivu:2026-11-21",
+      "id": "COD:Sud-Kivu:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -182,17 +182,17 @@
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Sud-Kivu"
+        "recordIdentifier": "SitRep-194-Sud-Kivu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Bas-Uele:2026-11-21",
+      "id": "COD:Bas-Uele:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -212,17 +212,17 @@
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Bas-Uele"
+        "recordIdentifier": "SitRep-194-Bas-Uele"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Sud-Ubangi:2026-11-21",
+      "id": "COD:Sud-Ubangi:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -242,17 +242,17 @@
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Sud-Ubangi"
+        "recordIdentifier": "SitRep-194-Sud-Ubangi"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Ubangi:2026-11-21",
+      "id": "COD:Nord-Ubangi:2026-11-24",
       "geographicPrecision": "province",
       "country": {
         "iso3": "COD",
@@ -272,17 +272,17 @@
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
         "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
-        "recordIdentifier": "SitRep-191-Nord-Ubangi"
+        "recordIdentifier": "SitRep-194-Nord-Ubangi"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Adja:2026-11-21",
+      "id": "COD:Ituri:Adja:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -303,18 +303,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Adja"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Adja"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Aru:2026-11-21",
+      "id": "COD:Ituri:Aru:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -335,18 +335,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Aru"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Aru"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Ariwara:2026-11-21",
+      "id": "COD:Ituri:Ariwara:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -360,25 +360,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 8,
+        "confirmedCases": 11,
         "confirmedDeaths": 2,
-        "newConfirmedCases": 0
+        "newConfirmedCases": 2
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Ariwara"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Ariwara"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Aungba:2026-11-21",
+      "id": "COD:Ituri:Aungba:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -399,18 +399,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Aungba"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Aungba"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Bambu:2026-11-21",
+      "id": "COD:Ituri:Bambu:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -431,18 +431,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Bambu"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Bambu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Boga:2026-11-21",
+      "id": "COD:Ituri:Boga:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -463,18 +463,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Boga"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Boga"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Bunia:2026-11-21",
+      "id": "COD:Ituri:Bunia:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -488,25 +488,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 2149,
-        "confirmedDeaths": 777,
-        "newConfirmedCases": 8
+        "confirmedCases": 2176,
+        "confirmedDeaths": 792,
+        "newConfirmedCases": 11
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Bunia"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Bunia"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Damas:2026-11-21",
+      "id": "COD:Ituri:Damas:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -527,18 +527,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Damas"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Damas"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Drodro:2026-11-21",
+      "id": "COD:Ituri:Drodro:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -559,18 +559,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Drodro"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Drodro"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Fataki:2026-11-21",
+      "id": "COD:Ituri:Fataki:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -584,25 +584,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 89,
+        "confirmedCases": 90,
         "confirmedDeaths": 31,
-        "newConfirmedCases": 0
+        "newConfirmedCases": 1
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Fataki"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Fataki"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Gethy:2026-11-21",
+      "id": "COD:Ituri:Gethy:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -623,18 +623,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Gethy"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Gethy"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Kambala:2026-11-21",
+      "id": "COD:Ituri:Kambala:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -655,18 +655,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Kambala"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Kambala"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Kilo:2026-11-21",
+      "id": "COD:Ituri:Kilo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -687,18 +687,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Kilo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Kilo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Komanda:2026-11-21",
+      "id": "COD:Ituri:Komanda:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -719,18 +719,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Komanda"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Komanda"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Lita:2026-11-21",
+      "id": "COD:Ituri:Lita:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -744,25 +744,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 358,
-        "confirmedDeaths": 176,
-        "newConfirmedCases": 2
+        "confirmedCases": 361,
+        "confirmedDeaths": 178,
+        "newConfirmedCases": 1
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Lita"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Lita"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Logo:2026-11-21",
+      "id": "COD:Ituri:Logo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -783,18 +783,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Logo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Logo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Lolwa:2026-11-21",
+      "id": "COD:Ituri:Lolwa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -815,18 +815,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Lolwa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Lolwa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Mahagi:2026-11-21",
+      "id": "COD:Ituri:Mahagi:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -847,18 +847,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Mahagi"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mahagi"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Mambasa:2026-11-21",
+      "id": "COD:Ituri:Mambasa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -872,25 +872,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 173,
-        "confirmedDeaths": 96,
+        "confirmedCases": 178,
+        "confirmedDeaths": 98,
         "newConfirmedCases": 1
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Mambasa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mambasa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Mandima:2026-11-21",
+      "id": "COD:Ituri:Mandima:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -904,25 +904,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 672,
-        "confirmedDeaths": 335,
-        "newConfirmedCases": 6
+        "confirmedCases": 701,
+        "confirmedDeaths": 341,
+        "newConfirmedCases": 5
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Mandima"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mandima"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Mangala:2026-11-21",
+      "id": "COD:Ituri:Mangala:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -943,18 +943,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Mangala"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mangala"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Mongbwalu:2026-11-21",
+      "id": "COD:Ituri:Mongbwalu:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -968,25 +968,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 740,
-        "confirmedDeaths": 365,
-        "newConfirmedCases": 0
+        "confirmedCases": 745,
+        "confirmedDeaths": 368,
+        "newConfirmedCases": 1
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Mongbwalu"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mongbwalu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Nia-Nia:2026-11-21",
+      "id": "COD:Ituri:Nia-Nia:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1001,24 +1001,24 @@
       "city": null,
       "metrics": {
         "confirmedCases": 348,
-        "confirmedDeaths": 208,
+        "confirmedDeaths": 209,
         "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Nia-Nia"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Nia-Nia"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Nizi:2026-11-21",
+      "id": "COD:Ituri:Nizi:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1032,25 +1032,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 897,
-        "confirmedDeaths": 334,
-        "newConfirmedCases": 2
+        "confirmedCases": 903,
+        "confirmedDeaths": 341,
+        "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Nizi"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Nizi"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Nyankunde:2026-11-21",
+      "id": "COD:Ituri:Nyankunde:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1064,25 +1064,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 145,
+        "confirmedCases": 146,
         "confirmedDeaths": 47,
         "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Nyankunde"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Nyankunde"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Rimba:2026-11-21",
+      "id": "COD:Ituri:Rimba:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1103,18 +1103,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Rimba"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Rimba"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Rwampara:2026-11-21",
+      "id": "COD:Ituri:Rwampara:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1128,25 +1128,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 1249,
-        "confirmedDeaths": 471,
-        "newConfirmedCases": 5
+        "confirmedCases": 1257,
+        "confirmedDeaths": 474,
+        "newConfirmedCases": 4
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Rwampara"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Rwampara"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Ituri:Tchomia:2026-11-21",
+      "id": "COD:Ituri:Tchomia:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1167,18 +1167,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Ituri-Tchomia"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Tchomia"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Beni:2026-11-21",
+      "id": "COD:Nord-Kivu:Beni:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1192,25 +1192,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 987,
-        "confirmedDeaths": 638,
-        "newConfirmedCases": 21
+        "confirmedCases": 1019,
+        "confirmedDeaths": 658,
+        "newConfirmedCases": 10
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Beni"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Beni"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Biena:2026-11-21",
+      "id": "COD:Nord-Kivu:Biena:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1231,18 +1231,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Biena"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Biena"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Butembo:2026-11-21",
+      "id": "COD:Nord-Kivu:Butembo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1256,25 +1256,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 362,
-        "confirmedDeaths": 219,
+        "confirmedCases": 366,
+        "confirmedDeaths": 222,
         "newConfirmedCases": 1
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Butembo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Butembo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Goma:2026-11-21",
+      "id": "COD:Nord-Kivu:Goma:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1295,18 +1295,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Goma"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Goma"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Kalunguta:2026-11-21",
+      "id": "COD:Nord-Kivu:Kalunguta:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1322,23 +1322,23 @@
       "metrics": {
         "confirmedCases": 129,
         "confirmedDeaths": 65,
-        "newConfirmedCases": 1
+        "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Kalunguta"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kalunguta"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Katwa:2026-11-21",
+      "id": "COD:Nord-Kivu:Katwa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1352,25 +1352,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 709,
-        "confirmedDeaths": 443,
-        "newConfirmedCases": 6
+        "confirmedCases": 719,
+        "confirmedDeaths": 450,
+        "newConfirmedCases": 5
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Katwa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Katwa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Kayna:2026-11-21",
+      "id": "COD:Nord-Kivu:Kayna:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1391,18 +1391,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Kayna"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kayna"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Kyondo:2026-11-21",
+      "id": "COD:Nord-Kivu:Kyondo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1416,25 +1416,57 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 54,
-        "confirmedDeaths": 26,
-        "newConfirmedCases": 1
+        "confirmedCases": 58,
+        "confirmedDeaths": 27,
+        "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Kyondo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kyondo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Lubero:2026-11-21",
+      "id": "COD:Nord-Kivu:Kibirizi:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Kibirizi"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kibirizi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Lubero:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1448,25 +1480,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 46,
-        "confirmedDeaths": 17,
-        "newConfirmedCases": 0
+        "confirmedCases": 50,
+        "confirmedDeaths": 20,
+        "newConfirmedCases": 1
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Lubero"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Lubero"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Mabalako:2026-11-21",
+      "id": "COD:Nord-Kivu:Mabalako:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1480,25 +1512,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 140,
-        "confirmedDeaths": 49,
-        "newConfirmedCases": 0
+        "confirmedCases": 150,
+        "confirmedDeaths": 51,
+        "newConfirmedCases": 6
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Mabalako"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Mabalako"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Alimbongo:2026-11-21",
+      "id": "COD:Nord-Kivu:Alimbongo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1519,18 +1551,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Alimbongo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Alimbongo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Manguredjipa:2026-11-21",
+      "id": "COD:Nord-Kivu:Manguredjipa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1551,18 +1583,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Manguredjipa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Manguredjipa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Masereka:2026-11-21",
+      "id": "COD:Nord-Kivu:Masereka:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1576,25 +1608,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 64,
+        "confirmedCases": 65,
         "confirmedDeaths": 22,
         "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Masereka"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Masereka"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Musienene:2026-11-21",
+      "id": "COD:Nord-Kivu:Musienene:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1608,25 +1640,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 173,
-        "confirmedDeaths": 88,
-        "newConfirmedCases": 1
+        "confirmedCases": 183,
+        "confirmedDeaths": 95,
+        "newConfirmedCases": 2
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Musienene"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Musienene"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Mutwanga:2026-11-21",
+      "id": "COD:Nord-Kivu:Mutwanga:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1640,25 +1672,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 139,
-        "confirmedDeaths": 42,
+        "confirmedCases": 145,
+        "confirmedDeaths": 46,
         "newConfirmedCases": 0
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Mutwanga"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Mutwanga"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Oicha:2026-11-21",
+      "id": "COD:Nord-Kivu:Oicha:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1672,25 +1704,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 159,
-        "confirmedDeaths": 73,
-        "newConfirmedCases": 1
+        "confirmedCases": 171,
+        "confirmedDeaths": 75,
+        "newConfirmedCases": 6
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Oicha"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Oicha"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Kivu:Vuhovi:2026-11-21",
+      "id": "COD:Nord-Kivu:Vuhovi:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1711,18 +1743,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Kivu-Vuhovi"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Vuhovi"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Boma Mangbetu:2026-11-21",
+      "id": "COD:Haut-Uele:Boma Mangbetu:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1736,25 +1768,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 51,
-        "confirmedDeaths": 24,
-        "newConfirmedCases": 0
+        "confirmedCases": 52,
+        "confirmedDeaths": 25,
+        "newConfirmedCases": 1
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Boma Mangbetu"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Boma Mangbetu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Dungu:2026-11-21",
+      "id": "COD:Haut-Uele:Dungu:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1775,18 +1807,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Dungu"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Dungu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Gombari:2026-11-21",
+      "id": "COD:Haut-Uele:Gombari:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1807,18 +1839,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Gombari"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Gombari"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Isiro:2026-11-21",
+      "id": "COD:Haut-Uele:Isiro:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1839,18 +1871,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Isiro"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Isiro"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Watsa:2026-11-21",
+      "id": "COD:Haut-Uele:Watsa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1871,18 +1903,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Watsa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Watsa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Pawa:2026-11-21",
+      "id": "COD:Haut-Uele:Pawa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1896,25 +1928,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 142,
-        "confirmedDeaths": 72,
-        "newConfirmedCases": 0
+        "confirmedCases": 154,
+        "confirmedDeaths": 73,
+        "newConfirmedCases": 3
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Pawa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Pawa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Rungu:2026-11-21",
+      "id": "COD:Haut-Uele:Rungu:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1935,18 +1967,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Rungu"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Rungu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Haut-Uele:Wamba:2026-11-21",
+      "id": "COD:Haut-Uele:Wamba:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1960,25 +1992,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 196,
-        "confirmedDeaths": 67,
+        "confirmedCases": 199,
+        "confirmedDeaths": 70,
         "newConfirmedCases": 3
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Haut-Uele-Wamba"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Wamba"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:Bafwasende:2026-11-21",
+      "id": "COD:Tshopo:Bafwasende:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -1999,18 +2031,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Tshopo-Bafwasende"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Bafwasende"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:Kabondo:2026-11-21",
+      "id": "COD:Tshopo:Kabondo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2031,18 +2063,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Tshopo-Kabondo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Kabondo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:Lubunga:2026-11-21",
+      "id": "COD:Tshopo:Lubunga:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2063,18 +2095,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Tshopo-Lubunga"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Lubunga"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:Makiso-Kisangani:2026-11-21",
+      "id": "COD:Tshopo:Makiso-Kisangani:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2088,25 +2120,25 @@
       },
       "city": null,
       "metrics": {
-        "confirmedCases": 41,
+        "confirmedCases": 43,
         "confirmedDeaths": 17,
-        "newConfirmedCases": 0
+        "newConfirmedCases": 2
       },
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Tshopo-Makiso-Kisangani"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Makiso-Kisangani"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:Mangobo:2026-11-21",
+      "id": "COD:Tshopo:Mangobo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2127,18 +2159,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Tshopo-Mangobo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Mangobo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:Tshopo:2026-11-21",
+      "id": "COD:Tshopo:Tshopo:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2159,18 +2191,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Tshopo-Tshopo"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Tshopo"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Tshopo:Wanie-Rukula:2026-11-21",
+      "id": "COD:Tshopo:Wanie-Rukula:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2191,18 +2223,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Tshopo-Wanie-Rukula"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Wanie-Rukula"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Sud-Kivu:Miti-Murhesa:2026-11-21",
+      "id": "COD:Sud-Kivu:Miti-Murhesa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2223,18 +2255,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Sud-Kivu-Miti-Murhesa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Sud-Kivu-Miti-Murhesa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Bas-Uele:Buta:2026-11-21",
+      "id": "COD:Bas-Uele:Buta:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2255,18 +2287,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Bas-Uele-Buta"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Buta"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Bas-Uele:Viadana:2026-11-21",
+      "id": "COD:Bas-Uele:Viadana:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2287,18 +2319,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Bas-Uele-Viadana"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Viadana"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Bas-Uele:Dakwa:2026-11-21",
+      "id": "COD:Bas-Uele:Dakwa:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2319,18 +2351,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Bas-Uele-Dakwa"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Dakwa"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Bas-Uele:Ganga:2026-11-21",
+      "id": "COD:Bas-Uele:Ganga:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2351,18 +2383,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Bas-Uele-Ganga"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Ganga"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Sud-Ubangi:Bulu:2026-11-21",
+      "id": "COD:Sud-Ubangi:Bulu:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2383,18 +2415,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Sud-Ubangi-Bulu"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Sud-Ubangi-Bulu"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Ubangi:Wapinda:2026-11-21",
+      "id": "COD:Nord-Ubangi:Wapinda:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2415,18 +2447,18 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Ubangi-Wapinda"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Ubangi-Wapinda"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
     {
-      "id": "COD:Nord-Ubangi:Yakoma:2026-11-21",
+      "id": "COD:Nord-Ubangi:Yakoma:2026-11-24",
       "geographicPrecision": "health-zone",
       "country": {
         "iso3": "COD",
@@ -2447,13 +2479,13 @@
       "provenance": {
         "sourceId": "drc-insp-sitrep",
         "publisher": "Ministère de la Santé Publique / INSP",
-        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_191_21_11_2026.pdf",
-        "recordIdentifier": "SitRep-191-Nord-Ubangi-Yakoma"
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Ubangi-Yakoma"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-21",
-        "publishedAt": "2026-11-22T12:00:00.000Z",
-        "fetchedAt": "2026-11-25T14:00:28.517Z"
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:08:11.859Z"
       },
       "classification": "affected"
     },
@@ -2481,7 +2513,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-21",
         "publishedAt": null,
-        "fetchedAt": "2026-11-25T14:00:26.980Z"
+        "fetchedAt": "2026-11-28T09:08:09.915Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-07-21. Country totals; subnational locations are not reported by this source."
@@ -2510,13 +2542,13 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-06",
         "publishedAt": null,
-        "fetchedAt": "2026-11-25T14:00:26.980Z"
+        "fetchedAt": "2026-11-28T09:08:09.915Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-07-06. Country totals; subnational locations are not reported by this source."
     },
     {
-      "id": "KEN:National:2026-11-24",
+      "id": "KEN:National:2026-11-26",
       "geographicPrecision": "country",
       "country": {
         "iso3": "KEN",
@@ -2534,15 +2566,15 @@
         "sourceId": "who-acute-event",
         "publisher": "World Health Organization",
         "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
-        "recordIdentifier": "KEN-2026-11-24"
+        "recordIdentifier": "KEN-2026-11-26"
       },
       "timestamps": {
-        "sourceUpdatedAt": "2026-11-24",
+        "sourceUpdatedAt": "2026-11-26",
         "publishedAt": null,
-        "fetchedAt": "2026-11-25T14:00:26.980Z"
+        "fetchedAt": "2026-11-28T09:08:09.915Z"
       },
       "classification": "affected",
-      "note": "WHO country report as of 2026-11-24. Country totals; subnational locations are not reported by this source."
+      "note": "WHO country report as of 2026-11-26. Country totals; subnational locations are not reported by this source."
     },
     {
       "id": "NGA:National:2026-11-12",
@@ -2568,7 +2600,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-12",
         "publishedAt": null,
-        "fetchedAt": "2026-11-25T14:00:26.980Z"
+        "fetchedAt": "2026-11-28T09:08:09.915Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-11-12. Country totals; subnational locations are not reported by this source."
@@ -2629,17 +2661,17 @@
     {
       "sourceId": "drc-insp-sitrep",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-25T14:00:28.518Z"
+      "lastSuccessAt": "2026-11-28T09:08:11.859Z"
     },
     {
       "sourceId": "who-acute-event",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-25T14:00:28.518Z"
+      "lastSuccessAt": "2026-11-28T09:08:11.859Z"
     },
     {
       "sourceId": "who-afro-weekly",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-25T14:00:28.518Z"
+      "lastSuccessAt": "2026-11-28T09:08:11.859Z"
     }
   ]
 }
