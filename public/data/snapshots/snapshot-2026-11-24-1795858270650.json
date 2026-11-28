@@ -1,0 +1,2677 @@
+{
+  "schemaVersion": "1.0.0",
+  "snapshotId": "snapshot-2026-11-24-1795858270650",
+  "status": "current",
+  "scheduledCadenceMinutes": 240,
+  "generatedAt": "2026-11-28T09:31:10.650Z",
+  "summary": {
+    "totalCases": 12052,
+    "totalDeaths": 5908,
+    "overallCfr": "49.0%",
+    "affectedCountriesCount": 5,
+    "lastReportDate": "2026-11-26"
+  },
+  "observations": [
+    {
+      "id": "COD:National:2026-11-24",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": null,
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 12021,
+        "confirmedDeaths": 5904,
+        "newConfirmedCases": 66,
+        "recovered": 3232
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-2026-11-24"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 8140,
+        "confirmedDeaths": 3843,
+        "newConfirmedCases": 26
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Ituri"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3181,
+        "confirmedDeaths": 1779,
+        "newConfirmedCases": 31
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Nord-Kivu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 561,
+        "confirmedDeaths": 240,
+        "newConfirmedCases": 7
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Haut-Uele"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 111,
+        "confirmedDeaths": 35,
+        "newConfirmedCases": 2
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Tshopo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Sud-Kivu:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Sud-Kivu"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Sud-Kivu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Bas-Uele:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Bas-Uele"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 13,
+        "confirmedDeaths": 4,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Bas-Uele"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Sud-Ubangi:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Sud-Ubangi"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 2,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Sud-Ubangi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Ubangi:2026-11-24",
+      "geographicPrecision": "province",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Ubangi"
+      },
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 10,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://sante.gouv.cd/documents/sitreps",
+        "recordIdentifier": "SitRep-194-Nord-Ubangi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Adja:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Adja"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 11,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Adja"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Aru:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Aru"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 27,
+        "confirmedDeaths": 7,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Aru"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Ariwara:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Ariwara"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 11,
+        "confirmedDeaths": 2,
+        "newConfirmedCases": 2
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Ariwara"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Aungba:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Aungba"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 12,
+        "confirmedDeaths": 5,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Aungba"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Bambu:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Bambu"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 220,
+        "confirmedDeaths": 50,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Bambu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Boga:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Boga"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 2,
+        "confirmedDeaths": 2,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Boga"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Bunia:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Bunia"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 2176,
+        "confirmedDeaths": 792,
+        "newConfirmedCases": 11
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Bunia"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Damas:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Damas"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 41,
+        "confirmedDeaths": 10,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Damas"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Drodro:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Drodro"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 17,
+        "confirmedDeaths": 9,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Drodro"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Fataki:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Fataki"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 90,
+        "confirmedDeaths": 31,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Fataki"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Gethy:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Gethy"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 11,
+        "confirmedDeaths": 7,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Gethy"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Kambala:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Kambala"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Kambala"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Kilo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Kilo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 44,
+        "confirmedDeaths": 16,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Kilo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Komanda:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Komanda"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 196,
+        "confirmedDeaths": 124,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Komanda"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Lita:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Lita"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 361,
+        "confirmedDeaths": 178,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Lita"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Logo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Logo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 14,
+        "confirmedDeaths": 11,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Logo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Lolwa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Lolwa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 37,
+        "confirmedDeaths": 11,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Lolwa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Mahagi:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Mahagi"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 6,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mahagi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Mambasa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Mambasa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 178,
+        "confirmedDeaths": 98,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mambasa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Mandima:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Mandima"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 701,
+        "confirmedDeaths": 341,
+        "newConfirmedCases": 5
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mandima"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Mangala:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Mangala"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 468,
+        "confirmedDeaths": 180,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mangala"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Mongbwalu:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Mongbwalu"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 745,
+        "confirmedDeaths": 368,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Mongbwalu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Nia-Nia:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Nia-Nia"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 348,
+        "confirmedDeaths": 209,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Nia-Nia"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Nizi:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Nizi"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 903,
+        "confirmedDeaths": 341,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Nizi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Nyankunde:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Nyankunde"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 146,
+        "confirmedDeaths": 47,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Nyankunde"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Rimba:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Rimba"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 29,
+        "confirmedDeaths": 7,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Rimba"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Rwampara:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Rwampara"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1257,
+        "confirmedDeaths": 474,
+        "newConfirmedCases": 4
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Rwampara"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Ituri:Tchomia:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Ituri"
+      },
+      "healthZone": {
+        "name": "Tchomia"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 86,
+        "confirmedDeaths": 27,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Ituri-Tchomia"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Beni:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Beni"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1019,
+        "confirmedDeaths": 658,
+        "newConfirmedCases": 10
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Beni"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Biena:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Biena"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 31,
+        "confirmedDeaths": 12,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Biena"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Butembo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Butembo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 366,
+        "confirmedDeaths": 222,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Butembo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Goma:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Goma"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 0,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Goma"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Kalunguta:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Kalunguta"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 129,
+        "confirmedDeaths": 65,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kalunguta"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Katwa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Katwa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 719,
+        "confirmedDeaths": 450,
+        "newConfirmedCases": 5
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Katwa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Kayna:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Kayna"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3,
+        "confirmedDeaths": 2,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kayna"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Kyondo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Kyondo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 58,
+        "confirmedDeaths": 27,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kyondo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Kibirizi:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Kibirizi"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Kibirizi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Lubero:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Lubero"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 50,
+        "confirmedDeaths": 20,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Lubero"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Mabalako:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Mabalako"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 150,
+        "confirmedDeaths": 51,
+        "newConfirmedCases": 6
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Mabalako"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Alimbongo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Alimbongo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 6,
+        "confirmedDeaths": 4,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Alimbongo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Manguredjipa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Manguredjipa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 16,
+        "confirmedDeaths": 5,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Manguredjipa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Masereka:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Masereka"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 65,
+        "confirmedDeaths": 22,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Masereka"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Musienene:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Musienene"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 183,
+        "confirmedDeaths": 95,
+        "newConfirmedCases": 2
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Musienene"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Mutwanga:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Mutwanga"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 145,
+        "confirmedDeaths": 46,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Mutwanga"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Oicha:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Oicha"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 171,
+        "confirmedDeaths": 75,
+        "newConfirmedCases": 6
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Oicha"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Kivu:Vuhovi:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Kivu"
+      },
+      "healthZone": {
+        "name": "Vuhovi"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 68,
+        "confirmedDeaths": 24,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Kivu-Vuhovi"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Boma Mangbetu:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Boma Mangbetu"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 52,
+        "confirmedDeaths": 25,
+        "newConfirmedCases": 1
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Boma Mangbetu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Dungu:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Dungu"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Dungu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Gombari:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Gombari"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Gombari"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Isiro:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Isiro"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 129,
+        "confirmedDeaths": 62,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Isiro"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Watsa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Watsa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 12,
+        "confirmedDeaths": 2,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Watsa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Pawa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Pawa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 154,
+        "confirmedDeaths": 73,
+        "newConfirmedCases": 3
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Pawa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Rungu:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Rungu"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 11,
+        "confirmedDeaths": 6,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Rungu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Haut-Uele:Wamba:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Haut-Uele"
+      },
+      "healthZone": {
+        "name": "Wamba"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 199,
+        "confirmedDeaths": 70,
+        "newConfirmedCases": 3
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Haut-Uele-Wamba"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:Bafwasende:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": {
+        "name": "Bafwasende"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 19,
+        "confirmedDeaths": 3,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Bafwasende"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:Kabondo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": {
+        "name": "Kabondo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 30,
+        "confirmedDeaths": 6,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Kabondo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:Lubunga:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": {
+        "name": "Lubunga"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 0,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Lubunga"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:Makiso-Kisangani:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": {
+        "name": "Makiso-Kisangani"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 43,
+        "confirmedDeaths": 17,
+        "newConfirmedCases": 2
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Makiso-Kisangani"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:Mangobo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": {
+        "name": "Mangobo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 11,
+        "confirmedDeaths": 8,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Mangobo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:Tshopo:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": {
+        "name": "Tshopo"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 6,
+        "confirmedDeaths": 0,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Tshopo"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Tshopo:Wanie-Rukula:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Tshopo"
+      },
+      "healthZone": {
+        "name": "Wanie-Rukula"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Tshopo-Wanie-Rukula"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Sud-Kivu:Miti-Murhesa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Sud-Kivu"
+      },
+      "healthZone": {
+        "name": "Miti-Murhesa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 3,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Sud-Kivu-Miti-Murhesa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Bas-Uele:Buta:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Bas-Uele"
+      },
+      "healthZone": {
+        "name": "Buta"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Buta"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Bas-Uele:Viadana:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Bas-Uele"
+      },
+      "healthZone": {
+        "name": "Viadana"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 6,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Viadana"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Bas-Uele:Dakwa:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Bas-Uele"
+      },
+      "healthZone": {
+        "name": "Dakwa"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 0,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Dakwa"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Bas-Uele:Ganga:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Bas-Uele"
+      },
+      "healthZone": {
+        "name": "Ganga"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 5,
+        "confirmedDeaths": 2,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Bas-Uele-Ganga"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Sud-Ubangi:Bulu:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Sud-Ubangi"
+      },
+      "healthZone": {
+        "name": "Bulu"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 2,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Sud-Ubangi-Bulu"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Ubangi:Wapinda:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Ubangi"
+      },
+      "healthZone": {
+        "name": "Wapinda"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 6,
+        "confirmedDeaths": 1,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Ubangi-Wapinda"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "COD:Nord-Ubangi:Yakoma:2026-11-24",
+      "geographicPrecision": "health-zone",
+      "country": {
+        "iso3": "COD",
+        "name": "Democratic Republic of the Congo"
+      },
+      "province": {
+        "name": "Nord-Ubangi"
+      },
+      "healthZone": {
+        "name": "Yakoma"
+      },
+      "city": null,
+      "metrics": {
+        "confirmedCases": 4,
+        "confirmedDeaths": 0,
+        "newConfirmedCases": 0
+      },
+      "provenance": {
+        "sourceId": "drc-insp-sitrep",
+        "publisher": "Ministère de la Santé Publique / INSP",
+        "sourceUrl": "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf",
+        "recordIdentifier": "SitRep-194-Nord-Ubangi-Yakoma"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-24",
+        "publishedAt": "2026-11-25T12:00:00.000Z",
+        "fetchedAt": "2026-11-28T09:31:10.649Z"
+      },
+      "classification": "affected"
+    },
+    {
+      "id": "UGA:National:2026-07-21",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "UGA",
+        "name": "Uganda"
+      },
+      "province": null,
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 20,
+        "confirmedDeaths": 2,
+        "recovered": 18
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "World Health Organization",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "UGA-2026-07-21"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-07-21",
+        "publishedAt": null,
+        "fetchedAt": "2026-11-28T09:31:10.138Z"
+      },
+      "classification": "affected",
+      "note": "WHO country report as of 2026-07-21. Country totals; subnational locations are not reported by this source."
+    },
+    {
+      "id": "FRA:National:2026-07-06",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "FRA",
+        "name": "France"
+      },
+      "province": null,
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 0,
+        "recovered": 1
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "World Health Organization",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "FRA-2026-07-06"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-07-06",
+        "publishedAt": null,
+        "fetchedAt": "2026-11-28T09:31:10.138Z"
+      },
+      "classification": "affected",
+      "note": "WHO country report as of 2026-07-06. Country totals; subnational locations are not reported by this source."
+    },
+    {
+      "id": "KEN:National:2026-11-26",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "KEN",
+        "name": "Kenya"
+      },
+      "province": null,
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 9,
+        "confirmedDeaths": 2,
+        "recovered": 7
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "World Health Organization",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "KEN-2026-11-26"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-26",
+        "publishedAt": null,
+        "fetchedAt": "2026-11-28T09:31:10.138Z"
+      },
+      "classification": "affected",
+      "note": "WHO country report as of 2026-11-26. Country totals; subnational locations are not reported by this source."
+    },
+    {
+      "id": "NGA:National:2026-11-12",
+      "geographicPrecision": "country",
+      "country": {
+        "iso3": "NGA",
+        "name": "Nigeria"
+      },
+      "province": null,
+      "healthZone": null,
+      "city": null,
+      "metrics": {
+        "confirmedCases": 1,
+        "confirmedDeaths": 0,
+        "recovered": 1
+      },
+      "provenance": {
+        "sourceId": "who-acute-event",
+        "publisher": "World Health Organization",
+        "sourceUrl": "https://www.who.int/emergencies/alert-and-response",
+        "recordIdentifier": "NGA-2026-11-12"
+      },
+      "timestamps": {
+        "sourceUpdatedAt": "2026-11-12",
+        "publishedAt": null,
+        "fetchedAt": "2026-11-28T09:31:10.138Z"
+      },
+      "classification": "affected",
+      "note": "WHO country report as of 2026-11-12. Country totals; subnational locations are not reported by this source."
+    }
+  ],
+  "epiCurve": [
+    {
+      "week": "W17",
+      "reportingDate": "2026-09-06",
+      "weeklyCases": 586,
+      "weeklyDeaths": 276,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-0"
+    },
+    {
+      "week": "W18",
+      "reportingDate": "2026-09-13",
+      "weeklyCases": 572,
+      "weeklyDeaths": 284,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-3"
+    },
+    {
+      "week": "W19",
+      "reportingDate": "2026-09-20",
+      "weeklyCases": 475,
+      "weeklyDeaths": 222,
+      "sourceUrl": "https://www.afro.who.int/countries/democratic-republic-of-congo/publication/ebola-bundibugyo-virus-disease-outbreak-4"
+    },
+    {
+      "week": "W23",
+      "reportingDate": "2026-10-19",
+      "weeklyCases": 572,
+      "weeklyDeaths": 265,
+      "sourceUrl": "https://www.afro.who.int/countries/nigeria/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation"
+    },
+    {
+      "week": "W25",
+      "reportingDate": "2026-11-01",
+      "weeklyCases": 895,
+      "weeklyDeaths": 480,
+      "sourceUrl": "https://www.afro.who.int/countries/nigeria/publication/bundibugyo-virus-disease-outbreak-democratic-republic-congo-kenya-nigeria-weekly-external-situation"
+    },
+    {
+      "week": "W26",
+      "reportingDate": "2026-11-07",
+      "weeklyCases": 388,
+      "weeklyDeaths": 197,
+      "sourceUrl": "https://www.afro.who.int/countries/kenya/publication/bundibugyo-virus-disease-outbreak-democratic-republic-congo-kenya-nigeria-weekly-external-situation"
+    },
+    {
+      "week": "W27",
+      "reportingDate": "2026-11-15",
+      "weeklyCases": 512,
+      "weeklyDeaths": 270,
+      "sourceUrl": "https://www.afro.who.int/countries/kenya/publication/ebola-bundibugyo-virus-disease-outbreak-democratic-republic-congo-uganda-weekly-external-situation"
+    }
+  ],
+  "sourceHealth": [
+    {
+      "sourceId": "drc-insp-sitrep",
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-11-28T09:31:10.650Z"
+    },
+    {
+      "sourceId": "who-acute-event",
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-11-28T09:31:10.651Z"
+    },
+    {
+      "sourceId": "who-afro-weekly",
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-11-28T09:31:10.651Z"
+    }
+  ]
+}

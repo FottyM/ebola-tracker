@@ -121,13 +121,15 @@ async function sync() {
     fetchCurve: resolveWhoWeeklyCurve,
     dryRun: isDryRun,
   });
-  if (result.sourceMode === "cache") {
+  if (result.sourceMode === "cache" || result.sourceMode === "partial") {
     console.warn(
-      `⚠️ [Data Ingestion] Live source failed: ${result.sourceError}. Retaining validated snapshot ${result.snapshotId} as STALE; source dates unchanged.`,
+      result.sourceMode === "partial"
+        ? `⚠️ [Data Ingestion] DRC Ministry unavailable (${result.sourceError}); applying partial live update from WHO while retaining validated DRC subnational data.`
+        : `⚠️ [Data Ingestion] Live source failed: ${result.sourceError}. Retaining validated snapshot ${result.snapshotId} as STALE; source dates unchanged.`,
     );
     if (process.env.GITHUB_ACTIONS) {
       console.log(
-        `::warning title=Live source unavailable (retained validated snapshot)::${result.sourceError}`,
+        `::warning title=${result.sourceMode === "partial" ? "Partial live update (WHO updated; Ministry unavailable)" : "Live source unavailable (retained validated snapshot)"}::${result.sourceError}`,
       );
     }
   }
@@ -142,13 +144,21 @@ async function sync() {
     throw new Error(result.error || "Ingestion pipeline failed");
   }
 
-  if (result.sourceMode === "cache") {
+  if (!isDryRun && process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(
+      process.env.GITHUB_OUTPUT,
+      `source_mode=${result.sourceMode || "live"}\nchanged=${Boolean(result.changed)}\n`,
+      "utf8",
+    );
+  }
+
+  if (result.sourceMode === "cache" || result.sourceMode === "partial") {
     if (isStrictLive) {
-      throw new Error(`Live ingestion failed; retained stale data: ${result.sourceError}`);
+      throw new Error(`Live ingestion degraded (${result.sourceMode}): ${result.sourceError}`);
     }
     const snap = isDryRun ? result.candidateSnapshot : result.snapshot;
     console.log(
-      `ℹ️ [Data Ingestion] Continuing with validated last-known-good snapshot (${result.snapshotId}): ${snap?.summary?.totalCases?.toLocaleString()} cases, ${snap?.summary?.totalDeaths?.toLocaleString()} deaths (status: ${snap?.status}).`,
+      `ℹ️ [Data Ingestion] ${result.sourceMode === "partial" ? "Partial live update" : "Retained validated snapshot"} (${result.snapshotId}): ${snap?.summary?.totalCases?.toLocaleString()} cases, ${snap?.summary?.totalDeaths?.toLocaleString()} deaths (status: ${snap?.status}, changed: ${result.changed}).`,
     );
     return;
   }

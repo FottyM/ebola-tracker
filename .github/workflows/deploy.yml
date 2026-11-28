@@ -2,7 +2,8 @@ name: Scheduled Data Ingestion & Deploy to GitHub Pages
 
 on:
   schedule:
-    # Ingests fresh data and redeploys every 4 hours (best-effort cadence)
+    # Runs once per UTC day once a live sync succeeds; 4-hour slots act as automatic retries
+    # only if an earlier run that day was degraded/unavailable.
     - cron: "0 */4 * * *"
   push:
     branches:
@@ -22,42 +23,89 @@ jobs:
   ingest-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      should_deploy: ${{ steps.deploy-gate.outputs.should_deploy }}
     steps:
+      - name: Resolve UTC date
+        id: today
+        run: echo "date=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Check if daily live sync already succeeded today
+        id: daily-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .daily-live-sync
+          key: daily-live-sync-${{ steps.today.outputs.date }}
+          lookup-only: true
+
+      - name: Decide whether to run ingestion
+        id: run-gate
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" && "${{ steps.daily-cache.outputs.cache-hit }}" == "true" ]]; then
+            echo "ℹ️ Daily live sync already succeeded for ${{ steps.today.outputs.date }}; skipping retry slot."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout repository
+        if: steps.run-gate.outputs.should_run == 'true'
         uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
+        if: steps.run-gate.outputs.should_run == 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 22
 
       - name: Setup pnpm
+        if: steps.run-gate.outputs.should_run == 'true'
         uses: pnpm/action-setup@v6
         with:
           version: 12.3.4
           run_install: false
 
       - name: Install dependencies
+        if: steps.run-gate.outputs.should_run == 'true'
         run: pnpm install --frozen-lockfile
 
       - name: Ingestion dry-run verification
+        if: steps.run-gate.outputs.should_run == 'true'
         run: node scripts/sync-data.js --dry-run
 
       - name: Run validated ingestion pipeline
+        id: ingest
+        if: steps.run-gate.outputs.should_run == 'true'
         run: node scripts/sync-data.js
 
+      - name: Decide whether to verify and deploy Pages
+        id: deploy-gate
+        run: |
+          if [[ "${{ steps.run-gate.outputs.should_run }}" != "true" ]]; then
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event_name }}" == "schedule" && "${{ steps.ingest.outputs.changed }}" != "true" ]]; then
+            echo "ℹ️ Scheduled check found no data changes; skipping redundant Pages redeploy."
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Check code formatting, linting, and types
+        if: steps.deploy-gate.outputs.should_deploy == 'true'
         run: ./node_modules/.bin/vp check --fix
 
       - name: Verify data integrity and run unit tests
+        if: steps.deploy-gate.outputs.should_deploy == 'true'
         run: ./node_modules/.bin/vp test --run
 
       - name: Install Playwright browsers and dependencies
+        if: steps.deploy-gate.outputs.should_deploy == 'true'
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run Playwright E2E behavioral tests
+        if: steps.deploy-gate.outputs.should_deploy == 'true'
         run: ./node_modules/.bin/vp run test:e2e
 
       - name: Upload Playwright report on failure
@@ -69,26 +117,41 @@ jobs:
           retention-days: 7
 
       - name: Persist validated data for the next run (after CI passes)
-        if: github.ref == 'refs/heads/master'
+        if: steps.deploy-gate.outputs.should_deploy == 'true' && github.ref == 'refs/heads/master'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/data src/data/outbreak-data.js
           git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): automated validated outbreak sync [skip ci]" && git push origin master)
 
+      - name: Prepare daily live sync marker
+        if: steps.run-gate.outputs.should_run == 'true' && steps.ingest.outputs.source_mode == 'live' && steps.daily-cache.outputs.cache-hit != 'true'
+        run: echo "${{ steps.today.outputs.date }}" > .daily-live-sync
+
+      - name: Record daily live sync success (suppresses further retries today)
+        if: steps.run-gate.outputs.should_run == 'true' && steps.ingest.outputs.source_mode == 'live' && steps.daily-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: .daily-live-sync
+          key: daily-live-sync-${{ steps.today.outputs.date }}
+
       - name: Build static site
+        if: steps.deploy-gate.outputs.should_deploy == 'true'
         run: ./node_modules/.bin/vp run build:pages
 
       - name: Setup Pages
+        if: steps.deploy-gate.outputs.should_deploy == 'true'
         uses: actions/configure-pages@v6
 
       - name: Upload artifact
+        if: steps.deploy-gate.outputs.should_deploy == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
   deploy:
     needs: ingest-and-build
+    if: needs.ingest-and-build.outputs.should_deploy == 'true'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

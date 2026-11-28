@@ -6,7 +6,7 @@ import {
   validateOutbreakSnapshot,
   createSnapshotFromObservations,
 } from "./contracts.js";
-import { runIngestionPipeline } from "./pipeline-ingest.js";
+import { hasEpidemiologicalContentChanged, runIngestionPipeline } from "./pipeline-ingest.js";
 
 function validCache(snapshot) {
   if (!validateOutbreakSnapshot(snapshot).valid) return false;
@@ -33,7 +33,7 @@ function writeLegacy(snapshot, targetFile) {
   );
 }
 
-/** Preserve validated observations on source failure; never re-ingest cached data as live. */
+/** Preserve validated observations on source failure; allow WHO partial updates when Ministry is unavailable. */
 export async function runOutbreakSync({
   storageDir,
   targetFile,
@@ -44,19 +44,28 @@ export async function runOutbreakSync({
   dryRun = false,
 }) {
   const existing = loadLatestSnapshot(storageDir);
+  const previousDrcRow = existing?.observations?.find(
+    (row) => row.country.iso3 === "COD" && row.geographicPrecision === "country",
+  );
+  const previousDrcDate = previousDrcRow?.timestamps.sourceUpdatedAt;
+
   let drcParsed;
-  let internationalObservations;
-  let sourceError;
+  let ministryError;
   try {
     drcParsed = await fetchMinistry();
     if (!drcParsed?.valid)
       throw new Error(drcParsed?.errors?.join("; ") || "Invalid Ministry report");
-    const previousDrcDate = existing?.observations?.find(
-      (row) => row.country.iso3 === "COD" && row.geographicPrecision === "country",
-    )?.timestamps.sourceUpdatedAt;
     if (previousDrcDate && drcParsed.reportingDate < previousDrcDate)
       throw new Error("Ministry report is older than retained snapshot");
-    const countryRows = await fetchInternational();
+  } catch (error) {
+    ministryError = error instanceof Error ? error.message : String(error);
+  }
+
+  let countryRows;
+  let internationalObservations;
+  let whoError;
+  try {
+    countryRows = await fetchInternational();
     if (!Array.isArray(countryRows)) throw new Error("WHO country observations missing");
     internationalObservations = countryRows.filter((row) => row.country.iso3 !== "COD");
     for (const previous of existing?.observations || []) {
@@ -73,8 +82,75 @@ export async function runOutbreakSync({
         throw new Error(`WHO reporting date regressed for ${previous.country.iso3}`);
     }
   } catch (error) {
-    sourceError = error instanceof Error ? error.message : String(error);
+    whoError = error instanceof Error ? error.message : String(error);
   }
+
+  // Partial live update: DRC Ministry failed/gated, but live WHO observations are available.
+  if (ministryError && !whoError && countryRows?.length > 0 && validCache(existing)) {
+    const whoCodRow = countryRows.find(
+      (row) => row.country.iso3 === "COD" && row.geographicPrecision === "country",
+    );
+    const useWhoCodNational =
+      Boolean(whoCodRow) &&
+      (!previousDrcDate || whoCodRow.timestamps.sourceUpdatedAt > previousDrcDate);
+    const existingCodObservations = existing.observations.filter(
+      (row) =>
+        row.country.iso3 === "COD" && !(useWhoCodNational && row.geographicPrecision === "country"),
+    );
+    const mergedObservations = [
+      ...(useWhoCodNational ? [whoCodRow] : []),
+      ...existingCodObservations,
+      ...internationalObservations,
+    ];
+    let liveCurve = [];
+    try {
+      const fetchedCurve = await fetchCurve();
+      if (Array.isArray(fetchedCurve) && fetchedCurve.length > 0) liveCurve = fetchedCurve;
+    } catch {
+      // Retain existing curve if weekly bulletin fetch fails during partial update.
+    }
+    const epiCurve = liveCurve.length > 0 ? liveCurve : existing.epiCurve || [];
+    const baseSnapshot = createSnapshotFromObservations({
+      snapshotId: `snapshot-${whoCodRow?.timestamps.sourceUpdatedAt || previousDrcDate}-${Date.now()}-partial`,
+      status: "partial",
+      scheduledCadenceMinutes: existing.scheduledCadenceMinutes || 240,
+      observations: mergedObservations,
+      epiCurve,
+    });
+    const existingMinistryHealth = (existing.sourceHealth || []).find(
+      (source) => source.sourceId === "drc-insp-sitrep",
+    );
+    const candidateSnapshot = {
+      ...baseSnapshot,
+      sourceHealth: baseSnapshot.sourceHealth.map((source) =>
+        source.sourceId === "drc-insp-sitrep"
+          ? {
+              ...source,
+              status: "Stale (last-known-good)",
+              lastSuccessAt: existingMinistryHealth?.lastSuccessAt || source.lastSuccessAt,
+            }
+          : source,
+      ),
+    };
+    const changed = hasEpidemiologicalContentChanged(existing, candidateSnapshot);
+    const activeSnapshot = changed ? candidateSnapshot : existing;
+    if (!dryRun) {
+      if (changed) saveSnapshotAtomically(candidateSnapshot, storageDir);
+      writeLegacy(activeSnapshot, targetFile);
+    }
+    return {
+      success: true,
+      changed,
+      dryRun,
+      sourceMode: "partial",
+      sourceError: ministryError,
+      candidateSnapshot,
+      snapshot: activeSnapshot,
+      snapshotId: activeSnapshot.snapshotId,
+    };
+  }
+
+  const sourceError = ministryError || whoError;
   if (sourceError) {
     if (!validCache(existing))
       throw new Error(`No validated last-known-good snapshot available; ${sourceError}`);

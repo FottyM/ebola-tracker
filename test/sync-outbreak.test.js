@@ -211,3 +211,55 @@ it("retains validated international figures when WHO fails, loses a country, or 
     expect(result.snapshot.summary).toEqual(original.snapshot.summary);
   }
 });
+
+it("publishes a partial live update from WHO when DRC Ministry is unavailable while preserving DRC subnational data", async () => {
+  seed();
+  const result = await runOutbreakSync(
+    options({
+      fetchMinistry: unavailable,
+      fetchInternational: async () => [
+        whoCountry("COD", "Democratic Republic of the Congo", 125, 25, "2026-10-02"),
+        whoCountry("KEN", "Kenya", 9, 2, "2026-10-02"),
+      ],
+      fetchCurve: async () => [
+        { week: "W40", reportingDate: "2026-10-02", weeklyCases: 25, weeklyDeaths: 5 },
+      ],
+    }),
+  );
+  expect(result.sourceMode).toBe("partial");
+  expect(result.changed).toBe(true);
+  expect(result.snapshot.status).toBe("partial");
+  expect(result.snapshot.summary).toMatchObject({
+    totalCases: 134,
+    totalDeaths: 27,
+    affectedCountriesCount: 2,
+    lastReportDate: "2026-10-02",
+  });
+  expect(
+    result.snapshot.observations.some(
+      (row) => row.country.iso3 === "COD" && row.geographicPrecision === "province",
+    ),
+  ).toBe(true);
+  expect(
+    result.snapshot.sourceHealth.find((source) => source.sourceId === "drc-insp-sitrep").status,
+  ).toBe("Stale (last-known-good)");
+  expect(
+    result.snapshot.sourceHealth.find((source) => source.sourceId === "who-acute-event").status,
+  ).toBe("Live (validated)");
+
+  // Repeat identical partial update is idempotent (changed: false).
+  const repeat = await runOutbreakSync(
+    options({
+      fetchMinistry: unavailable,
+      fetchInternational: async () => [
+        whoCountry("COD", "Democratic Republic of the Congo", 125, 25, "2026-10-02"),
+        whoCountry("KEN", "Kenya", 9, 2, "2026-10-02"),
+      ],
+      fetchCurve: async () => [
+        { week: "W40", reportingDate: "2026-10-02", weeklyCases: 25, weeklyDeaths: 5 },
+      ],
+    }),
+  );
+  expect(repeat.sourceMode).toBe("partial");
+  expect(repeat.changed).toBe(false);
+});
