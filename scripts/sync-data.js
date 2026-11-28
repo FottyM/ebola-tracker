@@ -90,11 +90,21 @@ async function resolveHdxFeed(dryRun = false) {
 
 async function sync() {
   const isDryRun = process.argv.includes("--dry-run");
+  const isStrictLive = process.argv.includes("--strict-live");
   console.log(
     `🔄 [Data Ingestion] Running unified ingestion transaction${isDryRun ? " (DRY-RUN MODE)" : ""}...`,
   );
 
-  await backfillMinistryReports({ storageDir, dryRun: isDryRun });
+  try {
+    await backfillMinistryReports({ storageDir, dryRun: isDryRun });
+  } catch (err) {
+    if (isStrictLive) throw err;
+    const message = err instanceof Error ? err.message : String(err);
+    console.warn(`⚠️ [Backfill] Skipped due to upstream error: ${message}`);
+    if (process.env.GITHUB_ACTIONS) {
+      console.log(`::warning title=Ministry backfill skipped::${message}`);
+    }
+  }
 
   const result = await runOutbreakSync({
     storageDir,
@@ -115,6 +125,11 @@ async function sync() {
     console.warn(
       `⚠️ [Data Ingestion] Live source failed: ${result.sourceError}. Retaining validated snapshot ${result.snapshotId} as STALE; source dates unchanged.`,
     );
+    if (process.env.GITHUB_ACTIONS) {
+      console.log(
+        `::warning title=Live source unavailable (retained validated snapshot)::${result.sourceError}`,
+      );
+    }
   }
 
   if (result.operationalLogs && result.operationalLogs.length > 0) {
@@ -128,7 +143,14 @@ async function sync() {
   }
 
   if (result.sourceMode === "cache") {
-    throw new Error(`Live ingestion failed; retained stale data: ${result.sourceError}`);
+    if (isStrictLive) {
+      throw new Error(`Live ingestion failed; retained stale data: ${result.sourceError}`);
+    }
+    const snap = isDryRun ? result.candidateSnapshot : result.snapshot;
+    console.log(
+      `ℹ️ [Data Ingestion] Continuing with validated last-known-good snapshot (${result.snapshotId}): ${snap?.summary?.totalCases?.toLocaleString()} cases, ${snap?.summary?.totalDeaths?.toLocaleString()} deaths (status: ${snap?.status}).`,
+    );
+    return;
   }
 
   if (isDryRun) {

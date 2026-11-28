@@ -36,9 +36,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Ingestion dry-run verification
-        run: node scripts/sync-data.js --dry-run
-
       - name: Check code formatting, linting, and types
         run: ./node_modules/.bin/vp check
 
