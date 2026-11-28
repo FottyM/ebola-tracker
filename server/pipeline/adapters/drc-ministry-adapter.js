@@ -26,111 +26,227 @@ const FRENCH_MONTHS = {
   decembre: "12",
 };
 
+function parseIsoDate(rawYear, rawMonth, rawDay) {
+  const yearNum = Number(String(rawYear).length === 2 ? `20${rawYear}` : rawYear);
+  const monthNum = Number(rawMonth);
+  const dayNum = Number(rawDay);
+  if (
+    !Number.isInteger(yearNum) ||
+    !Number.isInteger(monthNum) ||
+    !Number.isInteger(dayNum) ||
+    monthNum < 1 ||
+    monthNum > 12 ||
+    dayNum < 1 ||
+    dayNum > 31
+  ) {
+    return "";
+  }
+  const utc = new Date(Date.UTC(yearNum, monthNum - 1, dayNum));
+  if (
+    utc.getUTCFullYear() !== yearNum ||
+    utc.getUTCMonth() !== monthNum - 1 ||
+    utc.getUTCDate() !== dayNum
+  ) {
+    return "";
+  }
+  return `${String(yearNum).padStart(4, "0")}-${String(monthNum).padStart(2, "0")}-${String(dayNum).padStart(2, "0")}`;
+}
+
+function isEbolaSitrep(text) {
+  const combined = String(text || "").toLowerCase();
+  if (!combined.includes("sitrep") && !combined.includes("ebola") && !combined.includes("mvebdb")) {
+    return false;
+  }
+  if (combined.includes("cholera") || combined.includes("mpox") || combined.includes("rougeole")) {
+    return false;
+  }
+  return true;
+}
+
+function extractDateFromText(text) {
+  if (!text) return "";
+  const frenchMatch = text.match(/(\d{1,2})(?:er)?\s+([a-zA-Z\u00C0-\u017F]+)\s+(\d{4})/i);
+  if (frenchMatch) {
+    const month = FRENCH_MONTHS[frenchMatch[2].toLowerCase()];
+    if (month) {
+      return parseIsoDate(frenchMatch[3], month, frenchMatch[1]);
+    }
+  }
+  const numericMatch = text.match(/(?<!\d)(\d{1,2})[/-](\d{1,2})[/-](\d{4})(?!\d)/);
+  if (numericMatch) {
+    return parseIsoDate(numericMatch[3], numericMatch[2], numericMatch[1]);
+  }
+  return "";
+}
+
+function extractIdentityFromUrl(url) {
+  const identity = url.match(
+    /(?:N[_-]?)?(\d+)[_-](\d{1,2})[_-](\d{1,2})[_-](\d{4}|\d{2})(?=[_.-])/i,
+  );
+  if (identity) {
+    return {
+      reportNumber: Number(identity[1]),
+      reportingDate: parseIsoDate(identity[4], identity[3], identity[2]),
+    };
+  }
+  const numMatch = url.match(/sitrep[_\s-]*(?:mvebdbd?[_-]|mve[_-]rdc[_-])?n?°?[_-\s]*(\d+)/i);
+  const reportNumber = numMatch ? parseInt(numMatch[1], 10) : 0;
+  const fileDateMatch = url.match(/(\d{1,2})[_-](\d{1,2})[_-](\d{4})/);
+  const reportingDate = fileDateMatch
+    ? parseIsoDate(fileDateMatch[3], fileDateMatch[2], fileDateMatch[1])
+    : "";
+  return { reportNumber, reportingDate };
+}
+
+function isGenericLinkText(text) {
+  return !text || /^(?:t[ée]l[ée]charger|download|voir|ouvrir)$/i.test(text.trim());
+}
+
 /**
- * Discovers the newest Ebola SitRep from the official index HTML page.
- * Sorts strictly by parsed epidemiological date, never by link order or filename.
+ * Discovers Ebola SitReps from the official index HTML page.
+ * Prefers structured portal titles over raw filenames to guard against filename typos,
+ * and sorts strictly by parsed epidemiological date.
  * @param {string} indexHtml
  * @param {string} baseUrl
- * @returns {{ url: string, reportNumber: number, reportingDate: string, title: string } | null}
+ * @returns {Array<{ url: string, reportNumber: number, reportingDate: string, title: string }>}
  */
 export function discoverMinistrySitreps(indexHtml, baseUrl = "https://sante.gouv.cd") {
   if (!indexHtml || typeof indexHtml !== "string") return [];
 
-  const candidates = [];
+  const byUrl = new Map();
+  const upsertCandidate = ({ url, reportNumber, reportingDate, title, dateSource }) => {
+    if (!url || !reportingDate) return;
+    const existing = byUrl.get(url);
+    if (!existing) {
+      byUrl.set(url, { url, reportNumber, reportingDate, title, dateSource });
+      return;
+    }
+    if (reportNumber && !existing.reportNumber) {
+      existing.reportNumber = reportNumber;
+    }
+    if (dateSource === "title" && existing.dateSource !== "title") {
+      existing.reportingDate = reportingDate;
+      existing.dateSource = "title";
+    }
+    if (!isGenericLinkText(title) && isGenericLinkText(existing.title)) {
+      existing.title = title;
+    }
+  };
+
+  const resolveUrl = (rawHref) => {
+    if (rawHref.startsWith("http://") || rawHref.startsWith("https://")) return rawHref;
+    return new URL(rawHref, baseUrl).href;
+  };
+
+  // 1. Structured Next.js RSC / JSON document entries expose every document's portal title alongside its PDF URL.
+  const rscDocPatterns = [
+    /\\"title\\"\s*:\s*\\"((?:[^"\\]|\\[^"])*)\\"[^{}]*?\\"fichier\\"\s*:\s*\{[^}]*?\\"url\\"\s*:\s*\\"(https?:\/\/[^"'<>\\]+\.pdf)\\"/gi,
+    /"title"\s*:\s*"((?:[^"\\]|\\.)*)"[^{}]*?"fichier"\s*:\s*\{[^}]*?"url"\s*:\s*"(https?:\/\/[^"'<>\\]+\.pdf)"/gi,
+  ];
+  for (const rscDocRegex of rscDocPatterns) {
+    for (const match of indexHtml.matchAll(rscDocRegex)) {
+      const title = match[1].replace(/\\"/g, '"').trim();
+      const url = match[2];
+      if (!isEbolaSitrep(`${title} ${url}`)) continue;
+      const titleDate = extractDateFromText(title);
+      const urlIdentity = extractIdentityFromUrl(url);
+      const numMatch = `${title} ${url}`.match(
+        /sitrep[_\s-]*(?:mvebdbd?[_-]|mve[_-]rdc[_-])?n?°?[_-\s]*(\d+)/i,
+      );
+      const reportNumber = urlIdentity.reportNumber || (numMatch ? parseInt(numMatch[1], 10) : 0);
+      upsertCandidate({
+        url,
+        reportNumber,
+        reportingDate: titleDate || urlIdentity.reportingDate,
+        title,
+        dateSource: titleDate ? "title" : "filename",
+      });
+    }
+  }
+
+  // 2. HTML table rows pair a visible document title cell with a generic "Télécharger" anchor.
+  const rowRegex = /<tr\b[^>]*>([\s\S]*?)<\/tr>/gi;
+  for (const rowMatch of indexHtml.matchAll(rowRegex)) {
+    const rowHtml = rowMatch[1];
+    const rowLink = rowHtml.match(/<a[^>]+href=["']([^"']+\.pdf(?:\?[^"']*)?)["'][^>]*>/i);
+    if (!rowLink) continue;
+    const rawHref = rowLink[1];
+    const rowText = rowHtml
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!isEbolaSitrep(`${rawHref} ${rowText}`)) continue;
+    const rowDate = extractDateFromText(rowText);
+    if (!rowDate) continue;
+    const fullUrl = resolveUrl(rawHref);
+    const urlIdentity = extractIdentityFromUrl(fullUrl);
+    const numMatch = `${rawHref} ${rowText}`.match(
+      /sitrep[_\s-]*(?:mvebdbd?[_-]|mve[_-]rdc[_-])?n?°?[_-\s]*(\d+)/i,
+    );
+    const reportNumber = urlIdentity.reportNumber || (numMatch ? parseInt(numMatch[1], 10) : 0);
+    const titleCell = rowHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+    const title = titleCell ? titleCell[1].replace(/<[^>]+>/g, "").trim() : rowText;
+    upsertCandidate({
+      url: fullUrl,
+      reportNumber,
+      reportingDate: rowDate,
+      title,
+      dateSource: "title",
+    });
+  }
+
+  // 3. Direct anchor tags (standalone HTML lists where title and date live in the link text or filename).
   const linkRegex = /<a[^>]+href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let match;
-
   while ((match = linkRegex.exec(indexHtml)) !== null) {
     const rawHref = match[1];
     const linkText = match[2].replace(/<[^>]+>/g, "").trim();
+    if (!isEbolaSitrep(`${rawHref} ${linkText}`)) continue;
 
-    // Ignore non-Ebola reports (e.g. Cholera, Mpox)
-    const combined = `${rawHref} ${linkText}`.toLowerCase();
-    if (
-      !combined.includes("sitrep") &&
-      !combined.includes("ebola") &&
-      !combined.includes("mvebdb")
-    ) {
-      continue;
-    }
-    if (
-      combined.includes("cholera") ||
-      combined.includes("mpox") ||
-      combined.includes("rougeole")
-    ) {
-      continue;
-    }
-
-    // Extract Report Number
-    const numMatch = combined.match(/sitrep[_\s-]*(?:mvebdb[_-])?n?°?\s*(\d+)/i);
-    const reportNumber = numMatch ? parseInt(numMatch[1], 10) : 0;
-
-    // Extract Date (e.g. "09 Septembre 2026")
-    const dateMatch = linkText.match(/(\d{1,2})\s+([a-zA-Z\u00C0-\u017F]+)\s+(\d{4})/i);
-    let reportingDate = "";
-    if (dateMatch) {
-      const day = dateMatch[1].padStart(2, "0");
-      const monthStr = dateMatch[2].toLowerCase();
-      const year = dateMatch[3];
-      const month = FRENCH_MONTHS[monthStr];
-      if (month) {
-        reportingDate = `${year}-${month}-${day}`;
-      }
-    }
-
-    if (!reportingDate) {
-      // Extract date from filename if link text lacked it (e.g. SitRep_MVEBDB_118_09_09_2026.pdf)
-      const fileDateMatch = rawHref.match(/(\d{1,2})_(\d{1,2})_(\d{4})/);
-      if (fileDateMatch) {
-        const day = fileDateMatch[1].padStart(2, "0");
-        const month = fileDateMatch[2].padStart(2, "0");
-        const year = fileDateMatch[3];
-        reportingDate = `${year}-${month}-${day}`;
-      }
-    }
+    const fullUrl = resolveUrl(rawHref);
+    const urlIdentity = extractIdentityFromUrl(fullUrl);
+    const numMatch = `${rawHref} ${linkText}`.match(
+      /sitrep[_\s-]*(?:mvebdbd?[_-]|mve[_-]rdc[_-])?n?°?[_-\s]*(\d+)/i,
+    );
+    const reportNumber = urlIdentity.reportNumber || (numMatch ? parseInt(numMatch[1], 10) : 0);
+    const linkDate = extractDateFromText(linkText);
+    const reportingDate = linkDate || urlIdentity.reportingDate;
 
     if (reportingDate) {
-      let fullUrl = rawHref;
-      if (!fullUrl.startsWith("http://") && !fullUrl.startsWith("https://")) {
-        fullUrl = new URL(rawHref, baseUrl).href;
-      }
-
-      candidates.push({
+      upsertCandidate({
         url: fullUrl,
         reportNumber,
         reportingDate,
         title: linkText || path.basename(rawHref),
+        dateSource: linkDate ? "title" : "filename",
       });
     }
   }
 
-  // Server-rendered payloads include historical links beyond the visible page.
-  // Ministry filenames use multiple prefixes, separators, and two-digit years.
+  // 4. Raw PDF URLs embedded in server payloads or plain link lists.
   const directPdfRegex = /https?:\/\/[^\s"'<>\\]+sitrep[^\s"'<>\\]*\.pdf/gi;
-  for (const match of indexHtml.matchAll(directPdfRegex)) {
-    const url = match[0];
-    const identity = url.match(
-      /(?:N[_-]?)?(\d+)[_-](\d{1,2})[_-](\d{1,2})[_-](\d{4}|\d{2})(?=[_.-])/i,
-    );
-    if (!identity) continue;
-    const [, number, day, month, rawYear] = identity;
-    const year = rawYear.length === 2 ? `20${rawYear}` : rawYear;
-    const reportingDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    const existing = candidates.find((candidate) => candidate.url === url);
-    if (existing) existing.reportNumber = Number(number);
-    else
-      candidates.push({
-        url,
-        reportNumber: Number(number),
-        reportingDate,
-        title: `SitRep N°${number} (${reportingDate})`,
-      });
+  for (const directMatch of indexHtml.matchAll(directPdfRegex)) {
+    const url = directMatch[0];
+    if (!isEbolaSitrep(url)) continue;
+    const { reportNumber, reportingDate } = extractIdentityFromUrl(url);
+    if (!reportingDate) continue;
+    upsertCandidate({
+      url,
+      reportNumber,
+      reportingDate,
+      title: `SitRep N°${reportNumber} (${reportingDate})`,
+      dateSource: "filename",
+    });
   }
 
-  if (candidates.length === 0) return [];
+  if (byUrl.size === 0) return [];
 
-  // Strict sorting: Newest reporting date first
-  candidates.sort((a, b) => b.reportingDate.localeCompare(a.reportingDate));
+  const candidates = [...byUrl.values()].map(({ dateSource: _dateSource, ...entry }) => entry);
+
+  // Strict sorting: Newest reporting date first, then highest report number
+  candidates.sort(
+    (a, b) => b.reportingDate.localeCompare(a.reportingDate) || b.reportNumber - a.reportNumber,
+  );
   return candidates;
 }
 

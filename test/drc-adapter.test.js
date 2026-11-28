@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   discoverLatestSitrep,
+  discoverMinistrySitreps,
   ingestMinistrySitrep,
 } from "../server/pipeline/adapters/drc-ministry-adapter.js";
 
@@ -41,6 +42,40 @@ describe("DATA-004: DRC Ministry Authoritative Source Adapter", () => {
       const nonEbolaHtml = `<a href="/cholera.pdf">Cholera SitRep - 10 Septembre 2026</a>`;
       const discovered = discoverLatestSitrep(nonEbolaHtml, "https://sante.gouv.cd");
       expect(discovered).toBeNull();
+    });
+
+    it("prefers portal title dates over mistyped filenames in RSC payloads and HTML tables", () => {
+      const portalHtml = `
+        <script>self.__next_f.push([1,"{\\"documents\\":[{\\"title\\":\\"Rapport de Situation de la 17ème Épidémie de la Maladie à Virus EBOLA /RDC 24/11/2026\\",\\"type\\":\\"fichier\\",\\"lien\\":null,\\"fichier\\":{\\"url\\":\\"https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_194_24_11_2026.pdf\\",\\"size\\":938105}},{\\"title\\":\\"Rapport de Situation de la 17ème Épidémie de la Maladie à Virus EBOLA /RDC 22/11/2026\\",\\"type\\":\\"fichier\\",\\"lien\\":null,\\"fichier\\":{\\"url\\":\\"https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_192_22_12_2026.pdf\\",\\"size\\":956574}}]}"])</script>
+        <table>
+          <tr>
+            <td><p>Rapport de Situation de la 17ème Épidémie de la Maladie à Virus EBOLA /RDC 22/11/2026</p></td>
+            <td><a href="https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_192_22_12_2026.pdf">Télécharger</a></td>
+          </tr>
+        </table>
+      `;
+      const reports = discoverMinistrySitreps(portalHtml, "https://sante.gouv.cd");
+      expect(reports.map((r) => [r.reportNumber, r.reportingDate])).toEqual([
+        [194, "2026-11-24"],
+        [192, "2026-11-22"],
+      ]);
+      expect(discoverLatestSitrep(portalHtml, "https://sante.gouv.cd").reportNumber).toBe(194);
+    });
+
+    it("extracts table row dates when the download anchor only says Télécharger without RSC JSON", () => {
+      const tableOnlyHtml = `
+        <table>
+          <tr>
+            <td><p>Rapport de Situation de la 17ème Épidémie de la Maladie à Virus EBOLA /RDC 22/11/2026</p></td>
+            <td><a href="https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_192_22_12_2026.pdf">Télécharger</a></td>
+          </tr>
+        </table>
+      `;
+      const discovered = discoverLatestSitrep(tableOnlyHtml, "https://sante.gouv.cd");
+      expect(discovered).toMatchObject({
+        reportNumber: 192,
+        reportingDate: "2026-11-22",
+      });
     });
   });
 

@@ -31,21 +31,31 @@ export async function backfillMinistryReports({
   const results = [];
   for (const report of reports) {
     const parsed = await fetchReport({ directPdfUrl: report.url, timeoutMs: 25000 });
-    if (!parsed.valid || parsed.reportingDate !== report.reportingDate)
+    if (!parsed.valid)
       throw new Error(
-        `Backfill ${report.reportingDate}: ${parsed.errors?.join("; ") || "report date mismatch"}`,
+        `Backfill ${report.reportingDate}: ${parsed.errors?.join("; ") || "invalid report"}`,
       );
+    if (parsed.reportingDate !== report.reportingDate) {
+      const sameReportNumber =
+        report.reportNumber > 0 && parsed.reportNumber === report.reportNumber;
+      if (!sameReportNumber)
+        throw new Error(`Backfill ${report.reportingDate}: report date mismatch`);
+      console.warn(
+        `[Backfill] Index date ${report.reportingDate} differed from PDF date ${parsed.reportingDate} for SitRep #${parsed.reportNumber}; using authoritative PDF date.`,
+      );
+      if (parsed.reportingDate <= since) continue;
+    }
+    const effectiveDate = parsed.reportingDate;
     const reconciliation = reconcileNationalWithProvinces(parsed.national, parsed.provinces);
     if (reconciliation.blocking)
       throw new Error(
-        `Backfill ${report.reportingDate}: ${reconciliation.conflicts.map((c) => c.message).join("; ")}`,
+        `Backfill ${effectiveDate}: ${reconciliation.conflicts.map((c) => c.message).join("; ")}`,
       );
     const result = executeSnapshotPipeline({ drcParsed: parsed, storageDir, save: false });
-    if (!result.success)
-      throw new Error(`Backfill ${report.reportingDate}: ${result.errors.join("; ")}`);
+    if (!result.success) throw new Error(`Backfill ${effectiveDate}: ${result.errors.join("; ")}`);
     const snapshot = {
       ...result.snapshot,
-      snapshotId: `snapshot-${report.reportingDate}-sitrep-${parsed.reportNumber}`,
+      snapshotId: `snapshot-${effectiveDate}-sitrep-${parsed.reportNumber}`,
     };
     if (!dryRun) {
       fs.mkdirSync(archive, { recursive: true });
@@ -54,7 +64,7 @@ export async function backfillMinistryReports({
         fs.writeFileSync(destination, JSON.stringify(snapshot, null, 2) + "\n");
     }
     console.log(
-      `[Backfill] ${report.reportingDate}: ${parsed.national.confirmedCases} cases, ${parsed.national.confirmedDeaths} deaths (${dryRun ? "validated" : "archived"})`,
+      `[Backfill] ${effectiveDate}: ${parsed.national.confirmedCases} cases, ${parsed.national.confirmedDeaths} deaths (${dryRun ? "validated" : "archived"})`,
     );
     results.push(snapshot);
   }

@@ -59,3 +59,58 @@ it("backfills missed reports in date order, preserves the active snapshot, and k
     fs.rmSync(storageDir, { recursive: true, force: true });
   }
 });
+
+it("uses authoritative PDF date when filename date has a typo for the same report number, and rejects mismatched report numbers", async () => {
+  const storageDir = fs.mkdtempSync(path.join(os.tmpdir(), "ministry-backfill-typo-"));
+  const report = parseMinistrySitrepText(
+    fs.readFileSync(
+      new URL("./fixtures/sitrep/sitrep-176-2026-11-06.txt", import.meta.url),
+      "utf8",
+    ),
+  );
+  fs.writeFileSync(
+    path.join(storageDir, "latest-snapshot.json"),
+    JSON.stringify({ summary: { lastReportDate: "2026-11-21" } }),
+  );
+  try {
+    const archived = await backfillMinistryReports({
+      storageDir,
+      fetchFn: async () => ({
+        ok: true,
+        text: async () =>
+          "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_192_22_12_2026.pdf",
+      }),
+      fetchReport: async ({ directPdfUrl }) => ({
+        ...report,
+        reportNumber: 192,
+        reportingDate: "2026-11-22",
+        sourceUrl: directPdfUrl,
+      }),
+    });
+    expect(archived).toHaveLength(1);
+    expect(archived[0].snapshotId).toBe("snapshot-2026-11-22-sitrep-192");
+    expect(fs.readdirSync(path.join(storageDir, "snapshots"))).toEqual([
+      "snapshot-2026-11-22-sitrep-192.json",
+    ]);
+
+    await expect(
+      backfillMinistryReports({
+        storageDir,
+        dryRun: true,
+        fetchFn: async () => ({
+          ok: true,
+          text: async () =>
+            "https://administration.sante.gouv.cd/wp-content/uploads/2026/11/SitRep_MVEBDB_195_25_11_2026.pdf",
+        }),
+        fetchReport: async ({ directPdfUrl }) => ({
+          ...report,
+          reportNumber: 194,
+          reportingDate: "2026-11-24",
+          sourceUrl: directPdfUrl,
+        }),
+      }),
+    ).rejects.toThrow("report date mismatch");
+  } finally {
+    fs.rmSync(storageDir, { recursive: true, force: true });
+  }
+});
