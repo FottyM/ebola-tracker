@@ -1,13 +1,13 @@
 {
   "schemaVersion": "2026-09-11",
-  "snapshotId": "snapshot-2026-11-24-1795856891859",
-  "snapshotPath": "snapshots/snapshot-2026-11-24-1795856891859.json",
-  "snapshotUrl": "data/snapshots/snapshot-2026-11-24-1795856891859.json",
-  "contentHash": "143e72e01677d2bb1d2dc1065df59420df0091c6375a28ef46083a630b0bb737",
+  "snapshotId": "snapshot-2026-11-24-1795856891859-stale",
+  "snapshotPath": "snapshots/snapshot-2026-11-24-1795856891859-stale.json",
+  "snapshotUrl": "data/snapshots/snapshot-2026-11-24-1795856891859-stale.json",
+  "contentHash": "64d4d0b64eb29d7b1d4580ca70e110eb333fc1230a2a4c46a69494d1e27a0cfd",
   "sourceUpdatedAt": "2026-11-24",
   "snapshotPublishedAt": "2026-11-25T12:00:00.000Z",
   "scheduledCadenceMinutes": 240,
-  "status": "current",
+  "status": "stale",
   "summary": {
     "totalCases": 12052,
     "totalDeaths": 5908,
