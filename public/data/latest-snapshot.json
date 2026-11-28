@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0.0",
-  "snapshotId": "snapshot-2026-11-24-1795858360770-partial",
-  "status": "partial",
+  "snapshotId": "snapshot-2026-11-24-1795884182285",
+  "status": "current",
   "scheduledCadenceMinutes": 240,
-  "generatedAt": "2026-11-28T09:32:40.771Z",
+  "generatedAt": "2026-11-28T16:43:02.286Z",
   "summary": {
     "totalCases": 12052,
     "totalDeaths": 5908,
@@ -37,7 +37,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -67,7 +67,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -97,7 +97,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -127,7 +127,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -157,7 +157,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -187,7 +187,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -217,7 +217,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -247,7 +247,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -277,7 +277,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -309,7 +309,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -341,7 +341,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -373,7 +373,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -405,7 +405,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -437,7 +437,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -469,7 +469,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -501,7 +501,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -533,7 +533,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -565,7 +565,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -597,7 +597,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -629,7 +629,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -661,7 +661,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -693,7 +693,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -725,7 +725,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -757,7 +757,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -789,7 +789,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -821,7 +821,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -853,7 +853,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -885,7 +885,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -917,7 +917,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -949,7 +949,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -981,7 +981,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1013,7 +1013,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1045,7 +1045,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1077,7 +1077,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1109,7 +1109,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1141,7 +1141,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1173,7 +1173,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1205,7 +1205,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1237,7 +1237,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1269,7 +1269,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1301,7 +1301,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1333,7 +1333,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1365,7 +1365,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1397,7 +1397,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1429,7 +1429,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1461,7 +1461,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1493,7 +1493,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1525,7 +1525,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1557,7 +1557,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1589,7 +1589,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1621,7 +1621,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1653,7 +1653,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1685,7 +1685,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1717,7 +1717,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1749,7 +1749,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1781,7 +1781,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1813,7 +1813,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1845,7 +1845,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1877,7 +1877,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1909,7 +1909,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1941,7 +1941,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -1973,7 +1973,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2005,7 +2005,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2037,7 +2037,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2069,7 +2069,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2101,7 +2101,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2133,7 +2133,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2165,7 +2165,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2197,7 +2197,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2229,7 +2229,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2261,7 +2261,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2293,7 +2293,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2325,7 +2325,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2357,7 +2357,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2389,7 +2389,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2421,7 +2421,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2453,7 +2453,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2485,7 +2485,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-24",
         "publishedAt": "2026-11-25T12:00:00.000Z",
-        "fetchedAt": "2026-11-28T09:31:10.649Z"
+        "fetchedAt": "2026-11-28T16:43:02.285Z"
       },
       "classification": "affected"
     },
@@ -2513,7 +2513,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-21",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:32:39.814Z"
+        "fetchedAt": "2026-11-28T16:43:00.946Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-07-21. Country totals; subnational locations are not reported by this source."
@@ -2542,7 +2542,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-07-06",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:32:39.814Z"
+        "fetchedAt": "2026-11-28T16:43:00.946Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-07-06. Country totals; subnational locations are not reported by this source."
@@ -2571,7 +2571,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-26",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:32:39.814Z"
+        "fetchedAt": "2026-11-28T16:43:00.946Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-11-26. Country totals; subnational locations are not reported by this source."
@@ -2600,7 +2600,7 @@
       "timestamps": {
         "sourceUpdatedAt": "2026-11-12",
         "publishedAt": null,
-        "fetchedAt": "2026-11-28T09:32:39.814Z"
+        "fetchedAt": "2026-11-28T16:43:00.946Z"
       },
       "classification": "affected",
       "note": "WHO country report as of 2026-11-12. Country totals; subnational locations are not reported by this source."
@@ -2660,18 +2660,18 @@
   "sourceHealth": [
     {
       "sourceId": "drc-insp-sitrep",
-      "status": "Stale (last-known-good)",
-      "lastSuccessAt": "2026-11-28T09:31:10.650Z"
+      "status": "Live (validated)",
+      "lastSuccessAt": "2026-11-28T16:43:02.286Z"
     },
     {
       "sourceId": "who-acute-event",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-28T09:32:40.771Z"
+      "lastSuccessAt": "2026-11-28T16:43:02.286Z"
     },
     {
       "sourceId": "who-afro-weekly",
       "status": "Live (validated)",
-      "lastSuccessAt": "2026-11-28T09:32:40.771Z"
+      "lastSuccessAt": "2026-11-28T16:43:02.286Z"
     }
   ]
 }
